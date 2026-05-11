@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "secondary-fixed-dim": "#e9c176",
+                  "surface-container-low": "#f3f4f5",
+                  "surface-container-highest": "#e1e3e4",
+                  "on-background": "#191c1d",
+                  "on-primary-fixed": "#091b37",
+                  "on-secondary": "#ffffff",
+                  "outline": "#75777e",
+                  "on-tertiary-fixed-variant": "#50462b",
+                  "primary-container": "#1b2b48",
+                  "on-surface": "#191c1d",
+                  "on-error": "#ffffff",
+                  "on-secondary-fixed": "#261900",
+                  "secondary-fixed": "#ffdea5",
+                  "tertiary-container": "#322a12",
+                  "tertiary-fixed": "#f1e1bd",
+                  "surface-container-lowest": "#ffffff",
+                  "surface-tint": "#4f5e7e",
+                  "on-primary-fixed-variant": "#374765",
+                  "on-secondary-fixed-variant": "#5d4201",
+                  "primary-fixed": "#d7e2ff",
+                  "on-surface-variant": "#44474d",
+                  "tertiary": "#1d1602",
+                  "on-tertiary-container": "#9e9171",
+                  "on-secondary-container": "#785a1a",
+                  "inverse-primary": "#b7c7eb",
+                  "surface-bright": "#f8f9fa",
+                  "tertiary-fixed-dim": "#d4c5a2",
+                  "on-tertiary": "#ffffff",
+                  "surface-container-high": "#e7e8e9",
+                  "secondary-container": "#fed488",
+                  "on-error-container": "#93000a",
+                  "inverse-surface": "#2e3132",
+                  "primary": "#041632",
+                  "error": "#ba1a1a",
+                  "surface-dim": "#d9dadb",
+                  "error-container": "#ffdad6",
+                  "surface-variant": "#e1e3e4",
+                  "surface": "#f8f9fa",
+                  "outline-variant": "#c5c6ce",
+                  "secondary": "#775a19",
+                  "on-primary-container": "#8393b5",
+                  "inverse-on-surface": "#f0f1f2",
+                  "surface-container": "#edeeef",
+                  "background": "#f8f9fa",
+                  "on-primary": "#ffffff",
+                  "primary-fixed-dim": "#b7c7eb",
+                  "on-tertiary-fixed": "#221b05"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.125rem",
+                  "lg": "0.25rem",
+                  "xl": "0.5rem",
+                  "full": "0.75rem"
+          },
+          "spacing": {
+                  "bottom-nav-height": "4.5rem",
+                  "section-padding": "1.5rem",
+                  "edge-margin": "1rem",
+                  "list-item-padding": "1rem",
+                  "stack-gap": "0.75rem"
+          },
+          "fontFamily": {
+                  "display-lg": ["Hanken Grotesk"],
+                  "body-md": ["Hanken Grotesk"],
+                  "title-sm": ["Hanken Grotesk"],
+                  "label-caps": ["Inter"],
+                  "caption": ["Inter"],
+                  "headline-md": ["Hanken Grotesk"]
+          },
+          "fontSize": {
+                  "display-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                  "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                  "title-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                  "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                  "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                  "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "600"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    body {
+      -webkit-tap-highlight-color: transparent;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md antialiased min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface-dim docked full-width top-0 sticky z-50 border-b border-outline-variant dark:border-outline flat no shadows flex items-center justify-between px-edge-margin h-16 w-full">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-[18px]">church</span>
+</div>
+<h1 class="font-headline-md text-headline-md font-extrabold text-primary dark:text-inverse-primary">St. Mary's Youth</h1>
+</div>
+<div class="hover:bg-surface-container-high transition-colors p-2 rounded-full cursor-pointer">
+<span class="material-symbols-outlined text-primary dark:text-inverse-primary" data-icon="account_circle">account_circle</span>
+</div>
+</header>
+<main class="flex-1 pb-bottom-nav-height">
+<!-- Page Header & Search -->
+<div class="px-edge-margin pt-6 pb-4">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-secondary" data-icon="shield_person">shield_person</span>
+<h2 class="font-display-lg text-display-lg text-primary">Manage Admins</h2>
+</div>
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]" data-icon="search">search</span>
+</div>
+<input class="w-full bg-surface-container-low border-none rounded-xl py-3 pl-10 pr-4 text-body-md focus:ring-2 focus:ring-primary-container placeholder-on-surface-variant/60" placeholder="Search by name or email..." type="text"/>
+</div>
+</div>
+<!-- Admin Count Label -->
+<div class="px-edge-margin py-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant tracking-widest">CURRENT ADMINISTRATORS (8)</span>
+</div>
+<!-- Admin List -->
+<div class="divide-y divide-outline-variant px-edge-margin">
+<!-- Admin Item 1 -->
+<div class="flex items-center py-4 group">
+<div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-title-sm mr-4">
+          MT
+        </div>
+<div class="flex-1 min-w-0">
+<p class="font-title-sm text-primary truncate">Mark Tadros</p>
+<p class="font-caption text-caption text-on-surface-variant truncate">m.tadros@stmarys.org</p>
+</div>
+<button class="ml-4 p-2 text-error hover:bg-error-container/20 rounded-lg transition-colors group-active:scale-95">
+<span class="material-symbols-outlined" data-icon="person_remove">person_remove</span>
+</button>
+</div>
+<!-- Admin Item 2 -->
+<div class="flex items-center py-4 group">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-primary font-title-sm mr-4 overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a middle-aged man with a friendly expression. He is wearing a dark suit, which fits the formal and reverent tone of the church administration app. The background is a soft, out-of-focus office environment with natural daylight, maintaining a clean and modern high-fidelity look." src="https://lh3.googleusercontent.com/aida-public/AB6AXuATgW9zsrTPhm2jNABB0ZTZJ_94a2Og7p-2zGHotZQYzLxPeBPbNDWlQUpV4mNKuLUQoIIftXQtDP9og2ThrlOrD-lXMICqBc7T_qF97M24WWQlZsEpFwGyWP6u3z1Ski_4S2ECRbChgmxOG5qqcioW00s-_1PHkQV5Pj4u2_Eb7S3HTIGDaUwewqh3jaNgzMB5KeJFAtaflvG53euF7_Yp5-1nNpqwhlR9fDFsmmswLJxXzO-gXp_q9KP69j9YicpO7EMmdYKGM5c"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-title-sm text-primary truncate">Fr. Peter Hanna</p>
+<p class="font-caption text-caption text-on-surface-variant truncate">fr.peter@stmarys.org</p>
+</div>
+<button class="ml-4 p-2 text-error hover:bg-error-container/20 rounded-lg transition-colors group-active:scale-95">
+<span class="material-symbols-outlined" data-icon="person_remove">person_remove</span>
+</button>
+</div>
+<!-- Admin Item 3 -->
+<div class="flex items-center py-4 group">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container font-title-sm mr-4">
+          SA
+        </div>
+<div class="flex-1 min-w-0">
+<p class="font-title-sm text-primary truncate">Sarah Aziz</p>
+<p class="font-caption text-caption text-on-surface-variant truncate">sarah.aziz@stmarys.org</p>
+</div>
+<button class="ml-4 p-2 text-error hover:bg-error-container/20 rounded-lg transition-colors group-active:scale-95">
+<span class="material-symbols-outlined" data-icon="person_remove">person_remove</span>
+</button>
+</div>
+<!-- Admin Item 4 -->
+<div class="flex items-center py-4 group">
+<div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-title-sm mr-4">
+          YK
+        </div>
+<div class="flex-1 min-w-0">
+<p class="font-title-sm text-primary truncate">Youssef Kamel</p>
+<p class="font-caption text-caption text-on-surface-variant truncate">y.kamel@stmarys.org</p>
+</div>
+<button class="ml-4 p-2 text-error hover:bg-error-container/20 rounded-lg transition-colors group-active:scale-95">
+<span class="material-symbols-outlined" data-icon="person_remove">person_remove</span>
+</button>
+</div>
+</div>
+<!-- Invite Section -->
+<div class="mt-8 px-edge-margin pb-12">
+<div class="bg-surface-container-low rounded-xl p-6 border border-outline-variant">
+<h3 class="font-title-sm text-primary mb-2">Invite New Admin</h3>
+<p class="font-caption text-caption text-on-surface-variant mb-4">Grant administrative privileges to a church member via their registered email address.</p>
+<div class="flex gap-2">
+<input class="flex-1 bg-surface border border-outline-variant rounded-lg px-4 py-2 text-body-md focus:ring-primary focus:border-primary" placeholder="email@stmarys.org" type="email"/>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-lg font-title-sm flex items-center gap-2 hover:bg-primary/90 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[20px]" data-icon="send">send</span>
+            Invite
+          </button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full h-bottom-nav-height z-50 bg-surface dark:bg-surface-dim border-t border-outline-variant dark:border-outline shadow-[0px_-4px_20px_rgba(27,43,72,0.08)] flex justify-around items-center px-2">
+<!-- Dashboard - Active -->
+<a class="flex flex-col items-center justify-center text-primary dark:text-secondary-fixed-dim border-t-2 border-secondary dark:border-secondary-fixed-dim pt-1 hover:bg-surface-container-low dark:hover:bg-tertiary-container transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+<!-- Members -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant pt-1 hover:bg-surface-container-low dark:hover:bg-tertiary-container transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-label-caps text-label-caps">Members</span>
+</a>
+<!-- Attendance -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant pt-1 hover:bg-surface-container-low dark:hover:bg-tertiary-container transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+<span class="font-label-caps text-label-caps">Attendance</span>
+</a>
+<!-- Follow-up -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant pt-1 hover:bg-surface-container-low dark:hover:bg-tertiary-container transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="assignment_turned_in">assignment_turned_in</span>
+<span class="font-label-caps text-label-caps">Follow-up</span>
+</a>
+</nav>
+</body></html>

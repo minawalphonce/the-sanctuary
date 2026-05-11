@@ -1,0 +1,254 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/geist";
+@import "@fontsource/hanken-grotesk/400.css";
+@import "@fontsource/hanken-grotesk/600.css";
+@import "@fontsource/hanken-grotesk/700.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/700.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+    --font-heading: var(--font-sans);
+    --font-sans: 'Geist Variable', sans-serif;
+    --color-sidebar-ring: var(--sidebar-ring);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar: var(--sidebar);
+    --color-chart-5: var(--chart-5);
+    --color-chart-4: var(--chart-4);
+    --color-chart-3: var(--chart-3);
+    --color-chart-2: var(--chart-2);
+    --color-chart-1: var(--chart-1);
+    --color-ring: var(--ring);
+    --color-input: var(--input);
+    --color-border: var(--border);
+    --color-destructive: var(--destructive);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-accent: var(--accent);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-muted: var(--muted);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-secondary: var(--secondary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-primary: var(--primary);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-popover: var(--popover);
+    --color-card-foreground: var(--card-foreground);
+    --color-card: var(--card);
+    --color-foreground: var(--foreground);
+    --color-background: var(--background);
+    --radius-sm: calc(var(--radius) * 0.6);
+    --radius-md: calc(var(--radius) * 0.8);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) * 1.4);
+    --radius-2xl: calc(var(--radius) * 1.8);
+    --radius-3xl: calc(var(--radius) * 2.2);
+    --radius-4xl: calc(var(--radius) * 2.6);
+
+    /* ── Reverent Admin System: Colors ── */
+    --color-ras-surface: #f8f9fa;
+    --color-ras-surface-dim: #d9dadb;
+    --color-ras-surface-bright: #f8f9fa;
+    --color-ras-surface-container-lowest: #ffffff;
+    --color-ras-surface-container-low: #f3f4f5;
+    --color-ras-surface-container: #edeeef;
+    --color-ras-surface-container-high: #e7e8e9;
+    --color-ras-surface-container-highest: #e1e3e4;
+    --color-ras-on-surface: #191c1d;
+    --color-ras-on-surface-variant: #44474d;
+    --color-ras-inverse-surface: #2e3132;
+    --color-ras-inverse-on-surface: #f0f1f2;
+    --color-ras-outline: #75777e;
+    --color-ras-outline-variant: #c5c6ce;
+    --color-ras-surface-tint: #4f5e7e;
+    --color-ras-primary: #0f172a;
+    --color-ras-on-primary: #ffffff;
+    --color-ras-primary-container: #1b2b48;
+    --color-ras-on-primary-container: #8393b5;
+    --color-ras-inverse-primary: #b7c7eb;
+    --color-ras-secondary: #775a19;
+    --color-ras-on-secondary: #ffffff;
+    --color-ras-secondary-container: #fed488;
+    --color-ras-on-secondary-container: #785a1a;
+    --color-ras-tertiary: #1d1602;
+    --color-ras-on-tertiary: #ffffff;
+    --color-ras-tertiary-container: #322a12;
+    --color-ras-on-tertiary-container: #9e9171;
+    --color-ras-error: #ba1a1a;
+    --color-ras-on-error: #ffffff;
+    --color-ras-error-container: #ffdad6;
+    --color-ras-on-error-container: #93000a;
+    --color-ras-primary-fixed: #d7e2ff;
+    --color-ras-primary-fixed-dim: #b7c7eb;
+    --color-ras-on-primary-fixed: #091b37;
+    --color-ras-on-primary-fixed-variant: #374765;
+    --color-ras-secondary-fixed: #ffdea5;
+    --color-ras-secondary-fixed-dim: #e9c176;
+    --color-ras-on-secondary-fixed: #261900;
+    --color-ras-on-secondary-fixed-variant: #5d4201;
+    --color-ras-tertiary-fixed: #f1e1bd;
+    --color-ras-tertiary-fixed-dim: #d4c5a2;
+    --color-ras-on-tertiary-fixed: #221b05;
+    --color-ras-on-tertiary-fixed-variant: #50462b;
+    --color-ras-background: #f8f9fa;
+    --color-ras-on-background: #191c1d;
+    --color-ras-surface-variant: #e1e3e4;
+
+    /* ── Reverent Admin System: Border Radius ── */
+    --radius-ras-sm: 0.125rem;
+    --radius-ras: 0.25rem;
+    --radius-ras-md: 0.375rem;
+    --radius-ras-lg: 0.5rem;
+    --radius-ras-xl: 0.75rem;
+    --radius-ras-full: 9999px;
+
+    /* ── Reverent Admin System: Fonts ── */
+    --font-ras-grotesk: 'Hanken Grotesk', sans-serif;
+    --font-ras-inter: 'Inter', sans-serif;
+
+    /* ── Reverent Admin System: Spacing ── */
+    --spacing-ras-edge: 1rem;
+    --spacing-ras-stack: 0.75rem;
+    --spacing-ras-list-item: 1rem;
+    --spacing-ras-section: 1.5rem;
+    --spacing-ras-bottom-nav: 4.5rem;
+}
+
+@utility text-ras-display-lg {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 38px;
+    letter-spacing: -0.02em;
+}
+
+@utility text-ras-headline-md {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 28px;
+}
+
+@utility text-ras-title-sm {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 24px;
+}
+
+@utility text-ras-body-md {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+@utility text-ras-label-caps {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 16px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+@utility text-ras-caption {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+}
+
+:root {
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.145 0 0);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.145 0 0);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.145 0 0);
+    --primary: oklch(0.205 0 0);
+    --primary-foreground: oklch(0.985 0 0);
+    --secondary: oklch(0.97 0 0);
+    --secondary-foreground: oklch(0.205 0 0);
+    --muted: oklch(0.97 0 0);
+    --muted-foreground: oklch(0.556 0 0);
+    --accent: oklch(0.97 0 0);
+    --accent-foreground: oklch(0.205 0 0);
+    --destructive: oklch(0.577 0.245 27.325);
+    --border: oklch(0.922 0 0);
+    --input: oklch(0.922 0 0);
+    --ring: oklch(0.708 0 0);
+    --chart-1: oklch(0.87 0 0);
+    --chart-2: oklch(0.556 0 0);
+    --chart-3: oklch(0.439 0 0);
+    --chart-4: oklch(0.371 0 0);
+    --chart-5: oklch(0.269 0 0);
+    --radius: 0.625rem;
+    --sidebar: oklch(0.985 0 0);
+    --sidebar-foreground: oklch(0.145 0 0);
+    --sidebar-primary: oklch(0.205 0 0);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.97 0 0);
+    --sidebar-accent-foreground: oklch(0.205 0 0);
+    --sidebar-border: oklch(0.922 0 0);
+    --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+    --background: oklch(0.145 0 0);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.205 0 0);
+    --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.205 0 0);
+    --popover-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.922 0 0);
+    --primary-foreground: oklch(0.205 0 0);
+    --secondary: oklch(0.269 0 0);
+    --secondary-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.269 0 0);
+    --muted-foreground: oklch(0.708 0 0);
+    --accent: oklch(0.269 0 0);
+    --accent-foreground: oklch(0.985 0 0);
+    --destructive: oklch(0.704 0.191 22.216);
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
+    --ring: oklch(0.556 0 0);
+    --chart-1: oklch(0.87 0 0);
+    --chart-2: oklch(0.556 0 0);
+    --chart-3: oklch(0.439 0 0);
+    --chart-4: oklch(0.371 0 0);
+    --chart-5: oklch(0.269 0 0);
+    --sidebar: oklch(0.205 0 0);
+    --sidebar-foreground: oklch(0.985 0 0);
+    --sidebar-primary: oklch(0.488 0.243 264.376);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.269 0 0);
+    --sidebar-accent-foreground: oklch(0.985 0 0);
+    --sidebar-border: oklch(1 0 0 / 10%);
+    --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    }
+  body {
+    @apply bg-background text-foreground;
+    }
+  html {
+    @apply font-sans;
+    }
+}
+
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  user-select: none;
+}

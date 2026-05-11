@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Member Profile - St. Mary's Youth</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;family=Inter:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed": "#d7e2ff",
+                    "on-primary": "#ffffff",
+                    "surface-container": "#edeeef",
+                    "surface": "#f8f9fa",
+                    "tertiary-container": "#322a12",
+                    "tertiary": "#1d1602",
+                    "on-tertiary-fixed-variant": "#50462b",
+                    "background": "#f8f9fa",
+                    "error-container": "#ffdad6",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-container": "#8393b5",
+                    "on-tertiary-container": "#9e9171",
+                    "primary-fixed-dim": "#b7c7eb",
+                    "on-surface-variant": "#44474d",
+                    "surface-container-highest": "#e1e3e4",
+                    "on-secondary-container": "#785a1a",
+                    "surface-dim": "#d9dadb",
+                    "surface-variant": "#e1e3e4",
+                    "primary": "#041632",
+                    "secondary-fixed-dim": "#e9c176",
+                    "primary-container": "#1b2b48",
+                    "surface-tint": "#4f5e7e",
+                    "on-error": "#ffffff",
+                    "secondary-fixed": "#ffdea5",
+                    "on-primary-fixed": "#091b37",
+                    "surface-container-high": "#e7e8e9",
+                    "on-secondary-fixed-variant": "#5d4201",
+                    "surface-container-low": "#f3f4f5",
+                    "on-primary-fixed-variant": "#374765",
+                    "on-error-container": "#93000a",
+                    "outline": "#75777e",
+                    "tertiary-fixed-dim": "#d4c5a2",
+                    "on-tertiary-fixed": "#221b05",
+                    "inverse-surface": "#2e3132",
+                    "on-secondary-fixed": "#261900",
+                    "inverse-primary": "#b7c7eb",
+                    "on-background": "#191c1d",
+                    "secondary-container": "#fed488",
+                    "outline-variant": "#c5c6ce",
+                    "on-surface": "#191c1d",
+                    "tertiary-fixed": "#f1e1bd",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "inverse-on-surface": "#f0f1f2",
+                    "secondary": "#775a19",
+                    "surface-bright": "#f8f9fa"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "section-padding": "1.5rem",
+                    "edge-margin": "1rem",
+                    "bottom-nav-height": "4.5rem",
+                    "list-item-padding": "1rem",
+                    "stack-gap": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline-md": ["Hanken Grotesk"],
+                    "body-md": ["Hanken Grotesk"],
+                    "display-lg": ["Hanken Grotesk"],
+                    "title-sm": ["Hanken Grotesk"],
+                    "label-caps": ["Inter"],
+                    "caption": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "title-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        body { min-height: max(884px, 100dvh); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md text-body-md min-h-screen">
+<!-- Modal Container -->
+<div class="relative w-full max-w-2xl mx-auto bg-surface-container-lowest min-h-screen shadow-2xl overflow-hidden flex flex-col">
+<!-- Header Section -->
+<header class="relative pt-12 pb-8 px-edge-margin bg-primary text-on-primary">
+<!-- Close Button -->
+<button class="absolute top-4 left-4 p-2 rounded-full hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-[24px]">close</span>
+</button>
+<!-- Edit Button Moved to Header Top Right -->
+<button class="absolute top-4 right-4 bg-secondary text-on-secondary py-1.5 px-4 rounded-full flex items-center gap-2 hover:scale-105 active:scale-95 transition-transform text-label-caps font-label-caps">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+<span>Edit</span>
+</button>
+<div class="flex flex-col items-center text-center">
+<div class="relative mb-4">
+<div class="w-24 h-24 rounded-full border-4 border-secondary-fixed-dim p-1">
+<img alt="Mark Kyrillos" class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1BnFO84Ti1oRa7o2Rvvw46EcFlY2xK3l0DVz08LIcqkClGSVziPKV6mcd4R9k3I74uR0MxfJiYu-eYrJXNe9Np_wLm1tvQx5zRAcXlY9tKufjIgSgScgscF64FtxUFHqAviqcgO8XndGZaK8UztYdoFI_wDcsnbnJA6NvN6ZNkGEUDY2z7MjNtTezDRe_76K0-SXbS19XCWKIpw0aHgMjneehKmtUo0oqcwvebOLYTXlE5_MSF28iHdLXbm_7pLjg6ABFYaCTqrk"/>
+</div>
+</div>
+<h1 class="font-display-lg text-display-lg mb-1">Mark Kyrillos</h1>
+<p class="text-secondary-fixed-dim font-body-md mb-3 flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[18px]">cake</span>
+                    Birthday: July 12
+                </p>
+<span class="bg-secondary text-on-secondary px-3 py-1 rounded-full font-label-caps text-label-caps inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">sports_gymnastics</span>
+                    Gym Class A
+                </span>
+</div>
+</header>
+<!-- Segmented Tab Bar -->
+<nav class="sticky top-0 z-10 bg-surface-container-lowest border-b border-outline-variant flex px-edge-margin" id="tab-bar">
+<button class="tab-btn flex-1 py-4 font-label-caps text-label-caps text-primary border-b-2 border-primary transition-colors text-on-surface-variant" id="btn-overview" onclick="switchTab('overview')">
+                Overview
+            </button>
+<button class="tab-btn flex-1 py-4 font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors" id="btn-history" onclick="switchTab('history')">
+                History
+            </button>
+<button class="tab-btn flex-1 py-4 font-label-caps text-label-caps hover:text-primary transition-colors text-primary border-b-2 border-primary" id="btn-contact" onclick="switchTab('contact')">
+                Contact
+            </button>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 p-edge-margin space-y-stack-gap overflow-y-auto">
+<!-- OVERVIEW TAB -->
+<div class="tab-content space-y-stack-gap" id="tab-overview">
+<!-- Statistics Bento Grid -->
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/30">
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-1 uppercase">Attendance Rate</p>
+<div class="flex items-end gap-2">
+<span class="font-display-lg text-display-lg text-primary">85%</span>
+<span class="text-secondary font-bold pb-1 text-[14px]">
+<span class="material-symbols-outlined text-[14px] align-middle">trending_up</span>
+                                +2%
+                            </span>
+</div>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/30">
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-1 uppercase">Last Seen</p>
+<div class="flex items-end gap-2">
+<span class="font-display-lg text-display-lg text-primary">18</span>
+<span class="text-on-surface-variant pb-1 font-title-sm">days ago</span>
+</div>
+</div>
+</div>
+<!-- Attendance Streak / Calendar -->
+<section class="bg-surface-container-low p-5 rounded-xl border border-outline-variant/30">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-title-sm text-title-sm text-primary">Activity Streak</h3>
+<span class="font-label-caps text-label-caps text-on-surface-variant">Last 30 Days</span>
+</div>
+<div class="flex justify-between gap-1">
+<div class="flex-1 h-8 rounded bg-primary"></div>
+<div class="flex-1 h-8 rounded bg-primary"></div>
+<div class="flex-1 h-8 rounded bg-primary"></div>
+<div class="flex-1 h-8 rounded bg-outline-variant/30"></div>
+<div class="flex-1 h-8 rounded bg-primary"></div>
+<div class="flex-1 h-8 rounded bg-primary"></div>
+<div class="flex-1 h-8 rounded bg-primary"></div>
+<div class="flex-1 h-8 rounded bg-secondary-container"></div>
+<div class="flex-1 h-8 rounded bg-primary"></div>
+<div class="flex-1 h-8 rounded bg-primary"></div>
+<div class="flex-1 h-8 rounded bg-outline-variant/30"></div>
+<div class="flex-1 h-8 rounded bg-primary"></div>
+<div class="flex-1 h-8 rounded bg-primary"></div>
+<div class="flex-1 h-8 rounded bg-primary"></div>
+</div>
+<p class="mt-3 text-caption font-caption text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-secondary">info</span>
+                        Yellow indicates an excused absence.
+                    </p>
+</section>
+</div>
+<!-- HISTORY TAB -->
+<div class="tab-content space-y-stack-gap" id="tab-history">
+<section class="space-y-3">
+<div class="flex justify-between items-center px-1">
+<h3 class="font-title-sm text-title-sm text-primary">Full Activity History</h3>
+<span class="text-on-surface-variant font-label-caps text-label-caps">Filters</span>
+</div>
+<div class="space-y-2">
+<!-- History Items -->
+<div class="flex gap-4 p-4 bg-surface-container-lowest border border-outline-variant/30 rounded-xl">
+<div class="mt-1">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">sms</span>
+</div>
+<div>
+<p class="font-title-sm text-title-sm text-primary">SMS sent - Reminder</p>
+<p class="text-caption font-caption text-on-surface-variant mb-1">Oct 25, 2023 • Admin: System</p>
+<p class="text-body-md font-body-md text-on-surface">Automated SMS reminder sent for the upcoming Retreat weekend.</p>
+</div>
+</div>
+<div class="flex gap-4 p-4 bg-surface-container-lowest border border-outline-variant/30 rounded-xl">
+<div class="mt-1">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">phone_callback</span>
+</div>
+<div>
+<p class="font-title-sm text-title-sm text-primary">Called - No answer</p>
+<p class="text-caption font-caption text-on-surface-variant mb-1">Oct 20, 2023 • Admin: Father Peter</p>
+<p class="text-body-md font-body-md text-on-surface">Attempted follow-up call regarding missed Sunday Liturgy. Left a voicemail.</p>
+</div>
+</div>
+<div class="flex gap-4 p-4 bg-surface-container-lowest border border-outline-variant/30 rounded-xl">
+<div class="mt-1">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+</div>
+<div>
+<p class="font-title-sm text-title-sm text-primary">Spoke to - Will attend next week</p>
+<p class="text-caption font-caption text-on-surface-variant mb-1">Oct 15, 2023 • Admin: Sarah M.</p>
+<p class="text-body-md font-body-md text-on-surface">Quick catch-up after choir practice. Mark confirmed he will be there next Friday.</p>
+</div>
+</div>
+<div class="flex gap-4 p-4 bg-surface-container-lowest border border-outline-variant/30 rounded-xl">
+<div class="mt-1">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+</div>
+<div>
+<p class="font-title-sm text-title-sm text-primary">Spoke to - Promised to attend</p>
+<p class="text-caption font-caption text-on-surface-variant mb-1">Oct 13, 2023 • Admin: John Doe</p>
+<p class="text-body-md font-body-md text-on-surface">Spoke directly at youth basketball. Confirmed attendance for next Friday.</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- CONTACT TAB -->
+<div class="tab-content space-y-stack-gap active" id="tab-contact">
+<section class="space-y-4">
+<h3 class="font-title-sm text-title-sm text-primary px-1">Contact Details</h3>
+<div class="bg-primary-container text-on-primary-container p-5 rounded-2xl">
+<div class="flex justify-between items-center mb-6">
+<div>
+<p class="font-label-caps text-label-caps opacity-70 mb-1">Mobile Number</p>
+<p class="font-headline-md text-headline-md">+1 (555) 123-4567</p>
+</div>
+<div class="flex gap-2">
+<button class="w-12 h-12 bg-on-primary-container text-primary-container rounded-full flex items-center justify-center hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">call</span>
+</button>
+<button class="w-12 h-12 bg-on-primary-container text-primary-container rounded-full flex items-center justify-center hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">sms</span>
+</button>
+</div>
+</div>
+<div class="border-t border-on-primary-container/20 pt-6 flex justify-between items-center">
+<div>
+<p class="font-label-caps text-label-caps opacity-70 mb-1">Email Address</p>
+<p class="font-body-md font-body-md">m.kyrillos@example.com</p>
+</div>
+<button class="px-4 py-2 bg-on-primary-container/10 border border-on-primary-container/30 rounded-lg font-label-caps text-label-caps hover:bg-on-primary-container/20 transition-colors">
+                                Copy Email
+                            </button>
+</div>
+</div>
+<div class="p-4 bg-surface-container-low rounded-xl border border-outline-variant/30 space-y-3">
+<h4 class="font-label-caps text-label-caps text-on-surface-variant">Emergency Contact</h4>
+<div>
+<p class="font-title-sm text-title-sm text-primary">Marianne Kyrillos (Mother)</p>
+<p class="text-body-md text-on-surface-variant">+1 (555) 987-6543</p>
+</div>
+</div>
+</section>
+</div>
+<!-- Spacing for end of scroll -->
+<div class="h-12"></div>
+</main>
+</div>
+<script>
+        function switchTab(tabId) {
+            // Hide all content
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            // Remove active styles from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('text-primary', 'border-b-2', 'border-primary');
+                btn.classList.add('text-on-surface-variant');
+            });
+
+            // Show selected content
+            document.getElementById('tab-' + tabId).classList.add('active');
+            // Add active styles to selected button
+            const activeBtn = document.getElementById('btn-' + tabId);
+            activeBtn.classList.remove('text-on-surface-variant');
+            activeBtn.classList.add('text-primary', 'border-b-2', 'border-primary');
+        }
+    </script>
+</body></html>

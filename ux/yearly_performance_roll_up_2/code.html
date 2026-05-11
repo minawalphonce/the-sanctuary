@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Yearly Performance Roll-up | The Sanctuary</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#5d4201",
+                        "primary-fixed-dim": "#b7c7eb",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#2e3132",
+                        "on-surface-variant": "#44474d",
+                        "surface-bright": "#f8f9fa",
+                        "surface-container-low": "#f3f4f5",
+                        "on-secondary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-background": "#191c1d",
+                        "tertiary": "#1d1602",
+                        "inverse-primary": "#b7c7eb",
+                        "surface-variant": "#e1e3e4",
+                        "on-primary-container": "#8393b5",
+                        "primary": "#041632",
+                        "on-tertiary-container": "#9e9171",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#221b05",
+                        "tertiary-container": "#322a12",
+                        "primary-fixed": "#d7e2ff",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "background": "#f8f9fa",
+                        "secondary": "#775a19",
+                        "on-secondary-container": "#785a1a",
+                        "outline-variant": "#c5c6ce",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f8f9fa",
+                        "surface-container": "#edeeef",
+                        "secondary-fixed": "#ffdea5",
+                        "on-tertiary-fixed-variant": "#50462b",
+                        "surface-dim": "#d9dadb",
+                        "secondary-container": "#fed488",
+                        "surface-tint": "#4f5e7e",
+                        "tertiary-fixed-dim": "#d4c5a2",
+                        "outline": "#75777e",
+                        "surface-container-highest": "#e1e3e4",
+                        "secondary-fixed-dim": "#e9c176",
+                        "on-surface": "#191c1d",
+                        "on-tertiary": "#ffffff",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-secondary-fixed": "#261900",
+                        "on-primary-fixed": "#091b37",
+                        "tertiary-fixed": "#f1e1bd",
+                        "surface-container-high": "#e7e8e9",
+                        "primary-container": "#1b2b48",
+                        "on-primary-fixed-variant": "#374765"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "bottom-nav-height": "4.5rem",
+                        "section-padding": "1.5rem",
+                        "list-item-padding": "1rem",
+                        "stack-gap": "0.75rem",
+                        "edge-margin": "1rem"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "title-sm": ["Hanken Grotesk"],
+                        "caption": ["Inter"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "label-caps": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "display-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "title-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #f8f9fa;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="font-body-md text-on-surface">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface-dim border-b border-outline-variant dark:border-outline docked full-width top-0 sticky z-50 flex items-center justify-between px-edge-margin h-16 w-full">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center overflow-hidden">
+<img alt="St. Mary's Youth Logo" class="w-full h-full object-cover" data-alt="A dignified and sacred Coptic Orthodox cross emblem, rendered in high-fidelity metallic gold against a deep navy background. The lighting is soft and cinematic, highlighting the intricate traditional patterns of the cross. The aesthetic is modern yet reverent, conveying an atmosphere of institutional trust and ancient tradition. This professional logo stands as the centerpiece of a clean, minimalist administrative interface." src="https://lh3.googleusercontent.com/aida/ADBb0ui-htsSdnNeWBihJ7OnURKVsy_8mFG992NM0fm9xfYr3aHwrf1N1x8YiFSqzs2I8ovI8KJauDXadofImf6E5PMKpeAo728IcMr6cyiTfQns3xZ7z8MmL-kd-GM1R0OGCFEXx9zpAxPDV83KuKSOP2TEgQ5efMyD3bqYfF7Yvj4v1l4o8ExsOSRBQhHcWOwGJ_QXpF5U1ywRHcbeiiMOozFSqFMBgEenWofg8hQRvZAUc3a2h4U_hS9t0FMrwbP4w4BPOsKqGY-4uA"/>
+</div>
+<h1 class="font-headline-md text-headline-md font-extrabold text-primary dark:text-inverse-primary">The Sanctuary</h1>
+</div>
+<button class="text-primary dark:text-inverse-primary hover:bg-surface-container-high transition-colors p-2 rounded-full">
+<img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AKb_9Psk46m6w9q4f6r9g5h7j8k9l0m1n2o3p4q5r6s7t8u9v0w1x2y3z4a5b6c7d8e9f0g1h2i3j4k5l6m7n8o9p0q1r2s3t4u5v6w7x8y9z0a1b2c3d4e5f6g7h8i9j0"/>
+</button>
+</header>
+<main class="min-h-[calc(100vh-160px)] px-edge-margin pt-8 pb-32">
+<div class="max-w-2xl mx-auto space-y-8">
+<!-- Header Section -->
+<section class="text-center space-y-2">
+<span class="font-label-caps text-label-caps text-secondary uppercase tracking-widest">Administrative Archive</span>
+<h2 class="font-display-lg text-display-lg text-primary">Yearly Performance Roll-up</h2>
+<p class="font-body-md text-on-surface-variant">Annual data consolidation and archival for the 2023-2024 service year.</p>
+</section>
+<!-- Warning Card -->
+<div class="bg-surface-container-low border-l-4 border-secondary p-6 rounded-xl shadow-sm">
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-secondary" data-icon="warning" style="font-variation-settings: 'FILL' 1;">warning</span>
+<div class="space-y-2">
+<h3 class="font-title-sm text-title-sm text-primary">Full Archive Process Notice</h3>
+<p class="font-body-md text-on-surface-variant">
+                            Initiating this process will create a permanent snapshot of all member attendance, spiritual follow-ups, and service milestones. This action is irreversible. Ensure all current service data is finalized before proceeding.
+                        </p>
+</div>
+</div>
+</div>
+<!-- Main Control Panel (Bento Style Layout) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-[0px_4px_20px_rgba(27,43,72,0.08)]">
+<span class="material-symbols-outlined text-secondary mb-3" data-icon="database">database</span>
+<h4 class="font-title-sm text-title-sm text-primary">Data Scope</h4>
+<p class="text-caption text-on-surface-variant mt-1">52 Weeks of Attendance<br/>1,240 Follow-up Logs<br/>45 Active Members</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-[0px_4px_20px_rgba(27,43,72,0.08)]">
+<span class="material-symbols-outlined text-secondary mb-3" data-icon="history">history</span>
+<h4 class="font-title-sm text-title-sm text-primary">Destination</h4>
+<p class="text-caption text-on-surface-variant mt-1">Archival Vault FY23-24<br/>Immutable PDF Records<br/>Performance Analytics Cloud</p>
+</div>
+</div>
+<!-- Action Area / Progress State -->
+<div class="bg-surface-container p-8 rounded-xl space-y-6 text-center">
+<!-- Initial State: Start Button -->
+<div class="space-y-4">
+<button class="w-full bg-primary text-on-primary py-4 px-8 rounded-lg font-title-sm hover:bg-primary-container active:scale-95 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" data-icon="archive">archive</span>
+                        Start Archiving
+                    </button>
+<p class="text-caption text-outline">Estimated completion time: 4 minutes</p>
+</div>
+<!-- Active Progress State (Demonstration) -->
+<div class="space-y-4 pt-4 border-t border-outline-variant">
+<div class="flex justify-between items-end">
+<div class="text-left">
+<span class="font-label-caps text-label-caps text-primary">Archiving Progress</span>
+<p class="text-caption text-on-surface-variant">Syncing spiritual milestones...</p>
+</div>
+<span class="font-title-sm text-primary">64%</span>
+</div>
+<div class="h-3 w-full bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[64%] transition-all duration-500"></div>
+</div>
+</div>
+<!-- Success State Placeholder (Hidden by default in real logic) -->
+<div class="hidden bg-green-50 border border-green-200 p-4 rounded-lg flex items-center gap-3">
+<span class="material-symbols-outlined text-green-600" data-icon="check_circle">check_circle</span>
+<span class="font-body-md text-green-800">Archive complete. Records stored in Vault.</span>
+</div>
+<!-- Failure State Placeholder (Hidden by default in real logic) -->
+<div class="hidden bg-error-container p-4 rounded-lg flex items-center gap-3">
+<span class="material-symbols-outlined text-error" data-icon="error">error</span>
+<span class="font-body-md text-on-error-container">Connection timed out. Retrying in 5s...</span>
+</div>
+</div>
+<!-- Footer Note -->
+<p class="text-center text-caption text-outline max-w-sm mx-auto">
+                All archival processes are logged with the administrator's digital signature for audit compliance.
+            </p>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="bg-surface dark:bg-surface-dim fixed bottom-0 w-full h-bottom-nav-height z-50 border-t border-outline-variant dark:border-outline shadow-[0px_-4px_20px_rgba(27,43,72,0.08)]">
+<div class="flex justify-around items-center w-full px-2 h-full">
+<!-- Dashboard -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant pt-1 hover:bg-surface-container-low dark:hover:bg-tertiary-container transition-colors active:scale-95 duration-150 flex-1" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-caps text-label-caps mt-1">Dashboard</span>
+</a>
+<!-- Members -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant pt-1 hover:bg-surface-container-low dark:hover:bg-tertiary-container transition-colors active:scale-95 duration-150 flex-1" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-label-caps text-label-caps mt-1">Members</span>
+</a>
+<!-- Attendance -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant pt-1 hover:bg-surface-container-low dark:hover:bg-tertiary-container transition-colors active:scale-95 duration-150 flex-1" href="#">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+<span class="font-label-caps text-label-caps mt-1">Attendance</span>
+</a>
+<!-- Follow-up (ACTIVE) -->
+<a class="flex flex-col items-center justify-center text-primary dark:text-secondary-fixed-dim border-t-2 border-secondary dark:border-secondary-fixed-dim pt-1 hover:bg-surface-container-low dark:hover:bg-tertiary-container transition-colors active:scale-95 duration-150 flex-1" href="#">
+<span class="material-symbols-outlined" data-icon="assignment_turned_in" style="font-variation-settings: 'FILL' 1;">assignment_turned_in</span>
+<span class="font-label-caps text-label-caps mt-1">Follow-up</span>
+</a>
+</div>
+</nav>
+</body></html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;family=Inter:wght@400;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "tertiary": "#1d1602",
+                  "surface-bright": "#f8f9fa",
+                  "secondary-fixed-dim": "#e9c176",
+                  "on-primary-container": "#8393b5",
+                  "on-error-container": "#93000a",
+                  "inverse-primary": "#b7c7eb",
+                  "secondary-container": "#fed488",
+                  "on-secondary-fixed-variant": "#5d4201",
+                  "inverse-on-surface": "#f0f1f2",
+                  "secondary": "#775a19",
+                  "outline": "#75777e",
+                  "on-primary-fixed": "#091b37",
+                  "on-surface-variant": "#44474d",
+                  "tertiary-fixed-dim": "#d4c5a2",
+                  "surface-container-high": "#e7e8e9",
+                  "background": "#f8f9fa",
+                  "on-tertiary-fixed": "#221b05",
+                  "on-error": "#ffffff",
+                  "secondary-fixed": "#ffdea5",
+                  "surface-tint": "#4f5e7e",
+                  "on-surface": "#191c1d",
+                  "surface-container": "#edeeef",
+                  "surface-container-lowest": "#ffffff",
+                  "surface-container-low": "#f3f4f5",
+                  "surface-variant": "#e1e3e4",
+                  "primary-container": "#1b2b48",
+                  "error": "#ba1a1a",
+                  "on-secondary": "#ffffff",
+                  "surface": "#f8f9fa",
+                  "surface-dim": "#d9dadb",
+                  "primary-fixed": "#d7e2ff",
+                  "on-secondary-container": "#785a1a",
+                  "primary": "#041632",
+                  "on-primary-fixed-variant": "#374765",
+                  "surface-container-highest": "#e1e3e4",
+                  "on-tertiary-container": "#9e9171",
+                  "on-tertiary": "#ffffff",
+                  "error-container": "#ffdad6",
+                  "tertiary-container": "#322a12",
+                  "outline-variant": "#c5c6ce",
+                  "tertiary-fixed": "#f1e1bd",
+                  "on-primary": "#ffffff",
+                  "on-tertiary-fixed-variant": "#50462b",
+                  "inverse-surface": "#2e3132",
+                  "on-secondary-fixed": "#261900",
+                  "primary-fixed-dim": "#b7c7eb",
+                  "on-background": "#191c1d"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.125rem",
+                  "lg": "0.25rem",
+                  "xl": "0.5rem",
+                  "full": "0.75rem"
+          },
+          "spacing": {
+                  "stack-gap": "0.75rem",
+                  "section-padding": "1.5rem",
+                  "list-item-padding": "1rem",
+                  "edge-margin": "1rem",
+                  "bottom-nav-height": "4.5rem"
+          },
+          "fontFamily": {
+                  "body-md": ["Hanken Grotesk"],
+                  "label-caps": ["Inter"],
+                  "caption": ["Inter"],
+                  "display-lg": ["Hanken Grotesk"],
+                  "title-sm": ["Hanken Grotesk"],
+                  "headline-md": ["Hanken Grotesk"]
+          },
+          "fontSize": {
+                  "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                  "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                  "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                  "display-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                  "title-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                  "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "600"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .text-balance { text-wrap: balance; }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-24">
+<header class="bg-surface sticky top-0 z-50 flex items-center justify-between px-edge-margin h-16 w-full border-b border-outline-variant"><div class="flex items-center justify-between w-full px-edge-margin">
+<div class="flex items-center gap-3">
+<img alt="Coptic Orthodox Church Logo" class="w-10 h-10 object-contain" src="https://lh3.googleusercontent.com/aida/ADBb0ui-htsSdnNeWBihJ7OnURKVsy_8mFG992NM0fm9xfYr3aHwrf1N1x8YiFSqzs2I8ovI8KJauDXadofImf6E5PMKpeAo728IcMr6cyiTfQns3xZ7z8MmL-kd-GM1R0OGCFEXx9zpAxPDV83KuKSOP2TEgQ5efMyD3bqYfF7Yvj4v1l4o8ExsOSRBQhHcWOwGJ_QXpF5U1ywRHcbeiiMOozFSqFMBgEenWofg8hQRvZAUc3a2h4U_hS9t0FMrwbP4w4BPOsKqGY-4uA"/>
+<h1 class="font-headline-md text-headline-md font-extrabold text-primary">The Sanctuary</h1>
+</div>
+<div class="flex items-center gap-2">
+<div class="text-right hidden sm:block">
+<p class="font-label-caps text-[10px] text-on-surface-variant">Welcome back</p>
+<p class="font-body-md text-primary font-bold leading-none">Abouna</p>
+</div>
+<img alt="Admin Profile" class="w-10 h-10 rounded-full border border-outline-variant shadow-sm object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLZTTXqpp5MGyde2MJy4Qs25_vq8qAnc7wDdfO6kJDSQuzWzdPO3ZY3zRxp3KvxnIq1P5CnxEJ1zBWi0NZJLQ0PGJ_1u0v28_K_mXVni2BF3LyPphj9sypglCe0UPZbw41_iQU3Imv7LVhvqHtyL6X3A_H1oydA5ns8WBNBJDn2ekUBYoceCgEFRIRh1PHa91WAQQgpYa_C3iu2QBRLgwmpLCgk5eUeDtrHo-G58JbudFX_GRGiDFB0SjeK86uxNwxBkGeQdmO2Ek"/>
+</div>
+</div></header>
+<main class="max-w-2xl mx-auto px-edge-margin pt-6 space-y-stack-gap">
+<section class="pb-4">
+<div class="flex items-center justify-between mb-3">
+<h2 class="font-title-sm text-title-sm text-primary">Urgent Follow-ups</h2>
+<a class="font-label-caps text-label-caps text-secondary underline" href="#">View All</a>
+</div>
+<div class="rounded-xl border overflow-hidden bg-surface-container-low border-outline-variant">
+<div class="flex items-center gap-3 p-4 bg-surface-container">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="info">info</span>
+<p class="font-caption text-caption text-on-surface">8 members have missed 2+ weeks consecutively.</p>
+</div>
+<div class="divide-y divide-outline-variant bg-surface-container-lowest">
+<div class="flex items-center justify-between p-list-item-padding hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-3">
+<img alt="Mark Kyrillos" class="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBz096vP9Io0KELlaH7UfYunwTz_PieEjlLGaKU_M6oGO8wGrrEBbOJu4CU85B28n-BxdhqZ83vpzABw-7AvLPwKkwdJ7TIA87A87w7pcAYXSYyM3VemT-OIwgQKZQv2FuLwXZrUkOGMRND8HgNUvAMbTRPIWBR2j1rw5inJ88a6BKd1YgNWt9HijAYzqU0sSz9QNgaFEv902uBQh7UOFts9xs_OX0rrblLXKEG9LHBmg-jGzNXZBpcTgJ_W2TSek42ocIce_DzGCs"/>
+<div>
+<p class="font-body-md text-primary font-semibold">Mark Kyrillos</p>
+<p class="font-caption text-caption text-on-surface-variant">Last seen: 18 days ago</p>
+</div>
+</div>
+<button class="p-2 text-secondary hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="call">call</span>
+</button>
+</div>
+<div class="flex items-center justify-between p-list-item-padding hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-3">
+<div class="relative">
+<img alt="Sarah Joseph" class="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZV3Xm0FhFBmmfns4LWb17pESCf6ryh6OE386mNxu6BSwVr_U6NeTCM0oKFYqgJ0rbCAH7rrtWeJubzUqnv6LcQlquLLWlUr3ExNEW_PpzdDasIKHaixevmpaAGpihr3VeRu6CAUqfuyguRSnHpZRzNiBhkbMTyVWQYfRIB_0ujkbI4F0mezf87RYfsADD3Lk6V2-K6pERYHfahMxXEgiPCL9h9-Aq6HUIspSgOljlFUEEq8Sh4XDkQcc56RvF42RKpCGY5Xoccxc"/>
+<div class="absolute -top-1 -right-1 bg-secondary text-on-secondary w-5 h-5 rounded-full flex items-center justify-center border-2 border-surface-container-lowest">
+<span class="material-symbols-outlined text-[12px]" data-icon="cake" style="font-variation-settings: 'FILL' 1">cake</span>
+</div>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<p class="font-body-md text-primary font-semibold">Sarah Joseph</p>
+<span class="bg-secondary/10 text-secondary text-[10px] px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wider">Birthday</span>
+</div>
+<p class="font-caption text-caption text-on-surface-variant">Last seen: 21 days ago</p>
+</div>
+</div>
+<button class="p-2 text-secondary hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="call">call</span>
+</button>
+</div>
+<div class="flex items-center justify-between p-list-item-padding hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-3">
+<img alt="Daniel Anton" class="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMrozwrtLqqPxxeVw3wvJ58w0iLBBit71CLgVG5rmeto1JOxWCInf3ENDoMhEdJ9bxPgYZ04uavtPvzHpEswp7VFL2KwUw6zAfOuP3T61txWTtf1OUZGzaZXyZokNTGL2G4NZKp3KgAj1Vw64TbLRkzYVQspNHYva0CDqTUItZ-um1cJphf-RBHKPkUfizobT7LGJss5_xu8Ma1ASXOI4kJhtzlsrVl-0OOZmMQS0kRCXeyTzmQZkTyjGE2jXYNFb2QiU3CH4YtEk"/>
+<div>
+<p class="font-body-md text-primary font-semibold">Daniel Anton</p>
+<p class="font-caption text-caption text-on-surface-variant">Last seen: 15 days ago</p>
+</div>
+</div>
+<button class="p-2 text-secondary hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="call">call</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<section>
+<div class="flex items-center justify-between mb-4">
+<h2 class="font-title-sm text-title-sm text-primary">Today's Summary</h2>
+<span class="font-label-caps text-label-caps text-on-surface-variant">OCT 24, 2023</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+<div class="bg-surface-container-lowest p-4 rounded-xl border border-outline-variant shadow-sm opacity-80">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant">GYM A</span>
+<span class="material-symbols-outlined text-secondary text-[20px]" data-icon="sports_basketball">sports_basketball</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-display-lg text-display-lg text-primary">42</span>
+<span class="font-caption text-caption text-on-surface-variant">/ 50</span>
+</div>
+<div class="w-full bg-surface-container mt-2 rounded-full overflow-hidden h-[2px]">
+<div class="h-full bg-outline-variant" style="width: 84%"></div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl border border-outline-variant shadow-sm opacity-80">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant">GYM B</span>
+<span class="material-symbols-outlined text-secondary text-[20px]" data-icon="fitness_center">fitness_center</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-display-lg text-display-lg text-primary">28</span>
+<span class="font-caption text-caption text-on-surface-variant">/ 35</span>
+</div>
+<div class="w-full bg-surface-container mt-2 rounded-full overflow-hidden h-[2px]">
+<div class="h-full bg-outline-variant" style="width: 80%"></div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl border border-outline-variant shadow-sm opacity-80">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant">GYM C</span>
+<span class="material-symbols-outlined text-secondary text-[20px]" data-icon="sports_volleyball">sports_volleyball</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-display-lg text-display-lg text-primary">15</span>
+<span class="font-caption text-caption text-on-surface-variant">/ 30</span>
+</div>
+<div class="w-full bg-surface-container mt-2 rounded-full overflow-hidden h-[2px]">
+<div class="h-full bg-outline-variant" style="width: 50%"></div>
+</div>
+</div>
+</div>
+</section>
+<section>
+<h2 class="font-title-sm text-title-sm text-primary mb-3">Quick Actions</h2>
+<div class="grid grid-cols-2 gap-3">
+<button class="flex items-center gap-3 bg-primary text-on-primary p-4 rounded-xl hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="person_add">person_add</span>
+<span class="font-label-caps text-label-caps">Add Member</span>
+</button>
+<button class="flex items-center gap-3 bg-secondary-container text-on-secondary-container p-4 rounded-xl hover:bg-secondary-fixed transition-all active:scale-95">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+<span class="font-label-caps text-label-caps">Take Attendance</span>
+</button>
+</div>
+</section>
+<div class="relative h-48 rounded-xl overflow-hidden shadow-sm group">
+<img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A group of diverse youth gathered in a modern high-ceilinged community hall for a spiritual fellowship." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2j-IenlWzX43JDryfYZacv8Ex-uYasRKCU8y46qUHqv0gtYrTuDAqIxRTXTKxOZZS8Bi04aQuqJEpnZdbb_9lzVRuuyE_z5SSFL7chCKCh4L3FJayk4z0xovPO52xLIBqXZ9ovGZ-KrmmHU_Ak2PP0BtSIdFvpzr3Ym3BcNpJW2LeG2T-7ITepYX1DMXseCSprFw2hLqKjoemFhq32CyYt1gCcdwrcIxOzbfJQp11mZ5AccygCoQ0QgbTqT-hlWDk5fY8zQoI4jA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex flex-col justify-end p-4">
+<h3 class="font-title-sm text-title-sm text-white">Upcoming Retreat</h3>
+<p class="font-caption text-caption text-white/80">November 12-14 • Mount Hope Center</p>
+</div>
+</div>
+</main>
+<nav class="fixed bottom-0 w-full h-bottom-nav-height z-50 bg-surface border-t border-outline-variant shadow-[0px_-4px_20px_rgba(27,43,72,0.08)] flex justify-around items-center px-2">
+<a class="flex flex-col items-center justify-center text-primary border-t-2 border-secondary pt-1 hover:bg-surface-container-low transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant pt-1 hover:bg-surface-container-low transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-label-caps text-label-caps">Members</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant pt-1 hover:bg-surface-container-low transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+<span class="font-label-caps text-label-caps">Attendance</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant pt-1 hover:bg-surface-container-low transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="assignment_turned_in">assignment_turned_in</span>
+<span class="font-label-caps text-label-caps">Follow-up</span>
+</a>
+</nav>
+</body></html>
