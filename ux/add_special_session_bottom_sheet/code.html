@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;family=Inter:wght@400;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#f3f4f5",
+                        "surface": "#f8f9fa",
+                        "primary-fixed-dim": "#b7c7eb",
+                        "on-tertiary-fixed-variant": "#50462b",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#e7e8e9",
+                        "secondary-container": "#fed488",
+                        "surface-container-highest": "#e1e3e4",
+                        "on-primary-container": "#8393b5",
+                        "on-secondary": "#ffffff",
+                        "inverse-surface": "#2e3132",
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#e1e3e4",
+                        "on-surface": "#191c1d",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#e9c176",
+                        "primary-fixed": "#d7e2ff",
+                        "on-surface-variant": "#44474d",
+                        "secondary": "#775a19",
+                        "secondary-fixed": "#ffdea5",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-secondary-fixed": "#261900",
+                        "surface-bright": "#f8f9fa",
+                        "background": "#f8f9fa",
+                        "tertiary": "#1d1602",
+                        "on-primary-fixed-variant": "#374765",
+                        "on-background": "#191c1d",
+                        "on-primary": "#ffffff",
+                        "outline-variant": "#c5c6ce",
+                        "tertiary-container": "#322a12",
+                        "on-tertiary-fixed": "#221b05",
+                        "surface-tint": "#4f5e7e",
+                        "primary": "#041632",
+                        "surface-dim": "#d9dadb",
+                        "inverse-primary": "#b7c7eb",
+                        "tertiary-fixed": "#f1e1bd",
+                        "surface-container": "#edeeef",
+                        "on-primary-fixed": "#091b37",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-container": "#785a1a",
+                        "on-tertiary-container": "#9e9171",
+                        "primary-container": "#1b2b48",
+                        "tertiary-fixed-dim": "#d4c5a2",
+                        "on-secondary-fixed-variant": "#5d4201",
+                        "outline": "#75777e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "section-padding": "1.5rem",
+                        "stack-gap": "0.75rem",
+                        "list-item-padding": "1rem",
+                        "bottom-nav-height": "4.5rem",
+                        "edge-margin": "1rem"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "caption": ["Inter"],
+                        "body-md": ["Hanken Grotesk"],
+                        "title-sm": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "title-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "display-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .backdrop-blur-custom {
+            backdrop-filter: blur(8px);
+            background-color: rgba(4, 22, 50, 0.4);
+        }
+    </style>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-hidden">
+<!-- Background Content (Attendance Sessions Screen) -->
+<div class="fixed inset-0 w-full h-full flex flex-col pointer-events-none opacity-40 grayscale-[0.2]">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface-dim border-b border-outline-variant dark:border-outline sticky top-0 z-50 flex items-center justify-between px-edge-margin h-16 w-full">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container">church</span>
+</div>
+<h1 class="font-headline-md text-headline-md font-extrabold text-primary dark:text-inverse-primary">St. Mary's Youth</h1>
+</div>
+<span class="material-symbols-outlined text-primary dark:text-inverse-primary">account_circle</span>
+</header>
+<!-- Mock Content -->
+<main class="flex-1 overflow-y-auto px-edge-margin py-6 space-y-6">
+<div class="flex justify-between items-end">
+<div>
+<p class="font-label-caps text-label-caps text-secondary uppercase">Sessions</p>
+<h2 class="font-display-lg text-display-lg text-primary">Attendance History</h2>
+</div>
+</div>
+<div class="space-y-3">
+<div class="p-4 bg-surface-container-lowest border border-outline-variant rounded-xl flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-secondary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-on-secondary-fixed">event</span>
+</div>
+<div>
+<p class="font-title-sm text-title-sm">Weekly Meeting</p>
+<p class="font-caption text-caption text-on-surface-variant">Last Sunday • 42 Members</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</div>
+<div class="p-4 bg-surface-container-lowest border border-outline-variant rounded-xl flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container">festival</span>
+</div>
+<div>
+<p class="font-title-sm text-title-sm">Annual Retreat</p>
+<p class="font-caption text-caption text-on-surface-variant">2 weeks ago • 58 Members</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full h-bottom-nav-height z-50 border-t border-outline-variant dark:border-outline bg-surface dark:bg-surface-dim shadow-[0px_-4px_20px_rgba(27,43,72,0.08)] flex justify-around items-center px-2">
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant pt-1">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant pt-1">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-caps text-label-caps">Members</span>
+</div>
+<div class="flex flex-col items-center justify-center text-primary dark:text-secondary-fixed-dim border-t-2 border-secondary dark:border-secondary-fixed-dim pt-1">
+<span class="material-symbols-outlined">fact_check</span>
+<span class="font-label-caps text-label-caps">Attendance</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant pt-1">
+<span class="material-symbols-outlined">assignment_turned_in</span>
+<span class="font-label-caps text-label-caps">Follow-up</span>
+</div>
+</nav>
+</div>
+<!-- Bottom Sheet Overlay -->
+<div class="fixed inset-0 z-[100] backdrop-blur-custom flex items-end justify-center">
+<!-- Bottom Sheet Card -->
+<div class="bg-surface-container-lowest w-full max-w-lg rounded-t-3xl shadow-[0px_-4px_40px_rgba(4,22,50,0.15)] flex flex-col max-h-[92vh] border-x border-t border-outline-variant overflow-hidden animate-in slide-in-from-bottom duration-300">
+<!-- Sheet Handle & Header -->
+<div class="flex flex-col items-center pt-3 pb-5 border-b border-outline-variant px-6 relative">
+<div class="w-12 h-1.5 bg-outline-variant rounded-full mb-4"></div>
+<div class="w-full flex items-center justify-between">
+<div>
+<p class="font-label-caps text-label-caps text-secondary uppercase">Management</p>
+<h3 class="font-headline-md text-headline-md text-primary">Add Special Session</h3>
+</div>
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">close</span>
+</button>
+</div>
+</div>
+<!-- Sheet Content -->
+<div class="flex-1 overflow-y-auto p-6 space-y-8">
+<!-- Section: Session Type -->
+<section class="space-y-3">
+<label class="font-label-caps text-label-caps text-on-surface-variant">SESSION TYPE</label>
+<div class="grid grid-cols-2 gap-3">
+<!-- Type Chip: Outing -->
+<button class="flex items-center gap-3 p-3 border border-outline-variant rounded-lg hover:bg-surface-container-low transition-colors group">
+<span class="material-symbols-outlined text-secondary group-focus:fill-1">map</span>
+<span class="font-title-sm text-title-sm">Outing</span>
+</button>
+<!-- Type Chip: Retreat -->
+<button class="flex items-center gap-3 p-3 border-2 border-secondary bg-secondary-fixed/20 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">nature_people</span>
+<span class="font-title-sm text-title-sm text-secondary">Retreat</span>
+</button>
+<!-- Type Chip: Day Use -->
+<button class="flex items-center gap-3 p-3 border border-outline-variant rounded-lg hover:bg-surface-container-low transition-colors group">
+<span class="material-symbols-outlined text-secondary group-focus:fill-1">wb_sunny</span>
+<span class="font-title-sm text-title-sm">Day Use</span>
+</button>
+<!-- Type Chip: Other -->
+<button class="flex items-center gap-3 p-3 border border-outline-variant rounded-lg hover:bg-surface-container-low transition-colors group">
+<span class="material-symbols-outlined text-secondary group-focus:fill-1">more_horiz</span>
+<span class="font-title-sm text-title-sm">Other</span>
+</button>
+</div>
+</section>
+<!-- Section: Schedule -->
+<section class="space-y-3">
+<label class="font-label-caps text-label-caps text-on-surface-variant">DATE &amp; TIME</label>
+<div class="flex flex-col sm:flex-row gap-4">
+<div class="flex-1 relative">
+<input class="w-full h-14 bg-surface-container-low border-0 border-b-2 border-outline-variant focus:border-secondary focus:ring-0 px-4 pt-4 rounded-t-lg font-body-md" type="date"/>
+<span class="absolute left-4 top-1 font-caption text-[10px] text-secondary font-bold uppercase tracking-widest">Date</span>
+</div>
+<div class="flex-1 relative">
+<input class="w-full h-14 bg-surface-container-low border-0 border-b-2 border-outline-variant focus:border-secondary focus:ring-0 px-4 pt-4 rounded-t-lg font-body-md" type="time"/>
+<span class="absolute left-4 top-1 font-caption text-[10px] text-secondary font-bold uppercase tracking-widest">Start Time</span>
+</div>
+</div>
+</section>
+<!-- Section: Venue -->
+<section class="space-y-3">
+<label class="font-label-caps text-label-caps text-on-surface-variant">LOCATION</label>
+<div class="relative">
+<input class="w-full h-14 bg-surface-container-low border-0 border-b-2 border-outline-variant focus:border-secondary focus:ring-0 px-12 rounded-t-lg font-body-md" placeholder="Venue or Facility Name" type="text"/>
+<span class="material-symbols-outlined absolute left-4 top-4 text-outline">location_on</span>
+</div>
+</section>
+<!-- Section: Estimated Attendance -->
+<section class="space-y-3">
+<div class="flex justify-between items-center">
+<label class="font-label-caps text-label-caps text-on-surface-variant">ESTIMATED ATTENDANCE</label>
+<span class="font-title-sm text-title-sm text-secondary">45</span>
+</div>
+<div class="px-2">
+<input class="w-full h-2 bg-surface-container-high rounded-lg appearance-none cursor-pointer accent-secondary" max="150" min="5" type="range" value="45"/>
+<div class="flex justify-between mt-2">
+<span class="font-caption text-caption text-outline">5</span>
+<span class="font-caption text-caption text-outline">150</span>
+</div>
+</div>
+</section>
+<!-- Section: Description -->
+<section class="space-y-3 pb-4">
+<label class="font-label-caps text-label-caps text-on-surface-variant">SESSION DESCRIPTION</label>
+<textarea class="w-full p-4 bg-surface-container-low border-0 border-b-2 border-outline-variant focus:border-secondary focus:ring-0 rounded-t-lg font-body-md resize-none" placeholder="Provide details about the session activities and objectives..." rows="3"></textarea>
+</section>
+</div>
+<!-- Sheet Footer - Fixed at bottom -->
+<div class="p-6 border-t border-outline-variant bg-surface-container-lowest safe-area-bottom pb-8 sm:pb-6">
+<button class="w-full h-14 bg-primary text-white font-title-sm text-title-sm rounded-xl hover:bg-primary-container transition-all active:scale-[0.98] flex items-center justify-center gap-2 shadow-lg">
+<span class="material-symbols-outlined text-[20px]">add_task</span>
+                    Create Session
+                </button>
+</div>
+</div>
+</div>
+</body></html>

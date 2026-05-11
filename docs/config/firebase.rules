@@ -1,0 +1,26 @@
+// firebase.rules
+// Firebase Storage security rules.
+// Deploy with: firebase deploy --only storage
+//
+// Note: This app uses Google Sheets as its database, not Firestore.
+// These rules apply only to Firebase Storage (if used for file uploads).
+// If Storage is not used, these rules still apply but will never be triggered.
+
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Default: deny everything
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+
+    // Allow authenticated users to read/write their own files only
+    // Uncomment and adapt if file upload is added to the app
+    //
+    // match /uploads/{userId}/{fileName} {
+    //   allow read, write: if request.auth != null && request.auth.uid == userId;
+    // }
+
+  }
+}

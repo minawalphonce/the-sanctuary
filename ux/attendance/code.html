@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .attendance-active-present {
+            background-color: #dcfce7; /* soft green tint */
+            border-color: #166534;
+            color: #166534;
+        }
+        .attendance-active-absent {
+            background-color: #fee2e2; /* soft red tint */
+            border-color: #991b1b;
+            color: #991b1b;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#1d1602",
+                        "surface-bright": "#f8f9fa",
+                        "secondary-fixed-dim": "#e9c176",
+                        "on-primary-container": "#8393b5",
+                        "on-error-container": "#93000a",
+                        "inverse-primary": "#b7c7eb",
+                        "secondary-container": "#fed488",
+                        "on-secondary-fixed-variant": "#5d4201",
+                        "inverse-on-surface": "#f0f1f2",
+                        "secondary": "#775a19",
+                        "outline": "#75777e",
+                        "on-primary-fixed": "#091b37",
+                        "on-surface-variant": "#44474d",
+                        "tertiary-fixed-dim": "#d4c5a2",
+                        "surface-container-high": "#e7e8e9",
+                        "background": "#f8f9fa",
+                        "on-tertiary-fixed": "#221b05",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#ffdea5",
+                        "surface-tint": "#4f5e7e",
+                        "on-surface": "#191c1d",
+                        "surface-container": "#edeeef",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-variant": "#e1e3e4",
+                        "primary-container": "#1b2b48",
+                        "error": "#ba1a1a",
+                        "on-secondary": "#ffffff",
+                        "surface": "#f8f9fa",
+                        "surface-dim": "#d9dadb",
+                        "primary-fixed": "#d7e2ff",
+                        "on-secondary-container": "#785a1a",
+                        "primary": "#041632",
+                        "on-primary-fixed-variant": "#374765",
+                        "surface-container-highest": "#e1e3e4",
+                        "on-tertiary-container": "#9e9171",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "tertiary-container": "#322a12",
+                        "outline-variant": "#c5c6ce",
+                        "tertiary-fixed": "#f1e1bd",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#50462b",
+                        "inverse-surface": "#2e3132",
+                        "on-secondary-fixed": "#261900",
+                        "primary-fixed-dim": "#b7c7eb",
+                        "on-background": "#191c1d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "stack-gap": "0.75rem",
+                        "section-padding": "1.5rem",
+                        "list-item-padding": "1rem",
+                        "edge-margin": "1rem",
+                        "bottom-nav-height": "4.5rem"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Hanken Grotesk"],
+                        "label-caps": ["Inter"],
+                        "caption": ["Inter"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "title-sm": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "display-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "title-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface-dim text-primary dark:text-inverse-primary border-b border-outline-variant dark:border-outline docked full-width top-0 sticky z-50 flex items-center justify-between px-edge-margin h-16 w-full">
+<div class="flex items-center gap-3">
+<img alt="St. Mary's Youth" class="w-10 h-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaTCKN8JLUS0G3NvlHqHoBz9OFZqON-27RsvTOCsxIByRqXCZ0vl9rmZLkV38SYDhBfm9sSAQWH79FkbzdD4IKZllUh_-_zto_-5vZd1BW6-76YBZyGWCY9s0hLznRkKLN8bGC0yYWEysSfDQR_WkxnO6kmTbWqeRd82TZoGw-nuyDVTlYaTDvwU5dIp3eOloDHSXsQXxisdcSofwnoaVRyXDXsa77W53r4i1259m-dnbAHzCb1BWECzcvv2Adg5pv8tPvw0dOIuc"/>
+<h1 class="font-headline-md text-headline-md font-extrabold text-primary dark:text-inverse-primary">St. Mary's Youth</h1>
+</div>
+<button class="material-symbols-outlined text-primary dark:text-inverse-primary active:opacity-80 transition-opacity p-2 rounded-full hover:bg-surface-container-high transition-colors">account_circle</button>
+</header>
+<main class="px-edge-margin pt-6 flex flex-col gap-6">
+<!-- Header & Class Selector -->
+<section class="flex flex-col gap-4">
+<div class="flex items-end justify-between">
+<div>
+<h2 class="font-display-lg text-display-lg text-primary">Attendance</h2>
+<p class="font-body-md text-on-surface-variant">Sunday, Oct 27, 2024</p>
+</div>
+<div class="bg-surface-container-low px-3 py-1 rounded-full border border-outline-variant">
+<span class="font-label-caps text-label-caps text-secondary">ACTIVE SESSION</span>
+</div>
+</div>
+<!-- Bento-style Class Selection -->
+<div class="grid grid-cols-3 gap-3">
+<button class="flex flex-col items-center justify-center p-4 bg-primary text-on-primary rounded-xl shadow-sm ring-2 ring-primary ring-offset-2 transition-all">
+<span class="material-symbols-outlined mb-1">fitness_center</span>
+<span class="font-label-caps text-label-caps">GYM A</span>
+<span class="font-caption text-caption opacity-80">Jrs (9-12)</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 bg-surface-container-lowest text-on-surface border border-outline-variant rounded-xl hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined mb-1">sports_basketball</span>
+<span class="font-label-caps text-label-caps">GYM B</span>
+<span class="font-caption text-caption text-on-surface-variant">Inter (13-15)</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 bg-surface-container-lowest text-on-surface border border-outline-variant rounded-xl hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined mb-1">sports_volleyball</span>
+<span class="font-label-caps text-label-caps">GYM C</span>
+<span class="font-caption text-caption text-on-surface-variant">Srs (16+)</span>
+</button>
+</div>
+</section>
+<!-- Search & Info Bar -->
+<div class="flex items-center justify-between gap-4 p-4 bg-surface-container-low rounded-xl border border-outline-variant">
+<div class="flex items-center gap-2 flex-1">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="bg-transparent border-none focus:ring-0 w-full text-body-md font-body-md p-0" placeholder="Search member name..." type="text"/>
+</div>
+<div class="h-6 w-px bg-outline-variant"></div>
+<span class="font-label-caps text-label-caps text-on-surface-variant whitespace-nowrap">42 MEMBERS</span>
+</div>
+<!-- Sticky List Header -->
+<div class="sticky top-16 bg-background z-40 py-2 border-b border-outline-variant">
+<div class="flex items-center justify-between px-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant">MEMBER DETAILS</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">STATUS</span>
+</div>
+</div>
+<!-- Member List -->
+<div class="flex flex-col divide-y divide-outline-variant">
+<!-- Item 1 -->
+<div class="flex items-center justify-between py-list-item-padding">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center font-title-sm text-title-sm">
+                        MA
+                    </div>
+<div>
+<h4 class="font-title-sm text-title-sm text-on-surface">Mark Antonious</h4>
+<p class="font-caption text-caption text-on-surface-variant">#GYM-A-102</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="w-10 h-10 flex items-center justify-center border border-outline-variant rounded-lg hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center attendance-active-present border rounded-lg transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check</span>
+</button>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex items-center justify-between py-list-item-padding">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-fixed text-on-primary-fixed flex items-center justify-center font-title-sm text-title-sm">
+                        SK
+                    </div>
+<div>
+<h4 class="font-title-sm text-title-sm text-on-surface">Sandra Khalil</h4>
+<p class="font-caption text-caption text-on-surface-variant">#GYM-A-045</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="w-10 h-10 flex items-center justify-center attendance-active-absent border rounded-lg transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-weight="fill" style="font-variation-settings: 'FILL' 1;">close</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center border border-outline-variant rounded-lg hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[20px]">check</span>
+</button>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="flex items-center justify-between py-list-item-padding">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest text-on-surface flex items-center justify-center font-title-sm text-title-sm">
+                        JG
+                    </div>
+<div>
+<h4 class="font-title-sm text-title-sm text-on-surface">John Gad</h4>
+<p class="font-caption text-caption text-on-surface-variant">#GYM-A-118</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="w-10 h-10 flex items-center justify-center border border-outline-variant rounded-lg hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center border border-outline-variant rounded-lg hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[20px]">check</span>
+</button>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="flex items-center justify-between py-list-item-padding">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center font-title-sm text-title-sm">
+                        PY
+                    </div>
+<div>
+<h4 class="font-title-sm text-title-sm text-on-surface">Peter Youssef</h4>
+<p class="font-caption text-caption text-on-surface-variant">#GYM-A-092</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="w-10 h-10 flex items-center justify-center border border-outline-variant rounded-lg hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center border border-outline-variant rounded-lg hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[20px]">check</span>
+</button>
+</div>
+</div>
+<!-- Item 5 -->
+<div class="flex items-center justify-between py-list-item-padding">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-title-sm text-title-sm">
+                        MM
+                    </div>
+<div>
+<h4 class="font-title-sm text-title-sm text-on-surface">Monica Mikhail</h4>
+<p class="font-caption text-caption text-on-surface-variant">#GYM-A-033</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="w-10 h-10 flex items-center justify-center border border-outline-variant rounded-lg hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center border border-outline-variant rounded-lg hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[20px]">check</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Floating High Priority Button Wrapper -->
+<div class="fixed bottom-[calc(theme(spacing.bottom-nav-height)+1rem)] left-0 right-0 px-edge-margin flex justify-center pointer-events-none">
+<button class="pointer-events-auto bg-primary text-on-primary w-full max-w-md py-4 rounded-xl shadow-[0px_4px_20px_rgba(27,43,72,0.15)] flex items-center justify-center gap-3 active:scale-[0.98] transition-transform">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">save</span>
+<span class="font-title-sm text-title-sm uppercase tracking-wider">Save Attendance</span>
+</button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full h-bottom-nav-height z-50 border-t border-outline-variant dark:border-outline bg-surface dark:bg-surface-dim shadow-[0px_-4px_20px_rgba(27,43,72,0.08)] flex justify-around items-center w-full px-2">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant pt-1 hover:bg-surface-container-low dark:hover:bg-tertiary-container transition-colors active:scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant pt-1 hover:bg-surface-container-low dark:hover:bg-tertiary-container transition-colors active:scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-caps text-label-caps">Members</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-secondary-fixed-dim border-t-2 border-secondary dark:border-secondary-fixed-dim pt-1 hover:bg-surface-container-low dark:hover:bg-tertiary-container transition-colors active:scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">fact_check</span>
+<span class="font-label-caps text-label-caps">Attendance</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant pt-1 hover:bg-surface-container-low dark:hover:bg-tertiary-container transition-colors active:scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">assignment_turned_in</span>
+<span class="font-label-caps text-label-caps">Follow-up</span>
+</a>
+</nav>
+</body></html>

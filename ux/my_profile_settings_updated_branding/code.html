@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Sanctuary - My Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;family=Inter:wght@400;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-background": "#191c1d",
+                      "surface-bright": "#f8f9fa",
+                      "surface": "#f8f9fa",
+                      "on-tertiary-fixed": "#221b05",
+                      "surface-container-high": "#e7e8e9",
+                      "on-secondary-container": "#785a1a",
+                      "primary-container": "#1b2b48",
+                      "error": "#ba1a1a",
+                      "outline": "#75777e",
+                      "on-tertiary-fixed-variant": "#50462b",
+                      "on-secondary-fixed": "#261900",
+                      "secondary-fixed": "#ffdea5",
+                      "primary-fixed-dim": "#b7c7eb",
+                      "tertiary": "#1d1602",
+                      "background": "#f8f9fa",
+                      "error-container": "#ffdad6",
+                      "tertiary-container": "#322a12",
+                      "surface-dim": "#d9dadb",
+                      "secondary-container": "#fed488",
+                      "outline-variant": "#c5c6ce",
+                      "on-surface": "#191c1d",
+                      "on-error": "#ffffff",
+                      "inverse-primary": "#b7c7eb",
+                      "primary-fixed": "#d7e2ff",
+                      "surface-container-highest": "#e1e3e4",
+                      "inverse-surface": "#2e3132",
+                      "inverse-on-surface": "#f0f1f2",
+                      "surface-tint": "#4f5e7e",
+                      "on-primary-fixed-variant": "#374765",
+                      "surface-variant": "#e1e3e4",
+                      "on-surface-variant": "#44474d",
+                      "on-tertiary": "#ffffff",
+                      "surface-container": "#edeeef",
+                      "on-error-container": "#93000a",
+                      "on-secondary-fixed-variant": "#5d4201",
+                      "tertiary-fixed": "#f1e1bd",
+                      "surface-container-low": "#f3f4f5",
+                      "secondary": "#775a19",
+                      "primary": "#041632",
+                      "secondary-fixed-dim": "#e9c176",
+                      "on-secondary": "#ffffff",
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "on-primary-fixed": "#091b37",
+                      "tertiary-fixed-dim": "#d4c5a2",
+                      "on-primary-container": "#8393b5",
+                      "on-tertiary-container": "#9e9171"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "stack-gap": "0.75rem",
+                      "section-padding": "1.5rem",
+                      "bottom-nav-height": "4.5rem",
+                      "list-item-padding": "1rem",
+                      "edge-margin": "1rem"
+              },
+              "fontFamily": {
+                      "headline-md": ["Hanken Grotesk"],
+                      "caption": ["Inter"],
+                      "label-caps": ["Inter"],
+                      "body-md": ["Hanken Grotesk"],
+                      "title-sm": ["Hanken Grotesk"],
+                      "display-lg": ["Hanken Grotesk"]
+              },
+              "fontSize": {
+                      "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+                      "caption": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                      "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                      "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                      "title-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                      "display-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #f8f9fa;
+        }
+        .profile-card-shadow {
+            box-shadow: 0px 4px 20px rgba(27, 43, 72, 0.08);
+        }
+        body {
+          min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen pb-bottom-nav-height">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface-dim border-b border-outline-variant dark:border-outline docked full-width top-0 sticky z-50 flex items-center justify-between px-edge-margin h-16 w-full">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center overflow-hidden">
+<img alt="The Sanctuary Logo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0ui-htsSdnNeWBihJ7OnURKVsy_8mFG992NM0fm9xfYr3aHwrf1N1x8YiFSqzs2I8ovI8KJauDXadofImf6E5PMKpeAo728IcMr6cyiTfQns3xZ7z8MmL-kd-GM1R0OGCFEXx9zpAxPDV83KuKSOP2TEgQ5efMyD3bqYfF7Yvj4v1l4o8ExsOSRBQhHcWOwGJ_QXpF5U1ywRHcbeiiMOozFSqFMBgEenWofg8hQRvZAUc3a2h4U_hS9t0FMrwbP4w4BPOsKqGY-4uA"/>
+</div>
+<h1 class="font-headline-md text-headline-md font-extrabold text-primary dark:text-inverse-primary">The Sanctuary</h1>
+</div>
+<button class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant hover:bg-surface-container-high transition-colors active:opacity-80">
+<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0LG0c1BhOciywWWu3oE99QmLRsciicyMGgINuqYAAhZuwu2d_sGBFT-ZUlkNWf_KG1CA4AUMAadafb4SeI1s6OrfJg4FEUZsqRSNTmgsQuxejx9_RTGK-4_ulb5yAq90Q3giktz-3GTzZec283hTB2XJ0l7ajnq15XEgM54Iomy2AS5NUlTKKQmCnNe84ZBLxE-VJttB8ax5WStdBm4En1RSKQ-iBei41oWcov8lYJBVJq3PoQq9hJ6ofTnhErtpcAW6aMjnlyEI"/>
+</button>
+</header>
+<main class="max-w-xl mx-auto px-edge-margin py-8 space-y-8">
+<!-- Profile Section -->
+<section class="flex flex-col items-center">
+<div class="relative group">
+<div class="w-32 h-32 rounded-xl border-4 border-surface-container-highest overflow-hidden profile-card-shadow">
+<img alt="Admin Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0LG0c1BhOciywWWu3oE99QmLRsciicyMGgINuqYAAhZuwu2d_sGBFT-ZUlkNWf_KG1CA4AUMAadafb4SeI1s6OrfJg4FEUZsqRSNTmgsQuxejx9_RTGK-4_ulb5yAq90Q3giktz-3GTzZec283hTB2XJ0l7ajnq15XEgM54Iomy2AS5NUlTKKQmCnNe84ZBLxE-VJttB8ax5WStdBm4En1RSKQ-iBei41oWcov8lYJBVJq3PoQq9hJ6ofTnhErtpcAW6aMjnlyEI"/>
+</div>
+<button class="absolute bottom-[-10px] right-[-10px] bg-secondary text-on-secondary w-10 h-10 rounded-lg flex items-center justify-center shadow-md hover:scale-105 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[20px]">photo_camera</span>
+</button>
+</div>
+<div class="w-full mt-10 space-y-4">
+<div class="bg-surface-container-lowest p-6 rounded-xl profile-card-shadow space-y-5">
+<div class="space-y-1">
+<label class="font-label-caps text-label-caps text-on-surface-variant px-1">Full Name</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg font-title-sm text-title-sm text-primary px-4 py-3 focus:ring-2 focus:ring-secondary/30" type="text" value="Fr. Shenouda Mansour"/>
+</div>
+<div class="space-y-1">
+<label class="font-label-caps text-label-caps text-on-surface-variant px-1">Phone Number</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg font-title-sm text-title-sm text-primary px-4 py-3 focus:ring-2 focus:ring-secondary/30" type="tel" value="+1 (555) 012-3456"/>
+</div>
+<div class="space-y-1">
+<label class="font-label-caps text-label-caps text-on-surface-variant px-1">Email Address</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg font-title-sm text-title-sm text-primary px-4 py-3 focus:ring-2 focus:ring-secondary/30" type="email" value="abouna.shenouda@stmarys.org"/>
+</div>
+<div class="pt-2">
+<button class="w-full bg-primary text-on-primary font-title-sm py-3 rounded-lg hover:opacity-90 transition-opacity">Save Changes</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Administrative Section -->
+<section class="space-y-3">
+<h2 class="font-label-caps text-label-caps text-secondary px-1 uppercase tracking-wider">Administration</h2>
+<div class="bg-surface-container-lowest rounded-xl profile-card-shadow overflow-hidden">
+<a class="flex items-center justify-between p-list-item-padding hover:bg-surface-container-low transition-colors border-b border-outline-variant/30" href="#">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-secondary-container text-on-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined">admin_panel_settings</span>
+</div>
+<span class="font-title-sm text-primary">Manage Admins</span>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</a>
+<a class="flex items-center justify-between p-list-item-padding hover:bg-surface-container-low transition-colors" href="#">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-secondary-container text-on-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined">analytics</span>
+</div>
+<span class="font-title-sm text-primary">Yearly Performance Roll-up</span>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</a>
+</div>
+</section>
+<!-- Danger Zone / Logout -->
+<section class="pt-4">
+<button class="w-full flex items-center justify-center gap-2 border-2 border-error text-error font-title-sm py-3 rounded-xl hover:bg-error-container/20 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined">logout</span>
+<span>Log Out</span>
+</button>
+<p class="text-center font-caption text-caption text-outline mt-6">App Version 2.4.1 • The Sanctuary Admin Portal</p>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="bg-surface dark:bg-surface-dim border-t border-outline-variant dark:border-outline shadow-[0px_-4px_20px_rgba(27,43,72,0.08)] fixed bottom-0 w-full h-bottom-nav-height z-50 flex justify-around items-center px-2">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant pt-1 hover:bg-surface-container-low transition-colors active:scale-95" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-caps text-[10px] uppercase">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant pt-1 hover:bg-surface-container-low transition-colors active:scale-95" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-caps text-[10px] uppercase">Members</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant pt-1 hover:bg-surface-container-low transition-colors active:scale-95" href="#">
+<span class="material-symbols-outlined">fact_check</span>
+<span class="font-label-caps text-[10px] uppercase">Attendance</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-secondary-fixed-dim border-t-2 border-secondary dark:border-secondary-fixed-dim pt-1 hover:bg-surface-container-low transition-colors active:scale-95" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">assignment_turned_in</span>
+<span class="font-label-caps text-[10px] uppercase font-bold">Follow-up</span>
+</a>
+</nav>
+</body></html>

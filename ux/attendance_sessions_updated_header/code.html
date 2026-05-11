@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Attendance Sessions - St. Mary's Youth</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;family=Inter:wght@400;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#041632",
+                        "outline-variant": "#c5c6ce",
+                        "on-secondary-container": "#785a1a",
+                        "surface-container": "#edeeef",
+                        "primary-fixed": "#d7e2ff",
+                        "primary-container": "#1b2b48",
+                        "on-primary-fixed": "#091b37",
+                        "on-background": "#191c1d",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#f1e1bd",
+                        "surface-bright": "#f8f9fa",
+                        "secondary-fixed": "#ffdea5",
+                        "on-secondary-fixed": "#261900",
+                        "surface-container-highest": "#e1e3e4",
+                        "outline": "#75777e",
+                        "inverse-surface": "#2e3132",
+                        "error": "#ba1a1a",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#b7c7eb",
+                        "on-tertiary-fixed": "#221b05",
+                        "primary-fixed-dim": "#b7c7eb",
+                        "background": "#f8f9fa",
+                        "on-surface-variant": "#44474d",
+                        "on-error": "#ffffff",
+                        "on-tertiary-container": "#9e9171",
+                        "on-tertiary-fixed-variant": "#50462b",
+                        "on-primary-container": "#8393b5",
+                        "surface-variant": "#e1e3e4",
+                        "surface-tint": "#4f5e7e",
+                        "inverse-on-surface": "#f0f1f2",
+                        "tertiary-fixed-dim": "#d4c5a2",
+                        "surface-dim": "#d9dadb",
+                        "on-primary-fixed-variant": "#374765",
+                        "surface-container-high": "#e7e8e9",
+                        "tertiary-container": "#322a12",
+                        "on-surface": "#191c1d",
+                        "on-secondary": "#ffffff",
+                        "surface-container-low": "#f3f4f5",
+                        "on-secondary-fixed-variant": "#5d4201",
+                        "on-error-container": "#93000a",
+                        "tertiary": "#1d1602",
+                        "surface": "#f8f9fa",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed-dim": "#e9c176",
+                        "on-tertiary": "#ffffff",
+                        "secondary-container": "#fed488",
+                        "secondary": "#775a19"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "list-item-padding": "1rem",
+                        "section-padding": "1.5rem",
+                        "stack-gap": "0.75rem",
+                        "edge-margin": "1rem",
+                        "bottom-nav-height": "4.5rem"
+                    },
+                    "fontFamily": {
+                        "title-sm": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "caption": ["Inter"],
+                        "body-md": ["Hanken Grotesk"],
+                        "label-caps": ["Inter"],
+                        "display-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "title-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "display-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #f8f9fa;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(197, 198, 206, 0.3);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="font-body-md text-on-background min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-surface border-b border-outline-variant flex items-center justify-between px-edge-margin h-16 w-full sticky top-0 z-50 py-2">
+<div class="flex items-center gap-3">
+<img alt="The Sanctuary Logo" class="w-10 h-10 object-contain rounded-full" src="https://lh3.googleusercontent.com/aida/ADBb0ui-htsSdnNeWBihJ7OnURKVsy_8mFG992NM0fm9xfYr3aHwrf1N1x8YiFSqzs2I8ovI8KJauDXadofImf6E5PMKpeAo728IcMr6cyiTfQns3xZ7z8MmL-kd-GM1R0OGCFEXx9zpAxPDV83KuKSOP2TEgQ5efMyD3bqYfF7Yvj4v1l4o8ExsOSRBQhHcWOwGJ_QXpF5U1ywRHcbeiiMOozFSqFMBgEenWofg8hQRvZAUc3a2h4U_hS9t0FMrwbP4w4BPOsKqGY-4uA"/>
+<h1 class="font-display-lg text-headline-md font-extrabold text-primary tracking-tight">The Sanctuary</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors active:opacity-80">
+<img alt="User Profile" class="w-8 h-8 rounded-full border border-outline-variant object-cover" src="https://lh3.googleusercontent.com/aida-public/ALi7vXm9zY0V1k6_Z2p4wG_J-l4fQ5p7R8S9T0U1V2W3X4Y5Z6A7B8C9D0E1F2G3H4I5J6K7L8M9N0O1P2Q3R4S5T6U7V8W9X0Y1Z2A3B4C5D6E7F8G9H0I1J2K3L4M5N6O7P8Q9R0S1T2U3V4W5X6Y7Z8A9B0C1D2E3F4G5H6I7J8K9L0M1N2O3P4Q5R6S7T8U9V0W1X2Y3Z4A5B6C7D8E9F0G1H2I3J4K5L6M7N8O9P0Q1R2S3T4U5V6W7X8Y9Z0=s120"/>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow px-edge-margin py-section-padding space-y-6 pb-[calc(bottom-nav-height+2rem)]">
+<!-- Welcome & Header Section -->
+<section class="space-y-1">
+<p class="font-label-caps text-label-caps text-secondary uppercase">Attendance Tracking</p>
+<h2 class="font-display-lg text-display-lg text-primary">Attendance Sessions</h2>
+</section>
+<!-- Featured/Special Action Card (Asymmetric Layout) -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-stack-gap">
+<div class="md:col-span-8 group relative overflow-hidden bg-primary rounded-xl p-6 text-on-primary shadow-lg flex flex-col justify-between min-h-[160px]">
+<div class="relative z-10">
+<h3 class="font-title-sm text-title-sm mb-2">New Special Session</h3>
+<p class="font-body-md opacity-80 max-w-xs">Organizing an outing, retreat, or one-time youth event? Track attendance specifically for this occasion.</p>
+</div>
+<button class="relative z-10 mt-4 self-start bg-secondary-container text-on-secondary-container px-6 py-2.5 rounded-lg font-title-sm hover:opacity-90 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined">add_circle</span>
+<span>Add Special Session</span>
+</button>
+<!-- Decorative background elements -->
+<div class="absolute -right-4 -bottom-4 w-32 h-32 bg-secondary opacity-20 rounded-full blur-3xl"></div>
+<div class="absolute right-8 top-8 opacity-10">
+<span class="material-symbols-outlined !text-7xl" style="font-variation-settings: 'FILL' 1;">celebration</span>
+</div>
+</div>
+<div class="md:col-span-4 bg-secondary-fixed rounded-xl p-6 text-on-secondary-fixed flex flex-col justify-center border border-on-secondary-container/10">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">history</span>
+<span class="font-label-caps text-label-caps">Monthly Stats</span>
+</div>
+<div class="text-3xl font-extrabold text-primary">88%</div>
+<p class="font-caption text-caption opacity-70">Average attendance across all youth programs this month.</p>
+</div>
+</div>
+<!-- Session Filters -->
+<div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+<button class="bg-primary text-on-primary px-4 py-1.5 rounded-full font-label-caps text-label-caps shrink-0">All Sessions</button>
+<button class="bg-surface-container text-on-surface-variant px-4 py-1.5 rounded-full font-label-caps text-label-caps shrink-0 border border-outline-variant hover:bg-surface-container-high transition-colors">Regular</button>
+<button class="bg-surface-container text-on-surface-variant px-4 py-1.5 rounded-full font-label-caps text-label-caps shrink-0 border border-outline-variant hover:bg-surface-container-high transition-colors">Special Events</button>
+<button class="bg-surface-container text-on-surface-variant px-4 py-1.5 rounded-full font-label-caps text-label-caps shrink-0 border border-outline-variant hover:bg-surface-container-high transition-colors">Completed</button>
+</div>
+<!-- Sessions List -->
+<div class="space-y-4">
+<!-- Section Header: Recurring -->
+<div class="sticky top-16 bg-background/95 backdrop-blur-sm py-2 z-40 flex items-center justify-between">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                    Regular Weekly Sessions
+                </h3>
+</div>
+<!-- List Items -->
+<div class="space-y-3">
+<!-- Session Item 1 -->
+<div class="glass-card p-4 rounded-xl flex items-center justify-between hover:border-secondary transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-primary-container flex items-center justify-center text-on-primary-container group-hover:bg-primary transition-colors">
+<span class="material-symbols-outlined">fitness_center</span>
+</div>
+<div>
+<h4 class="font-title-sm text-title-sm text-primary">Weekly Gym Class</h4>
+<div class="flex items-center gap-2 text-on-surface-variant font-caption">
+<span class="material-symbols-outlined !text-sm">calendar_today</span>
+<span>Every Tuesday • 6:30 PM</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<div class="font-title-sm text-primary">42 Members</div>
+<div class="text-secondary font-caption flex items-center justify-end gap-1">
+<span class="material-symbols-outlined !text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                            Active
+                        </div>
+</div>
+</div>
+<!-- Session Item 2 -->
+<div class="glass-card p-4 rounded-xl flex items-center justify-between hover:border-secondary transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-primary-container flex items-center justify-center text-on-primary-container group-hover:bg-primary transition-colors">
+<span class="material-symbols-outlined">auto_stories</span>
+</div>
+<div>
+<h4 class="font-title-sm text-title-sm text-primary">Youth Bible Study</h4>
+<div class="flex items-center gap-2 text-on-surface-variant font-caption">
+<span class="material-symbols-outlined !text-sm">calendar_today</span>
+<span>Every Friday • 7:30 PM</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<div class="font-title-sm text-primary">56 Members</div>
+<div class="text-secondary font-caption flex items-center justify-end gap-1">
+<span class="material-symbols-outlined !text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                            Active
+                        </div>
+</div>
+</div>
+</div>
+<!-- Section Header: Special Events -->
+<div class="sticky top-16 bg-background/95 backdrop-blur-sm py-2 z-40 mt-8">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed-dim"></span>
+                    Upcoming Special Events
+                </h3>
+</div>
+<!-- Special Event Item -->
+<div class="bg-surface-container-low border border-outline-variant p-5 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-l-4 border-l-secondary-container">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined">hiking</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="font-title-sm text-title-sm text-primary">Mountain Retreat 2024</h4>
+<span class="bg-on-tertiary-container text-white text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider">Special</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-caption">
+<span class="material-symbols-outlined !text-sm">location_on</span>
+<span>Cedar Peaks Camp • Oct 14-16</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="text-right mr-2 hidden sm:block">
+<div class="font-title-sm text-primary">85 Registered</div>
+<div class="text-on-surface-variant font-caption italic">Awaiting Check-in</div>
+</div>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg font-title-sm text-sm hover:bg-primary-container active:scale-95 transition-all">
+                        Prepare List
+                    </button>
+</div>
+</div>
+<!-- Completed Sessions -->
+<div class="pt-4">
+<button class="w-full py-4 border-2 border-dashed border-outline-variant rounded-xl text-on-surface-variant font-title-sm flex items-center justify-center gap-2 hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">inventory_2</span>
+                    View Archived Sessions
+                </button>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full h-bottom-nav-height z-50 border-t border-outline-variant bg-surface shadow-[0px_-4px_20px_rgba(27,43,72,0.08)] flex justify-around items-center px-2">
+<!-- Dashboard -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant pt-1 hover:bg-surface-container-low transition-colors active:scale-95 duration-150 flex-1" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+<!-- Members -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant pt-1 hover:bg-surface-container-low transition-colors active:scale-95 duration-150 flex-1" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-label-caps text-label-caps">Members</span>
+</a>
+<!-- Attendance (Active) -->
+<a class="flex flex-col items-center justify-center text-primary border-t-2 border-secondary pt-1 hover:bg-surface-container-low transition-colors active:scale-95 duration-150 flex-1" href="#">
+<span class="material-symbols-outlined" data-icon="fact_check" style="font-variation-settings: 'FILL' 1;">fact_check</span>
+<span class="font-label-caps text-label-caps">Attendance</span>
+</a>
+<!-- Follow-up -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant pt-1 hover:bg-surface-container-low transition-colors active:scale-95 duration-150 flex-1" href="#">
+<span class="material-symbols-outlined" data-icon="assignment_turned_in">assignment_turned_in</span>
+<span class="font-label-caps text-label-caps">Follow-up</span>
+</a>
+</nav>
+</body></html>
