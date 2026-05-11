@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&family=Inter:wght@400;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "ras-primary": "#0f172a",
+            "ras-on-primary": "#ffffff",
+            "ras-primary-container": "#1b2b48",
+            "ras-on-primary-container": "#8393b5",
+            "ras-secondary": "#775a19",
+            "ras-on-secondary": "#ffffff",
+            "ras-surface": "#f8f9fa",
+            "ras-surface-container-low": "#f3f4f5",
+            "ras-on-surface": "#191c1d",
+            "ras-on-surface-variant": "#44474d",
+            "ras-outline-variant": "#c5c6ce",
+            "ras-error-container": "#ffdad6",
+            "ras-on-error-container": "#93000a"
+          },
+          "spacing": {
+            "ras-edge": "1rem",
+            "ras-bottom-nav": "4.5rem"
+          },
+          "fontFamily": {
+            "ras-grotesk": ["Hanken Grotesk", "sans-serif"],
+            "ras-inter": ["Inter", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    user-select: none;
+  }
+  .text-ras-label-caps {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 16px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .text-ras-headline-md {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 28px;
+  }
+  .text-ras-body-md {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+  }
+  .text-ras-headline-md-bold {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 28px;
+  }
+  body { overflow-x: hidden; }
+</style>
+</head>
+<body class="bg-ras-surface text-ras-on-surface min-h-screen pb-[4.5rem]">
+
+<!-- ── Top Bar ── -->
+<header class="flex items-center justify-between px-ras-edge h-16 border-b border-ras-outline-variant bg-ras-surface sticky top-0 z-50">
+  <span class="text-ras-headline-md-bold text-ras-primary" style="font-weight:800">The Sanctuary</span>
+  <span class="text-ras-body-md font-semibold text-ras-on-surface">Dashboard</span>
+  <div class="w-10"></div>
+</header>
+
+<!-- ── Page Content ── -->
+<main class="flex items-center justify-center" style="min-height: calc(100vh - 4rem - 4.5rem);">
+  <span class="text-ras-headline-md text-ras-on-surface-variant">Dashboard</span>
+</main>
+
+<!-- ── Bottom Navigation ── -->
+<nav class="fixed bottom-0 w-full bg-ras-surface border-t border-ras-outline-variant shadow-[0px_-4px_20px_rgba(27,43,72,0.08)]" style="height:4.5rem;">
+  <div class="flex justify-around items-stretch px-2 h-full">
+
+    <!-- Dashboard (active) -->
+    <a href="#" class="flex flex-1 flex-col items-center justify-center gap-0.5 pt-1 border-t-2 border-[#775a19] text-ras-primary transition-colors" onclick="setActive(this, 'Dashboard'); return false;">
+      <span class="material-symbols-outlined text-[24px] leading-none">dashboard</span>
+      <span class="text-ras-label-caps">Dashboard</span>
+    </a>
+
+    <!-- Attendance (inactive) -->
+    <a href="#" class="flex flex-1 flex-col items-center justify-center gap-0.5 pt-1 border-t-2 border-transparent text-ras-on-surface-variant transition-colors" onclick="setActive(this, 'Attendance'); return false;">
+      <span class="material-symbols-outlined text-[24px] leading-none">fact_check</span>
+      <span class="text-ras-label-caps">Attendance</span>
+    </a>
+
+    <!-- Members (inactive) -->
+    <a href="#" class="flex flex-1 flex-col items-center justify-center gap-0.5 pt-1 border-t-2 border-transparent text-ras-on-surface-variant transition-colors" onclick="setActive(this, 'Members'); return false;">
+      <span class="material-symbols-outlined text-[24px] leading-none">group</span>
+      <span class="text-ras-label-caps">Members</span>
+    </a>
+
+    <!-- Follow-up (inactive) -->
+    <a href="#" class="flex flex-1 flex-col items-center justify-center gap-0.5 pt-1 border-t-2 border-transparent text-ras-on-surface-variant transition-colors" onclick="setActive(this, 'Follow-up'); return false;">
+      <span class="material-symbols-outlined text-[24px] leading-none">assignment_turned_in</span>
+      <span class="text-ras-label-caps">Follow-up</span>
+    </a>
+
+  </div>
+</nav>
+
+<script>
+function setActive(el, title) {
+  // Reset all nav items
+  document.querySelectorAll('nav a').forEach(a => {
+    a.classList.remove('border-[#775a19]', 'text-ras-primary');
+    a.classList.add('border-transparent', 'text-ras-on-surface-variant');
+  });
+  // Set active item
+  el.classList.remove('border-transparent', 'text-ras-on-surface-variant');
+  el.classList.add('border-[#775a19]', 'text-ras-primary');
+  // Update page title and content
+  document.querySelector('header span:nth-child(2)').textContent = title;
+  document.querySelector('main span').textContent = title;
+}
+</script>
+
+</body></html>
