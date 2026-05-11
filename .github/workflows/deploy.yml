@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 22
           cache: npm
           cache-dependency-path: source/app/package-lock.json
 
@@ -38,4 +38,5 @@ jobs:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ST_MINA_GYM_APP }}
           projectId: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+          channel: "live"
           entryPoint: source
