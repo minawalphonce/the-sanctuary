@@ -36,6 +36,7 @@ interface DataStore extends SyncMeta {
 
   // Write helpers — update Sheets and patch local state optimistically
   appendMember: (record: Member) => Promise<void>;
+  updateMember: (id: string, updated: Member) => Promise<void>;
   appendAttendance: (record: AttendanceRecord) => Promise<void>;
   appendFollowup: (record: FollowupRecord) => Promise<void>;
   updateFollowup: (id: string, updated: FollowupRecord, sheetRowIndex: number) => Promise<void>;
@@ -80,6 +81,31 @@ export const useDataStore = create<DataStore>((set, get) => ({
     ];
     await withExpiryHandling(() => appendRow("members", row));
     set((s) => ({ members: [...s.members, record] }));
+  },
+
+  updateMember: async (id, updated) => {
+    const index = get().members.findIndex((m) => m.id === id);
+    if (index === -1) throw new Error(`Member ${id} not found`);
+    const sheetRow = index + 2; // +1 for 1-based, +1 for header row
+    const range = `members!A${sheetRow}:N${sheetRow}`;
+    const row = [
+      updated.id,
+      updated.full_name,
+      updated.date_of_birth,
+      updated.phone,
+      updated.parent_phone,
+      updated.group,
+      updated.active,
+      updated.notes,
+      updated.email,
+      updated.address,
+      updated.whatsapp,
+      updated.instagram,
+      updated.tiktok,
+      updated.photo_url,
+    ];
+    await withExpiryHandling(() => updateRow(range, row));
+    set((s) => ({ members: s.members.map((m) => (m.id === id ? updated : m)) }));
   },
 
   appendAttendance: async (record) => {

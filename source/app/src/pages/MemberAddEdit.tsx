@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { X, IdCard, Contact, Share2, ShieldAlert, Save, Camera, User, Check, ChevronDown, Plus } from "lucide-react";
 import { uploadMemberPhoto } from "@/lib/firebase";
 import { useDataStore } from "@/store/data";
@@ -19,6 +19,13 @@ function isoToDdMmYyyy(iso: string): string {
     if (!iso) return "";
     const [y, m, d] = iso.split("-");
     return `${d}/${m}/${y}`;
+}
+
+function ddMmYyyyToIso(value: string): string {
+    if (!value) return "";
+    const [d, m, y] = value.split("/");
+    if (!d || !m || !y) return "";
+    return `${y}-${m}-${d}`;
 }
 
 const inputClass =
@@ -115,8 +122,12 @@ function ClassCombobox({
 
 export default function MemberAddEdit() {
     const navigate = useNavigate();
+    const { id } = useParams<{ id: string }>();
+    const isEdit = Boolean(id);
     const members = useDataStore((s) => s.members);
     const appendMember = useDataStore((s) => s.appendMember);
+    const updateMember = useDataStore((s) => s.updateMember);
+    const existingMember = useMemo(() => members.find((m) => m.id === id), [members, id]);
 
     const allGroups = useMemo(
         () => Array.from(new Set(members.map((m) => m.group).filter(Boolean))).sort(),
@@ -139,7 +150,28 @@ export default function MemberAddEdit() {
     const [error, setError] = useState<string | null>(null);
     const [fieldErrors, setFieldErrors] = useState<FormErrors>({});
 
-    const close = () => navigate("/members");
+    // Sync form fields once the member loads from the store. Members arrive
+    // asynchronously (initial store state is empty), so we can't seed
+    // useState directly — instead track which member we last synced and
+    // reset fields during render when it changes (the documented
+    // "adjusting state during render" pattern, not an effect).
+    const [syncedId, setSyncedId] = useState<string | undefined>(undefined);
+    if (existingMember && syncedId !== existingMember.id) {
+        setSyncedId(existingMember.id);
+        setPhotoPreview(existingMember.photo_url || null);
+        setFullName(existingMember.full_name);
+        setGroup(existingMember.group);
+        setDateOfBirth(ddMmYyyyToIso(existingMember.date_of_birth));
+        setPhone(existingMember.phone);
+        setEmail(existingMember.email);
+        setAddress(existingMember.address);
+        setWhatsapp(existingMember.whatsapp);
+        setInstagram(existingMember.instagram);
+        setTiktok(existingMember.tiktok);
+        setParentPhone(existingMember.parent_phone);
+    }
+
+    const close = () => navigate(isEdit ? `/members/${id}/overview` : "/members");
 
     const onPhotoSelected = (file: File | null) => {
         setPhotoFile(file);
@@ -174,17 +206,19 @@ export default function MemberAddEdit() {
         setError(null);
         setSaving(true);
         try {
-            const id = crypto.randomUUID();
-            const photoUrl = photoFile ? await uploadMemberPhoto(id, photoFile) : "";
+            const memberId = isEdit && id ? id : crypto.randomUUID();
+            const photoUrl = photoFile
+                ? await uploadMemberPhoto(memberId, photoFile)
+                : existingMember?.photo_url ?? "";
             const member: Member = {
-                id,
+                id: memberId,
                 full_name: fullName.trim(),
                 date_of_birth: isoToDdMmYyyy(dateOfBirth),
                 phone,
                 parent_phone: parentPhone,
                 group,
-                active: true,
-                notes: "",
+                active: existingMember?.active ?? true,
+                notes: existingMember?.notes ?? "",
                 email,
                 address,
                 whatsapp,
@@ -192,8 +226,13 @@ export default function MemberAddEdit() {
                 tiktok,
                 photo_url: photoUrl,
             };
-            await appendMember(member);
-            navigate("/members");
+            if (isEdit) {
+                await updateMember(memberId, member);
+                navigate(`/members/${memberId}/overview`);
+            } else {
+                await appendMember(member);
+                navigate("/members");
+            }
         } catch {
             setError("Could not save member. Check your connection and try again.");
         } finally {
@@ -213,10 +252,12 @@ export default function MemberAddEdit() {
                     >
                         <X className="size-5 text-ras-primary" />
                     </button>
-                    <h1 className="text-ras-headline-md font-extrabold text-ras-primary">Add Member</h1>
+                    <h1 className="text-ras-headline-md font-extrabold text-ras-primary">
+                        {isEdit ? "Edit Member" : "Add Member"}
+                    </h1>
                 </div>
                 <span className="rounded-full bg-ras-surface-container-high px-3 py-1 text-ras-label-caps text-ras-on-surface-variant">
-                    New Entry
+                    {isEdit ? "Editing" : "New Entry"}
                 </span>
             </header>
 
@@ -398,7 +439,7 @@ export default function MemberAddEdit() {
                     className="flex w-full max-w-lg items-center justify-center gap-2 rounded-ras-full bg-ras-primary py-4 text-ras-title-sm text-ras-on-primary transition-all hover:bg-ras-primary-container hover:text-ras-on-primary-container active:scale-[0.98] disabled:opacity-60"
                 >
                     <Save className="size-5" />
-                    {saving ? "Saving..." : "Save Member"}
+                    {saving ? "Saving..." : isEdit ? "Save Changes" : "Save Member"}
                 </button>
             </div>
         </div>
