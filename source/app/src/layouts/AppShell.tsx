@@ -29,8 +29,6 @@ export function AppShell() {
 
     return (
         <div className="flex flex-col h-screen overflow-hidden bg-ras-background">
-            <DataSync />
-
             {/* Top Bar */}
             <header className="shrink-0 relative flex items-center px-ras-edge h-16 bg-ras-surface border-b border-ras-outline-variant">
                 <div className="flex items-center gap-3">
@@ -71,6 +69,7 @@ export function AppShell() {
                     );
                 })}
             </nav>
+            <DataSync />
         </div>
     );
 }

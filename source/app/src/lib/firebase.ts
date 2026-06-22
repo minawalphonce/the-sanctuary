@@ -20,3 +20,7 @@ export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 googleProvider.addScope("https://www.googleapis.com/auth/spreadsheets");
+// Force the account chooser on every sign-in instead of silently reusing
+// whichever Google account is "active" — important for users signed into
+// multiple Google accounts in the same browser.
+googleProvider.setCustomParameters({ prompt: "select_account" });
