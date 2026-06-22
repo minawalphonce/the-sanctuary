@@ -1,65 +1,14 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router";
-import { Search, SlidersHorizontal, Phone, Plus, Rows3, Layers } from "lucide-react";
+import { Search, SlidersHorizontal, Phone, MessageCircle, Plus, Rows3, Layers } from "lucide-react";
 import { useDataStore } from "@/store/data";
 import type { Member } from "@/lib/sheets";
 import { cn } from "@/lib/utils";
+import { initials, avatarPalette, formatDayMonth, calculateAge, whatsappHref } from "@/lib/member";
 import {
     MemberFilterSheet,
     type MemberFilters,
 } from "@/components/MemberFilterSheet";
-
-const AVATAR_PALETTE = [
-    { bg: "bg-ras-primary-fixed", text: "text-ras-primary" },
-    { bg: "bg-ras-secondary-fixed-dim", text: "text-ras-on-secondary-fixed" },
-    { bg: "bg-ras-tertiary-fixed", text: "text-ras-tertiary" },
-    { bg: "bg-ras-surface-container-highest", text: "text-ras-on-surface" },
-];
-
-function initials(name: string): string {
-    return name
-        .split(" ")
-        .filter(Boolean)
-        .slice(0, 2)
-        .map((w) => w[0])
-        .join("")
-        .toUpperCase();
-}
-
-function avatarPalette(name: string) {
-    let hash = 0;
-    for (let i = 0; i < name.length; i++) hash = (hash + name.charCodeAt(i)) % AVATAR_PALETTE.length;
-    return AVATAR_PALETTE[hash];
-}
-
-const MONTH_ABBR = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-];
-
-function parseDdMmYyyy(value: string): { day: number; month: number; year: number } | null {
-    const [d, m, y] = value.split("/").map(Number);
-    if (!d || !m || !y) return null;
-    return { day: d, month: m, year: y };
-}
-
-function formatDayMonth(value: string): string | null {
-    const parsed = parseDdMmYyyy(value);
-    if (!parsed) return null;
-    return `${parsed.day} ${MONTH_ABBR[parsed.month - 1]}`;
-}
-
-function calculateAge(value: string): number | null {
-    const parsed = parseDdMmYyyy(value);
-    if (!parsed) return null;
-    const today = new Date();
-    let age = today.getFullYear() - parsed.year;
-    const hasHadBirthdayThisYear =
-        today.getMonth() + 1 > parsed.month ||
-        (today.getMonth() + 1 === parsed.month && today.getDate() >= parsed.day);
-    if (!hasHadBirthdayThisYear) age--;
-    return age;
-}
 
 function MemberAvatar({ name, photoUrl }: { name: string; photoUrl?: string }) {
     if (photoUrl) {
@@ -87,13 +36,14 @@ function MemberAvatar({ name, photoUrl }: { name: string; photoUrl?: string }) {
 }
 
 function MemberRow({ member }: { member: Member }) {
+    const navigate = useNavigate();
     const dayMonth = formatDayMonth(member.date_of_birth);
     const age = calculateAge(member.date_of_birth);
     const birthdayLabel = dayMonth ? `${dayMonth}${age !== null ? ` • ${age}y` : ""}` : null;
 
     return (
         <div
-            onClick={() => console.log("member tapped", member.id)}
+            onClick={() => navigate(`/members/${member.id}`)}
             className="flex h-[72px] cursor-pointer items-center justify-between border-b border-ras-outline-variant bg-ras-surface px-ras-edge transition-colors hover:bg-ras-surface-container-low active:opacity-80"
         >
             <div className="flex items-center gap-4">
@@ -107,19 +57,36 @@ function MemberRow({ member }: { member: Member }) {
                     </span>
                 </div>
             </div>
-            <a
-                href={member.phone ? `tel:${member.phone}` : undefined}
-                onClick={(e) => e.stopPropagation()}
-                aria-disabled={!member.phone}
-                className={cn(
-                    "flex size-10 items-center justify-center rounded-full border border-ras-outline-variant text-ras-primary transition-all",
-                    member.phone
-                        ? "hover:bg-ras-primary-container hover:text-ras-on-primary-container"
-                        : "pointer-events-none opacity-40"
-                )}
-            >
-                <Phone className="size-5" />
-            </a>
+            <div className="flex items-center gap-2">
+                <a
+                    href={member.phone ? `tel:${member.phone}` : undefined}
+                    onClick={(e) => e.stopPropagation()}
+                    aria-disabled={!member.phone}
+                    className={cn(
+                        "flex size-10 items-center justify-center rounded-full border border-ras-outline-variant text-ras-primary transition-all",
+                        member.phone
+                            ? "hover:bg-ras-primary-container hover:text-ras-on-primary-container"
+                            : "pointer-events-none opacity-40"
+                    )}
+                >
+                    <Phone className="size-5" />
+                </a>
+                <a
+                    href={member.phone ? whatsappHref(member.phone) ?? undefined : undefined}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    aria-disabled={!member.phone}
+                    className={cn(
+                        "flex size-10 items-center justify-center rounded-full border border-ras-outline-variant text-ras-primary transition-all",
+                        member.phone
+                            ? "hover:bg-ras-primary-container hover:text-ras-on-primary-container"
+                            : "pointer-events-none opacity-40"
+                    )}
+                >
+                    <MessageCircle className="size-5" />
+                </a>
+            </div>
         </div>
     );
 }
