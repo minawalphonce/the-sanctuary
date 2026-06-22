@@ -35,6 +35,7 @@ interface DataStore extends SyncMeta {
   sync: () => Promise<void>;
 
   // Write helpers — update Sheets and patch local state optimistically
+  appendMember: (record: Member) => Promise<void>;
   appendAttendance: (record: AttendanceRecord) => Promise<void>;
   appendFollowup: (record: FollowupRecord) => Promise<void>;
   updateFollowup: (id: string, updated: FollowupRecord, sheetRowIndex: number) => Promise<void>;
@@ -58,6 +59,27 @@ export const useDataStore = create<DataStore>((set, get) => ({
     } catch (err) {
       set({ syncing: false, error: err instanceof Error ? err.message : "Sync failed" });
     }
+  },
+
+  appendMember: async (record) => {
+    const row = [
+      record.id,
+      record.full_name,
+      record.date_of_birth,
+      record.phone,
+      record.parent_phone,
+      record.group,
+      record.active,
+      record.notes,
+      record.email,
+      record.address,
+      record.whatsapp,
+      record.instagram,
+      record.tiktok,
+      record.photo_url,
+    ];
+    await withExpiryHandling(() => appendRow("members", row));
+    set((s) => ({ members: [...s.members, record] }));
   },
 
   appendAttendance: async (record) => {

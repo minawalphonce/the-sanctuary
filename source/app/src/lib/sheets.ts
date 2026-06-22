@@ -119,6 +119,12 @@ export interface Member {
   group: string;
   active: boolean;
   notes: string;
+  email: string;
+  address: string;
+  whatsapp: string;
+  instagram: string;
+  tiktok: string;
+  photo_url: string;
 }
 
 export interface AttendanceRecord {
@@ -149,7 +155,7 @@ export interface SheetData {
 export async function loadAll(): Promise<SheetData> {
   const [adminRows, memberRows, attendanceRows, followupRows] = await get([
     "admins!A2:A",
-    "members!A2:H",
+    "members!A2:N",
     "attendance!A2:E",
     "followup!A2:G",
   ]);
@@ -167,6 +173,12 @@ export async function loadAll(): Promise<SheetData> {
       group: String(r[5] ?? ""),
       active: String(r[6]).toUpperCase() === "TRUE",
       notes: String(r[7] ?? ""),
+      email: String(r[8] ?? ""),
+      address: String(r[9] ?? ""),
+      whatsapp: String(r[10] ?? ""),
+      instagram: String(r[11] ?? ""),
+      tiktok: String(r[12] ?? ""),
+      photo_url: String(r[13] ?? ""),
     }));
 
   const attendance: AttendanceRecord[] = attendanceRows

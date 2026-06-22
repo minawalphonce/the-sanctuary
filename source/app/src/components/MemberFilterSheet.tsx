@@ -59,12 +59,12 @@ export function MemberFilterSheet({
                 </SheetHeader>
 
                 <div className="flex-1 space-y-8 overflow-y-auto px-ras-edge py-ras-section">
-                    {/* Gym Class */}
+                    {/* Class */}
                     <section className="space-y-ras-stack">
                         <div className="mb-2 flex items-center gap-2">
                             <Dumbbell className="size-5 text-ras-secondary" />
                             <h3 className="text-ras-label-caps text-ras-secondary">
-                                Gym Class
+                                Class
                             </h3>
                         </div>
                         <div className="space-y-3">

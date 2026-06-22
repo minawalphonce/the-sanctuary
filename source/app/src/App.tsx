@@ -9,6 +9,7 @@ import Login from "@/pages/login";
 import Dashboard from "@/pages/Dashboard";
 import Attendance from "@/pages/Attendance";
 import Members from "@/pages/Members";
+import MemberAddEdit from "@/pages/MemberAddEdit";
 import Followup from "@/pages/Followup";
 
 export default function App() {
@@ -37,6 +38,12 @@ export default function App() {
       <Routes>
         {/* Login — no shell, no bottom nav */}
         <Route path="/login" element={user ? <Navigate to="/" replace /> : <Login />} />
+
+        {/* Full-screen modal pages — no shell, no bottom nav */}
+        <Route
+          path="/members/add"
+          element={user ? <MemberAddEdit /> : <Navigate to="/login" replace />}
+        />
 
         {/* App pages — all wrapped in AppShell */}
         <Route element={user ? <AppShell /> : <Navigate to="/login" replace />}>
