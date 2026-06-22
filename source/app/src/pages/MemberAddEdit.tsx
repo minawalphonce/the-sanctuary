@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { X, IdCard, Contact, Share2, ShieldAlert, Save, Camera, User, Check, ChevronDown, Plus } from "lucide-react";
+import { toast } from "sonner";
 import { uploadMemberPhoto } from "@/lib/firebase";
 import { useDataStore } from "@/store/data";
 import type { Member } from "@/lib/sheets";
@@ -47,6 +48,7 @@ interface FormErrors {
     fullName?: string;
     phone?: string;
     whatsapp?: string;
+    gender?: string;
 }
 
 function ClassCombobox({
@@ -146,6 +148,8 @@ export default function MemberAddEdit() {
     const [instagram, setInstagram] = useState("");
     const [tiktok, setTiktok] = useState("");
     const [parentPhone, setParentPhone] = useState("");
+    const [gender, setGender] = useState("");
+    const [notes, setNotes] = useState("");
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [fieldErrors, setFieldErrors] = useState<FormErrors>({});
@@ -169,6 +173,8 @@ export default function MemberAddEdit() {
         setInstagram(existingMember.instagram);
         setTiktok(existingMember.tiktok);
         setParentPhone(existingMember.parent_phone);
+        setGender(existingMember.gender);
+        setNotes(existingMember.notes);
     }
 
     const close = () => navigate(isEdit ? `/members/${id}/overview` : "/members");
@@ -192,6 +198,9 @@ export default function MemberAddEdit() {
             errors.whatsapp = "WhatsApp number is required.";
         } else if (!isValidPhone(whatsapp.trim())) {
             errors.whatsapp = "Enter a valid WhatsApp number (at least 7 digits).";
+        }
+        if (!gender) {
+            errors.gender = "Gender is required.";
         }
         return errors;
     };
@@ -218,23 +227,30 @@ export default function MemberAddEdit() {
                 parent_phone: parentPhone,
                 group,
                 active: existingMember?.active ?? true,
-                notes: existingMember?.notes ?? "",
+                notes,
                 email,
                 address,
                 whatsapp,
                 instagram,
                 tiktok,
                 photo_url: photoUrl,
+                gender,
+                registered_date: existingMember?.registered_date ?? "",
+                last_updated: existingMember?.last_updated ?? "",
             };
             if (isEdit) {
                 await updateMember(memberId, member);
-                navigate(`/members/${memberId}/overview`);
             } else {
                 await appendMember(member);
-                navigate("/members");
             }
+            toast.success("Member saved", {
+                description: `${fullName.trim() || "Member"} has been ${isEdit ? "updated" : "added"} successfully.`,
+            });
+            navigate(isEdit ? `/members/${memberId}/overview` : "/members");
         } catch {
-            setError("Could not save member. Check your connection and try again.");
+            toast.error("Could not save member", {
+                description: "Check your connection and try again.",
+            });
         } finally {
             setSaving(false);
         }
@@ -319,6 +335,43 @@ export default function MemberAddEdit() {
                                     type="date"
                                 />
                             </div>
+                            <div className="flex flex-col gap-1">
+                                <label className={labelClass}>Gender</label>
+                                <select
+                                    value={gender}
+                                    onChange={(e) => setGender(e.target.value)}
+                                    className={cn(inputClass, fieldErrors.gender && errorInputClass)}
+                                >
+                                    <option value="" disabled>
+                                        Select gender
+                                    </option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                                {fieldErrors.gender && (
+                                    <p className="px-1 text-ras-label-caps text-ras-error">{fieldErrors.gender}</p>
+                                )}
+                            </div>
+                            {isEdit && (
+                                <>
+                                    <div className="flex flex-col gap-1">
+                                        <label className={labelClass}>Registered Date</label>
+                                        <p className={cn(inputClass, "bg-ras-surface-container-high text-ras-on-surface-variant")}>
+                                            {existingMember?.registered_date
+                                                ? new Date(existingMember.registered_date).toLocaleString()
+                                                : "—"}
+                                        </p>
+                                    </div>
+                                    <div className="flex flex-col gap-1">
+                                        <label className={labelClass}>Last Updated</label>
+                                        <p className={cn(inputClass, "bg-ras-surface-container-high text-ras-on-surface-variant")}>
+                                            {existingMember?.last_updated
+                                                ? new Date(existingMember.last_updated).toLocaleString()
+                                                : "—"}
+                                        </p>
+                                    </div>
+                                </>
+                            )}
                         </div>
                     </div>
 
@@ -359,6 +412,16 @@ export default function MemberAddEdit() {
                                 value={address}
                                 onChange={(e) => setAddress(e.target.value)}
                                 placeholder="123 Church Way, St. Mary City"
+                                rows={2}
+                                className={inputClass}
+                            />
+                        </div>
+                        <div className="flex flex-col gap-1">
+                            <label className={labelClass}>Notes</label>
+                            <textarea
+                                value={notes}
+                                onChange={(e) => setNotes(e.target.value)}
+                                placeholder="Optional notes about this member"
                                 rows={2}
                                 className={inputClass}
                             />

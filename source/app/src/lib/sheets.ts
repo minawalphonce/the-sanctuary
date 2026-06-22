@@ -114,6 +114,7 @@ export interface Member {
   id: string;
   full_name: string;
   date_of_birth: string;
+  gender: string;
   phone: string;
   parent_phone: string;
   group: string;
@@ -125,6 +126,8 @@ export interface Member {
   instagram: string;
   tiktok: string;
   photo_url: string;
+  registered_date: string;
+  last_updated: string;
 }
 
 export interface AttendanceRecord {
@@ -155,7 +158,7 @@ export interface SheetData {
 export async function loadAll(): Promise<SheetData> {
   const [adminRows, memberRows, attendanceRows, followupRows] = await get([
     "admins!A2:A",
-    "members!A2:N",
+    "members!A2:Q",
     "attendance!A2:E",
     "followup!A2:G",
   ]);
@@ -168,17 +171,20 @@ export async function loadAll(): Promise<SheetData> {
       id: String(r[0] ?? ""),
       full_name: String(r[1] ?? ""),
       date_of_birth: String(r[2] ?? ""),
-      phone: String(r[3] ?? ""),
-      parent_phone: String(r[4] ?? ""),
-      group: String(r[5] ?? ""),
-      active: String(r[6]).toUpperCase() === "TRUE",
-      notes: String(r[7] ?? ""),
-      email: String(r[8] ?? ""),
-      address: String(r[9] ?? ""),
-      whatsapp: String(r[10] ?? ""),
-      instagram: String(r[11] ?? ""),
-      tiktok: String(r[12] ?? ""),
-      photo_url: String(r[13] ?? ""),
+      gender: String(r[3] ?? ""),
+      phone: String(r[4] ?? ""),
+      parent_phone: String(r[5] ?? ""),
+      group: String(r[6] ?? ""),
+      active: String(r[7]).toUpperCase() === "TRUE",
+      notes: String(r[8] ?? ""),
+      email: String(r[9] ?? ""),
+      address: String(r[10] ?? ""),
+      whatsapp: String(r[11] ?? ""),
+      instagram: String(r[12] ?? ""),
+      tiktok: String(r[13] ?? ""),
+      photo_url: String(r[14] ?? ""),
+      registered_date: String(r[15] ?? ""),
+      last_updated: String(r[16] ?? ""),
     }));
 
   const attendance: AttendanceRecord[] = attendanceRows

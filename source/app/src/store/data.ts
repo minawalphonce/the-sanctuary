@@ -63,49 +63,58 @@ export const useDataStore = create<DataStore>((set, get) => ({
   },
 
   appendMember: async (record) => {
+    const now = new Date().toISOString();
+    const stamped: Member = { ...record, registered_date: now, last_updated: now };
     const row = [
-      record.id,
-      record.full_name,
-      record.date_of_birth,
-      record.phone,
-      record.parent_phone,
-      record.group,
-      record.active,
-      record.notes,
-      record.email,
-      record.address,
-      record.whatsapp,
-      record.instagram,
-      record.tiktok,
-      record.photo_url,
+      stamped.id,
+      stamped.full_name,
+      stamped.date_of_birth,
+      stamped.gender,
+      stamped.phone,
+      stamped.parent_phone,
+      stamped.group,
+      stamped.active,
+      stamped.notes,
+      stamped.email,
+      stamped.address,
+      stamped.whatsapp,
+      stamped.instagram,
+      stamped.tiktok,
+      stamped.photo_url,
+      stamped.registered_date,
+      stamped.last_updated,
     ];
     await withExpiryHandling(() => appendRow("members", row));
-    set((s) => ({ members: [...s.members, record] }));
+    set((s) => ({ members: [...s.members, stamped] }));
   },
 
   updateMember: async (id, updated) => {
     const index = get().members.findIndex((m) => m.id === id);
     if (index === -1) throw new Error(`Member ${id} not found`);
+    const stamped: Member = { ...updated, last_updated: new Date().toISOString() };
     const sheetRow = index + 2; // +1 for 1-based, +1 for header row
-    const range = `members!A${sheetRow}:N${sheetRow}`;
+    const range = `members!A${sheetRow}:Q${sheetRow}`;
     const row = [
-      updated.id,
-      updated.full_name,
-      updated.date_of_birth,
-      updated.phone,
-      updated.parent_phone,
-      updated.group,
-      updated.active,
-      updated.notes,
-      updated.email,
-      updated.address,
-      updated.whatsapp,
-      updated.instagram,
-      updated.tiktok,
-      updated.photo_url,
+      stamped.id,
+      stamped.full_name,
+      stamped.date_of_birth,
+      stamped.gender,
+      stamped.phone,
+      stamped.parent_phone,
+      stamped.group,
+      stamped.active,
+      stamped.notes,
+      stamped.email,
+      stamped.address,
+      stamped.whatsapp,
+      stamped.instagram,
+      stamped.tiktok,
+      stamped.photo_url,
+      stamped.registered_date,
+      stamped.last_updated,
     ];
     await withExpiryHandling(() => updateRow(range, row));
-    set((s) => ({ members: s.members.map((m) => (m.id === id ? updated : m)) }));
+    set((s) => ({ members: s.members.map((m) => (m.id === id ? stamped : m)) }));
   },
 
   appendAttendance: async (record) => {
