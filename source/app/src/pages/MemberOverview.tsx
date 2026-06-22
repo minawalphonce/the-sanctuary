@@ -13,6 +13,10 @@ function isoToDate(iso: string): Date | null {
     return Number.isNaN(d.getTime()) ? null : d;
 }
 
+function formatDate(d: Date): string {
+    return d.toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
+}
+
 export default function MemberOverview() {
     const { member } = useOutletContext<{ member: Member }>();
     const attendance = useDataStore((s) => s.attendance);
@@ -29,16 +33,27 @@ export default function MemberOverview() {
         return Math.round((presentCount / memberAttendance.length) * 100);
     }, [memberAttendance]);
 
-    const lastSeenDays = useMemo(() => {
+    const lastSession = useMemo(() => {
         const presentDates = memberAttendance
             .filter((a) => a.present)
             .map((a) => isoToDate(a.date))
             .filter((d): d is Date => d !== null)
             .sort((a, b) => b.getTime() - a.getTime());
         if (presentDates.length === 0) return null;
-        const days = Math.floor((now - presentDates[0].getTime()) / DAY_MS);
-        return Math.max(days, 0);
+        const date = presentDates[0];
+        const days = Math.max(Math.floor((now - date.getTime()) / DAY_MS), 0);
+        return { date, days };
     }, [memberAttendance, now]);
+
+    const consecutiveMissed = useMemo(() => {
+        const sessionsDesc = [...memberAttendance].sort((a, b) => b.date.localeCompare(a.date));
+        let count = 0;
+        for (const session of sessionsDesc) {
+            if (session.present) break;
+            count++;
+        }
+        return count;
+    }, [memberAttendance]);
 
     const streak = useMemo(() => {
         const byDate = new Map(memberAttendance.map((a) => [a.date, a.present]));
@@ -67,19 +82,38 @@ export default function MemberOverview() {
                 </div>
                 <div className="rounded-ras-xl border border-ras-outline-variant/30 bg-ras-surface-container-low p-4">
                     <p className="mb-1 text-ras-label-caps uppercase text-ras-on-surface-variant">
-                        Last Seen
+                        Last Session
                     </p>
                     <div className="flex items-end gap-2">
                         <span className="text-ras-display-lg text-ras-primary">
-                            {lastSeenDays !== null ? lastSeenDays : "—"}
+                            {lastSession ? formatDate(lastSession.date) : "—"}
                         </span>
-                        {lastSeenDays !== null && (
-                            <span className="pb-1 text-ras-title-sm text-ras-on-surface-variant">
-                                {lastSeenDays === 1 ? "day ago" : "days ago"}
-                            </span>
-                        )}
                     </div>
+                    {lastSession && (
+                        <p className="mt-1 text-ras-label-caps text-ras-on-surface-variant">
+                            {lastSession.days === 0
+                                ? "Today"
+                                : lastSession.days === 1
+                                  ? "1 day ago"
+                                  : `${lastSession.days} days ago`}
+                        </p>
+                    )}
                 </div>
+            </div>
+
+            {/* Consecutive Missed */}
+            <div className="rounded-ras-xl border border-ras-outline-variant/30 bg-ras-surface-container-low p-4">
+                <p className="mb-1 text-ras-label-caps uppercase text-ras-on-surface-variant">
+                    Consecutive Sessions Missed
+                </p>
+                <span
+                    className={cn(
+                        "text-ras-display-lg",
+                        consecutiveMissed > 0 ? "text-ras-error" : "text-ras-primary"
+                    )}
+                >
+                    {consecutiveMissed}
+                </span>
             </div>
 
             {/* Activity Streak */}
@@ -102,6 +136,16 @@ export default function MemberOverview() {
                     ))}
                 </div>
             </section>
+
+            {/* Notes */}
+            {member.notes && (
+                <section className="rounded-ras-xl border border-ras-outline-variant/30 bg-ras-surface-container-low p-5">
+                    <h3 className="mb-2 text-ras-title-sm text-ras-primary">Notes</h3>
+                    <p className="whitespace-pre-wrap text-ras-body-md text-ras-on-surface-variant">
+                        {member.notes}
+                    </p>
+                </section>
+            )}
         </div>
     );
 }

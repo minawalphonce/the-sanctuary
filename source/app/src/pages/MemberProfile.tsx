@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { NavLink, Outlet, useNavigate, useParams } from "react-router";
 import { X, Pencil, Cake } from "lucide-react";
 import { useDataStore } from "@/store/data";
-import { initials, avatarPalette, formatDayMonth } from "@/lib/member";
+import { initials, avatarPalette, formatDayMonth, calculateAge } from "@/lib/member";
 import { cn } from "@/lib/utils";
 
 const tabs = [
@@ -33,6 +33,7 @@ export default function MemberProfile() {
     }
 
     const birthday = formatDayMonth(member.date_of_birth);
+    const age = calculateAge(member.date_of_birth);
     const palette = avatarPalette(member.full_name);
 
     return (
@@ -80,6 +81,7 @@ export default function MemberProfile() {
                         <p className="mb-3 flex items-center justify-center gap-1 text-ras-secondary-fixed-dim">
                             <Cake className="size-[18px]" />
                             Birthday: {birthday}
+                            {age !== null && ` (${age})`}
                         </p>
                     )}
                     {member.group && (

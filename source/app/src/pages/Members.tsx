@@ -44,12 +44,23 @@ function MemberRow({ member }: { member: Member }) {
     return (
         <div
             onClick={() => navigate(`/members/${member.id}`)}
-            className="flex h-[72px] cursor-pointer items-center justify-between border-b border-ras-outline-variant bg-ras-surface px-ras-edge transition-colors hover:bg-ras-surface-container-low active:opacity-80"
+            className={cn(
+                "flex h-[72px] cursor-pointer items-center justify-between border-b border-ras-outline-variant bg-ras-surface px-ras-edge transition-colors hover:bg-ras-surface-container-low active:opacity-80",
+                !member.active && "opacity-50"
+            )}
         >
             <div className="flex items-center gap-4">
                 <MemberAvatar name={member.full_name} photoUrl={member.photo_url} />
                 <div className="flex flex-col">
-                    <span className="text-ras-title-sm text-ras-on-surface">
+                    <span className="flex items-center gap-2 text-ras-title-sm text-ras-on-surface">
+                        <span
+                            aria-label={member.active ? "Active" : "Inactive"}
+                            title={member.active ? "Active" : "Inactive"}
+                            className={cn(
+                                "size-2 shrink-0 rounded-full",
+                                member.active ? "bg-ras-tertiary" : "bg-ras-on-surface-variant"
+                            )}
+                        />
                         {member.full_name}
                     </span>
                     <span className="text-ras-caption text-ras-on-surface-variant">
@@ -210,9 +221,12 @@ export default function Members() {
                 {grouped
                     ? grouped.map(([group, groupMembers]) => (
                           <div key={group}>
-                              <div className="sticky top-0 z-30 bg-ras-surface-container-low px-ras-edge py-2">
+                              <div className="sticky top-0 z-30 flex items-center justify-between bg-ras-surface-container-low px-ras-edge py-2">
                                   <span className="text-ras-label-caps text-ras-secondary">
                                       {group.toUpperCase()}
+                                  </span>
+                                  <span className="text-ras-label-caps text-ras-on-surface-variant">
+                                      {groupMembers.length}
                                   </span>
                               </div>
                               {groupMembers.map((m) => (

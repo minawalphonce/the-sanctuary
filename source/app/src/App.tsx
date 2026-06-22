@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router";
 import { onAuthStateChanged, type User } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import AppShell from "@/layouts/AppShell";
+import { Toaster } from "@/components/ui/sonner";
 
 import Splash from "@/pages/Splash";
 import Login from "@/pages/login";
@@ -39,6 +40,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
+      <Toaster position="top-right" />
       <Routes>
         {/* Login — no shell, no bottom nav */}
         <Route path="/login" element={user ? <Navigate to="/" replace /> : <Login />} />
