@@ -10,11 +10,28 @@ import { auth } from "@/lib/firebase";
 const SHEET_ID = import.meta.env.VITE_SHEET_ID as string;
 const BASE = "https://sheets.googleapis.com/v4/spreadsheets";
 
-// Call this after signInWithPopup/signInWithRedirect and store the result.
-let _googleAccessToken: string | null = null;
+// Google access tokens are valid for ~1h; cache for 55min to stay safely inside that.
+const TOKEN_TTL_MS = 55 * 60 * 1000;
+const TOKEN_STORAGE_KEY = "sanctuary.googleAccessToken";
+
+interface StoredToken {
+  token: string;
+  expiresAt: number;
+}
+
+// Thrown when the Sheets token has expired. There's no silent way to mint
+// a new one — Google access tokens can only be (re)issued via a user
+// gesture (signInWithPopup), so callers should sign the user out and send
+// them back to /login rather than retry automatically.
+export class SheetsAuthExpiredError extends Error {
+  constructor() {
+    super("Google session expired — please sign in again.");
+  }
+}
 
 export function setGoogleAccessToken(token: string) {
-  _googleAccessToken = token;
+  const stored: StoredToken = { token, expiresAt: Date.now() + TOKEN_TTL_MS };
+  localStorage.setItem(TOKEN_STORAGE_KEY, JSON.stringify(stored));
 }
 
 export function getGoogleAccessTokenFromResult(result: Parameters<typeof GoogleAuthProvider.credentialFromResult>[0]) {
@@ -22,18 +39,44 @@ export function getGoogleAccessTokenFromResult(result: Parameters<typeof GoogleA
   return credential?.accessToken ?? null;
 }
 
+function readStoredToken(): string | null {
+  const raw = localStorage.getItem(TOKEN_STORAGE_KEY);
+  if (!raw) return null;
+  const stored: StoredToken = JSON.parse(raw);
+  if (Date.now() >= stored.expiresAt) {
+    localStorage.removeItem(TOKEN_STORAGE_KEY);
+    return null;
+  }
+  return stored.token;
+}
+
 async function token(): Promise<string> {
   if (!auth.currentUser) throw new Error("Not authenticated");
-  if (!_googleAccessToken) throw new Error("Google access token not set — call setGoogleAccessToken after sign-in");
-  return _googleAccessToken;
+  const cached = readStoredToken();
+  if (!cached) throw new SheetsAuthExpiredError();
+  return cached;
+}
+
+async function fetchWithAuth(url: string, options: RequestInit = {}): Promise<Response> {
+  const t = await token();
+  const res = await fetch(url, {
+    ...options,
+    headers: { ...options.headers, Authorization: `Bearer ${t}` },
+  });
+
+  if (res.status === 401) {
+    // Google rejected the cached token outright — treat same as expiry.
+    localStorage.removeItem(TOKEN_STORAGE_KEY);
+    throw new SheetsAuthExpiredError();
+  }
+
+  return res;
 }
 
 async function get(ranges: string[]): Promise<string[][][]> {
-  const t = await token();
   const params = ranges.map((r) => `ranges=${encodeURIComponent(r)}`).join("&");
-  const res = await fetch(
-    `${BASE}/${SHEET_ID}/values:batchGet?${params}&valueRenderOption=UNFORMATTED_VALUE`,
-    { headers: { Authorization: `Bearer ${t}` } }
+  const res = await fetchWithAuth(
+    `${BASE}/${SHEET_ID}/values:batchGet?${params}&valueRenderOption=UNFORMATTED_VALUE`
   );
   if (!res.ok) throw new Error(`Sheets read failed: ${res.status}`);
   const json = await res.json();
@@ -42,12 +85,11 @@ async function get(ranges: string[]): Promise<string[][][]> {
 }
 
 export async function appendRow(tab: string, row: (string | boolean | number)[]): Promise<void> {
-  const t = await token();
-  const res = await fetch(
+  const res = await fetchWithAuth(
     `${BASE}/${SHEET_ID}/values/${encodeURIComponent(tab)}:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`,
     {
       method: "POST",
-      headers: { Authorization: `Bearer ${t}`, "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ values: [row] }),
     }
   );
@@ -55,12 +97,11 @@ export async function appendRow(tab: string, row: (string | boolean | number)[])
 }
 
 export async function updateRow(range: string, row: (string | boolean | number)[]): Promise<void> {
-  const t = await token();
-  const res = await fetch(
+  const res = await fetchWithAuth(
     `${BASE}/${SHEET_ID}/values/${encodeURIComponent(range)}?valueInputOption=USER_ENTERED`,
     {
       method: "PUT",
-      headers: { Authorization: `Bearer ${t}`, "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ values: [row] }),
     }
   );

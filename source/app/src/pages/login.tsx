@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
 import { signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "@/lib/firebase";
 import { setGoogleAccessToken, getGoogleAccessTokenFromResult } from "@/lib/sheets";
 import { Button } from "@/components/ui/button";
 
 export default function Login() {
-    const navigate = useNavigate();
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
 
@@ -17,11 +15,10 @@ export default function Login() {
             const result = await signInWithPopup(auth, googleProvider);
             const accessToken = getGoogleAccessTokenFromResult(result);
             if (accessToken) setGoogleAccessToken(accessToken);
-            navigate("/");
+            // App.tsx's onAuthStateChanged listener picks up the signed-in user and navigates.
         } catch (err: unknown) {
             const msg = err instanceof Error ? err.message : "Google sign in failed.";
             setError(friendlyError(msg));
-        } finally {
             setLoading(false);
         }
     }
@@ -93,11 +90,17 @@ function GoogleIcon() {
 }
 
 function friendlyError(msg: string): string {
-    if (msg.includes("popup-closed-by-user")) {
-        return "Google sign-in was cancelled.";
-    }
     if (msg.includes("network-request-failed")) {
         return "Network error. Check your connection and try again.";
+    }
+    if (msg.includes("unauthorized-domain")) {
+        return "This domain isn't authorized for Google sign-in.";
+    }
+    if (msg.includes("popup-closed-by-user") || msg.includes("cancelled-popup-request")) {
+        return "Sign-in popup was closed before completing. Please try again.";
+    }
+    if (msg.includes("popup-blocked")) {
+        return "Your browser blocked the sign-in popup. Please allow popups for this site and try again.";
     }
     return "Sign in failed. Please try again.";
 }
