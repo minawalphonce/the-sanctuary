@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 let firebaseConfig: object;
 try {
@@ -18,9 +19,16 @@ try {
 
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
+export const storage = getStorage(app);
 export const googleProvider = new GoogleAuthProvider();
 googleProvider.addScope("https://www.googleapis.com/auth/spreadsheets");
 // Force the account chooser on every sign-in instead of silently reusing
 // whichever Google account is "active" — important for users signed into
 // multiple Google accounts in the same browser.
 googleProvider.setCustomParameters({ prompt: "select_account" });
+
+export async function uploadMemberPhoto(memberId: string, file: File): Promise<string> {
+  const photoRef = ref(storage, `member-photos/${memberId}`);
+  await uploadBytes(photoRef, file);
+  return getDownloadURL(photoRef);
+}

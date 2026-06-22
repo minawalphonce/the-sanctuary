@@ -30,6 +30,7 @@ New columns to append:
 | `whatsapp` | Text | Handle/number |
 | `instagram` | Text | Handle |
 | `tiktok` | Text | Handle |
+| `photo_url` | Text | Firebase Storage download URL; blank if no photo |
 
 Not added (rejected): `emergency_contact_name`, `emergency_relation`.
 The Contact tab and Add/Edit form's "Emergency Contact" section should
@@ -38,10 +39,17 @@ display/edit `parent_phone` only — no name or relation field.
 No change to: `id`, `full_name`, `date_of_birth`, `phone`, `group`,
 `active`, `notes`.
 
-Not in scope (infrastructure gap, not a schema gap): photo upload. There is
-no file storage in this architecture (no Firestore, no Storage bucket).
-Avatars continue to render as initials. Revisit only if Firebase Storage is
-deliberately added later.
+**Update 2026-06-22:** Photo upload is now in scope (superseding the
+"not in scope" call below). Firebase Storage was already provisioned —
+bucket configured in `.env`, referenced in `firebase.json` — just unused.
+Added `photo_url` (col N) and `storage.rules` restricting read/write to
+authenticated users. Avatars without a `photo_url` continue to render as
+initials.
+
+~~Not in scope (infrastructure gap, not a schema gap): photo upload. There
+is no file storage in this architecture (no Firestore, no Storage
+bucket). Avatars continue to render as initials. Revisit only if Firebase
+Storage is deliberately added later.~~
 
 Not in scope: "Sort by Recent" (3.1 filter sheet) has no backing field
 (no `created_at` on members). Drop this sort option from the filter UI, or
@@ -102,6 +110,6 @@ at save time — not a user-facing input in the Add Follow-up modal.
 Append-only, per the "never delete columns" rule in
 [`google-sheets-structure.md`](./google-sheets-structure.md):
 
-- `members`: + `email`, `address`, `whatsapp`, `instagram`, `tiktok`
+- `members`: + `email`, `address`, `whatsapp`, `instagram`, `tiktok`, `photo_url`
 - `attendance`: no change
 - `followup`: no change

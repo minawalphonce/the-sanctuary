@@ -38,10 +38,16 @@ All youth members.
 | B | full_name | Text | |
 | C | date_of_birth | DD/MM/YYYY | |
 | D | phone | Text | Include country code |
-| E | parent_phone | Text | |
+| E | parent_phone | Text | Also used as the emergency contact number |
 | F | group | Text | e.g. "seniors", "juniors" |
 | G | active | TRUE / FALSE | |
 | H | notes | Text | Free text |
+| I | email | Text | |
+| J | address | Text | Free text, multi-line |
+| K | whatsapp | Text | Handle/number |
+| L | instagram | Text | Handle |
+| M | tiktok | Text | Handle |
+| N | photo_url | Text | Firebase Storage download URL; blank if no photo uploaded |
 
 ---
 
