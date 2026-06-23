@@ -16,6 +16,8 @@ import MemberOverview from "@/pages/MemberOverview";
 import MemberHistory from "@/pages/MemberHistory";
 import MemberContact from "@/pages/MemberContact";
 import Followup from "@/pages/Followup";
+import PrivacyPolicy from "@/pages/legal/PrivacyPolicy";
+import TermsAndConditions from "@/pages/legal/TermsAndConditions";
 
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -44,6 +46,10 @@ export default function App() {
       <Routes>
         {/* Login — no shell, no bottom nav */}
         <Route path="/login" element={user ? <Navigate to="/" replace /> : <Login />} />
+
+        {/* Public legal pages — no auth required, no shell */}
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/terms" element={<TermsAndConditions />} />
 
         {/* Everything else requires auth */}
         <Route path="/*" element={user ? <Outlet /> : <Navigate to="/login" replace />}>
