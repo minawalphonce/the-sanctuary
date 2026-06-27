@@ -164,6 +164,7 @@ export interface Member {
   photo_url: string;
   registered_date: string;
   last_updated: string;
+  assigned_to: string;
 }
 
 export interface AttendanceRecord {
@@ -207,7 +208,7 @@ export interface SheetData {
 export async function loadAll(): Promise<SheetData> {
   const [adminRows, memberRows, attendanceRows, followupRows, sessionRows] = await get([
     "admins!A2:A",
-    "members!A2:Q",
+    "members!A2:R",
     "attendance!A2:E",
     "followup!A2:G",
     "sessions!A2:F",
@@ -235,6 +236,7 @@ export async function loadAll(): Promise<SheetData> {
       photo_url: String(r[14] ?? ""),
       registered_date: String(r[15] ?? ""),
       last_updated: String(r[16] ?? ""),
+      assigned_to: String(r[17] ?? ""),
     }));
 
   const attendance: AttendanceRecord[] = attendanceRows

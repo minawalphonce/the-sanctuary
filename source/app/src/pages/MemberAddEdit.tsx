@@ -237,6 +237,7 @@ export default function MemberAddEdit() {
                 gender,
                 registered_date: existingMember?.registered_date ?? "",
                 last_updated: existingMember?.last_updated ?? "",
+                assigned_to: existingMember?.assigned_to ?? "",
             };
             if (isEdit) {
                 await updateMember(memberId, member);

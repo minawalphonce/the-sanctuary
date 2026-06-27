@@ -96,6 +96,7 @@ export const useDataStore = create<DataStore>((set, get) => ({
       stamped.photo_url,
       stamped.registered_date,
       stamped.last_updated,
+      stamped.assigned_to,
     ];
     await withExpiryHandling(() => appendRow("members", row));
     set((s) => ({ members: [...s.members, stamped] }));
@@ -106,7 +107,7 @@ export const useDataStore = create<DataStore>((set, get) => ({
     if (index === -1) throw new Error(`Member ${id} not found`);
     const stamped: Member = { ...updated, last_updated: new Date().toISOString() };
     const sheetRow = index + 2; // +1 for 1-based, +1 for header row
-    const range = `members!A${sheetRow}:Q${sheetRow}`;
+    const range = `members!A${sheetRow}:R${sheetRow}`;
     const row = [
       stamped.id,
       stamped.full_name,
@@ -125,6 +126,7 @@ export const useDataStore = create<DataStore>((set, get) => ({
       stamped.photo_url,
       stamped.registered_date,
       stamped.last_updated,
+      stamped.assigned_to,
     ];
     await withExpiryHandling(() => updateRow(range, row));
     set((s) => ({ members: s.members.map((m) => (m.id === id ? stamped : m)) }));
