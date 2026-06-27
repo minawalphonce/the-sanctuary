@@ -104,9 +104,13 @@ async function get(ranges: string[]): Promise<string[][][]> {
   return (json.valueRanges as any[]).map((vr) => vr.values ?? []);
 }
 
+// RAW (not USER_ENTERED) — USER_ENTERED parses date-shaped strings like
+// "04/07/2026" the way a human typing into the cell would, silently
+// converting them into Sheets' internal date serial number (e.g. 46119)
+// instead of keeping the literal DD/MM/YYYY text this app stores and reads.
 export async function appendRow(tab: string, row: (string | boolean | number)[]): Promise<void> {
   const res = await fetchWithAuth(
-    `${BASE}/${SHEET_ID}/values/${encodeURIComponent(tab)}:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`,
+    `${BASE}/${SHEET_ID}/values/${encodeURIComponent(tab)}:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -118,7 +122,7 @@ export async function appendRow(tab: string, row: (string | boolean | number)[])
 
 export async function updateRow(range: string, row: (string | boolean | number)[]): Promise<void> {
   const res = await fetchWithAuth(
-    `${BASE}/${SHEET_ID}/values/${encodeURIComponent(range)}?valueInputOption=USER_ENTERED`,
+    `${BASE}/${SHEET_ID}/values/${encodeURIComponent(range)}?valueInputOption=RAW`,
     {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -126,6 +130,18 @@ export async function updateRow(range: string, row: (string | boolean | number)[
     }
   );
   if (!res.ok) throw new Error(`Sheets update failed: ${res.status}`);
+}
+
+// Looks up a row's 0-based data-row index by id, reading column A fresh.
+// Needed for tabs like `sessions` where soft-deleted rows are filtered out
+// of the in-memory array after loadAll(), so that array's position no
+// longer matches the sheet's actual row position — unlike members/followup,
+// which never filter and can safely use their array index directly.
+export async function findRowIndexById(tab: string, id: string): Promise<number> {
+  const [idRows] = await get([`${tab}!A2:A`]);
+  const index = idRows.findIndex((r) => String(r[0] ?? "") === id);
+  if (index === -1) throw new Error(`${tab} row with id ${id} not found`);
+  return index;
 }
 
 // --- Row parsers (row 0 is header, skip it) ---
@@ -168,19 +184,33 @@ export interface FollowupRecord {
   assigned_to: string;
 }
 
+export type SessionType = "regular" | "special";
+export type SessionStatus = "active" | "completed" | "archived";
+
+export interface SessionRecord {
+  id: string;
+  date: string;
+  type: SessionType;
+  name: string;
+  notes: string;
+  status: SessionStatus;
+}
+
 export interface SheetData {
   admins: string[];
   members: Member[];
   attendance: AttendanceRecord[];
   followup: FollowupRecord[];
+  sessions: SessionRecord[];
 }
 
 export async function loadAll(): Promise<SheetData> {
-  const [adminRows, memberRows, attendanceRows, followupRows] = await get([
+  const [adminRows, memberRows, attendanceRows, followupRows, sessionRows] = await get([
     "admins!A2:A",
     "members!A2:Q",
     "attendance!A2:E",
     "followup!A2:G",
+    "sessions!A2:F",
   ]);
 
   const admins = adminRows.map((r) => String(r[0] ?? "").trim()).filter(Boolean);
@@ -229,5 +259,18 @@ export async function loadAll(): Promise<SheetData> {
       assigned_to: String(r[6] ?? ""),
     }));
 
-  return { admins, members, attendance, followup };
+  const sessions: SessionRecord[] = sessionRows
+    .filter((r) => r[0])
+    .map((r) => ({
+      id: String(r[0] ?? ""),
+      date: String(r[1] ?? ""),
+      type: (String(r[2] ?? "").toLowerCase() === "special" ? "special" : "regular") as SessionType,
+      name: String(r[3] ?? ""),
+      notes: String(r[4] ?? ""),
+      status: (["active", "completed", "archived"].includes(String(r[5] ?? "").toLowerCase())
+        ? String(r[5]).toLowerCase()
+        : "active") as SessionStatus,
+    }));
+
+  return { admins, members, attendance, followup, sessions };
 }
