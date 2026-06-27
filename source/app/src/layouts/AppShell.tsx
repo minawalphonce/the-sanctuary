@@ -1,4 +1,4 @@
-import { Outlet, NavLink, useLocation } from "react-router";
+import { Outlet, NavLink, useLocation, useNavigate } from "react-router";
 import {
     LayoutDashboard,
     CheckSquare,
@@ -24,6 +24,7 @@ const pageTitles: Record<string, string> = {
 
 export function AppShell() {
     const { pathname } = useLocation();
+    const navigate = useNavigate();
     const title = pageTitles[pathname] ?? "The Sanctuary";
 
     return (
@@ -33,7 +34,13 @@ export function AppShell() {
                 <span className="text-ras-headline-md text-ras-on-primary">
                     {title}
                 </span>
-                <UserAvatar />
+                <button
+                    type="button"
+                    onClick={() => navigate("/profile")}
+                    className="rounded-full transition-opacity active:opacity-80"
+                >
+                    <UserAvatar />
+                </button>
             </header>
 
             {/* Page Content */}

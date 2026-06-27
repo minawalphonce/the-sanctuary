@@ -19,6 +19,7 @@ import MemberOverview from "@/pages/MemberOverview";
 import MemberHistory from "@/pages/MemberHistory";
 import MemberContact from "@/pages/MemberContact";
 import Followup from "@/pages/Followup";
+import MyProfile from "@/pages/MyProfile";
 import PrivacyPolicy from "@/pages/legal/PrivacyPolicy";
 import TermsAndConditions from "@/pages/legal/TermsAndConditions";
 
@@ -97,6 +98,7 @@ export default function App() {
         {/* Everything else requires auth */}
         <Route path="/*" element={user ? <Outlet /> : <Navigate to="/login" replace />}>
           {/* Full-screen modal pages — no shell, no bottom nav */}
+          <Route path="profile" element={<MyProfile />} />
           <Route path="members/add" element={<MemberAddEdit />} />
           <Route path="members/:id/edit" element={<MemberAddEdit />} />
           <Route path="members/:id" element={<MemberProfile />}>
