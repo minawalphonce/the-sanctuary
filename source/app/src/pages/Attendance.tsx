@@ -14,6 +14,11 @@ function sessionDateValue(session: SessionRecord): number {
     return d.year * 10000 + d.month * 100 + d.day;
 }
 
+function todayDateValue(): number {
+    const d = new Date();
+    return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
+}
+
 type FilterKey = "all" | "regular" | "special";
 
 const FILTERS: { key: FilterKey; label: string }[] = [
@@ -47,11 +52,13 @@ function monthlyAttendancePercent(
 function SessionRow({
     session,
     attendingCount,
+    isUpcoming,
     onClick,
     onEdit,
 }: {
     session: SessionRecord;
     attendingCount: number;
+    isUpcoming: boolean;
     onClick: (session: SessionRecord) => void;
     onEdit?: (session: SessionRecord) => void;
 }) {
@@ -104,7 +111,7 @@ function SessionRow({
                     </div>
                     <div className="flex items-center justify-end gap-1 text-ras-caption text-ras-secondary">
                         <Sparkles className="size-3.5" />
-                        {session.status === "active" ? "Active" : session.status}
+                        {isUpcoming ? "Upcoming" : "Active"}
                     </div>
                 </div>
                 {isSpecial && onEdit && (
@@ -132,7 +139,6 @@ export default function Attendance() {
     const [filter, setFilter] = useState<FilterKey>("all");
     const [addSpecialOpen, setAddSpecialOpen] = useState(false);
     const [editingSession, setEditingSession] = useState<SessionRecord | null>(null);
-    const [showArchived, setShowArchived] = useState(false);
 
     const activeMemberCount = useMemo(() => members.filter((m) => m.active).length, [members]);
     const monthlyPercent = useMemo(
@@ -149,26 +155,27 @@ export default function Attendance() {
         return map;
     }, [attendance]);
 
-    const archivedSessions = useMemo(
-        () => sessions.filter((s) => s.status === "completed" || s.status === "archived"),
-        [sessions]
-    );
-
-    const regularSessions = useMemo(() => {
-        if (filter === "special") return [];
-        return [...sessions.filter((s) => s.status === "active" && s.type === "regular")].sort(
-            (a, b) => sessionDateValue(b) - sessionDateValue(a)
-        );
+    const filteredSessions = useMemo(() => {
+        if (filter === "regular") return sessions.filter((s) => s.type === "regular");
+        if (filter === "special") return sessions.filter((s) => s.type === "special");
+        return sessions;
     }, [sessions, filter]);
 
-    const specialSessions = useMemo(() => {
-        if (filter === "regular") return [];
-        return [...sessions.filter((s) => s.status === "active" && s.type === "special")].sort(
-            (a, b) => sessionDateValue(b) - sessionDateValue(a)
-        );
-    }, [sessions, filter]);
+    const upcomingSessions = useMemo(() => {
+        const todayValue = todayDateValue();
+        return [...filteredSessions]
+            .filter((s) => sessionDateValue(s) > todayValue)
+            .sort((a, b) => sessionDateValue(a) - sessionDateValue(b));
+    }, [filteredSessions]);
 
-    const hasNoSessions = regularSessions.length === 0 && specialSessions.length === 0;
+    const activeSessions = useMemo(() => {
+        const todayValue = todayDateValue();
+        return [...filteredSessions]
+            .filter((s) => sessionDateValue(s) <= todayValue)
+            .sort((a, b) => sessionDateValue(b) - sessionDateValue(a));
+    }, [filteredSessions]);
+
+    const hasNoSessions = upcomingSessions.length === 0 && activeSessions.length === 0;
 
     const onSessionClick = (session: SessionRecord) => navigate(`/attendance/take/${session.id}`);
 
@@ -244,85 +251,48 @@ export default function Attendance() {
                     </div>
                 ) : (
                     <>
-                        {regularSessions.length > 0 && (
+                        {activeSessions.length > 0 && (
                             <div className="space-y-3">
                                 <h3 className="flex items-center gap-2 text-ras-label-caps uppercase text-ras-on-surface-variant">
-                                    <span className="size-1.5 rounded-full bg-ras-secondary" />
-                                    Regular Sessions
+                                    <span className="size-1.5 rounded-full bg-ras-outline" />
+                                    Active Sessions
                                 </h3>
                                 <div className="space-y-3">
-                                    {regularSessions.map((s) => (
+                                    {activeSessions.map((s) => (
                                         <SessionRow
                                             key={s.id}
                                             session={s}
                                             attendingCount={attendingCountByDate.get(s.date) ?? 0}
+                                            isUpcoming={false}
                                             onClick={onSessionClick}
+                                            onEdit={s.type === "special" ? setEditingSession : undefined}
                                         />
                                     ))}
                                 </div>
                             </div>
                         )}
 
-                        {specialSessions.length > 0 && (
+                        {upcomingSessions.length > 0 && (
                             <div className="space-y-3">
                                 <h3 className="flex items-center gap-2 text-ras-label-caps uppercase text-ras-on-surface-variant">
-                                    <span className="size-1.5 rounded-full bg-ras-secondary-fixed-dim" />
-                                    Upcoming Special Events
+                                    <span className="size-1.5 rounded-full bg-ras-secondary" />
+                                    Upcoming Sessions
                                 </h3>
                                 <div className="space-y-3">
-                                    {specialSessions.map((s) => (
+                                    {upcomingSessions.map((s) => (
                                         <SessionRow
                                             key={s.id}
                                             session={s}
                                             attendingCount={attendingCountByDate.get(s.date) ?? 0}
+                                            isUpcoming
                                             onClick={onSessionClick}
-                                            onEdit={setEditingSession}
+                                            onEdit={s.type === "special" ? setEditingSession : undefined}
                                         />
                                     ))}
                                 </div>
                             </div>
                         )}
                     </>
-                )}
-
-                {showArchived ? (
-                    <div className="space-y-3">
-                        <h3 className="flex items-center gap-2 text-ras-label-caps uppercase text-ras-on-surface-variant">
-                            <span className="size-1.5 rounded-full bg-ras-outline" />
-                            Archived Sessions
-                        </h3>
-                        {archivedSessions.length === 0 ? (
-                            <div className="flex flex-col items-center gap-2 py-12 text-center">
-                                <Inbox className="size-8 text-ras-on-surface-variant" />
-                                <span className="text-ras-body-md text-ras-on-surface-variant">
-                                    No archived sessions yet.
-                                </span>
-                            </div>
-                        ) : (
-                            <div className="space-y-3">
-                                {archivedSessions.map((s) => (
-                                    <SessionRow
-                                        key={s.id}
-                                        session={s}
-                                        attendingCount={attendingCountByDate.get(s.date) ?? 0}
-                                        onClick={onSessionClick}
-                                        onEdit={s.type === "special" ? setEditingSession : undefined}
-                                    />
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                ) : (
-                    archivedSessions.length > 0 && (
-                        <button
-                            type="button"
-                            onClick={() => setShowArchived(true)}
-                            className="flex w-full items-center justify-center gap-2 rounded-ras-xl border-2 border-dashed border-ras-outline-variant py-4 text-ras-title-sm text-ras-on-surface-variant transition-colors hover:bg-ras-surface-container"
-                        >
-                            <Inbox className="size-5" />
-                            View Archived Sessions
-                        </button>
-                    )
                 )}
             </div>
 
