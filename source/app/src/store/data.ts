@@ -1,8 +1,8 @@
 import { create } from "zustand";
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
-import type { Member, AttendanceRecord, FollowupRecord, SheetData } from "@/lib/sheets";
-import { loadAll, appendRow, updateRow, SheetsAuthExpiredError } from "@/lib/sheets";
+import type { Member, AttendanceRecord, FollowupRecord, SessionRecord, SheetData } from "@/lib/sheets";
+import { loadAll, appendRow, updateRow, findRowIndexById, SheetsAuthExpiredError } from "@/lib/sheets";
 
 // The Sheets access token can't be silently refreshed (Google requires a
 // user gesture). When it expires, sign out so the user lands back on
@@ -30,6 +30,7 @@ interface DataStore extends SyncMeta {
   members: Member[];
   attendance: AttendanceRecord[];
   followup: FollowupRecord[];
+  sessions: SessionRecord[];
 
   // Called by DataSync on every poll tick
   sync: () => Promise<void>;
@@ -40,6 +41,17 @@ interface DataStore extends SyncMeta {
   appendAttendance: (record: AttendanceRecord) => Promise<void>;
   appendFollowup: (record: FollowupRecord) => Promise<void>;
   updateFollowup: (id: string, updated: FollowupRecord, sheetRowIndex: number) => Promise<void>;
+  appendSession: (record: SessionRecord) => Promise<void>;
+  updateSession: (id: string, updated: SessionRecord) => Promise<void>;
+  // Upserts attendance for every member in `records` for the given date —
+  // updates existing rows in place, appends new ones. If `newSession` is
+  // given, that session row is appended first (used when saving attendance
+  // for a not-yet-persisted upcoming session).
+  saveAttendance: (
+    date: string,
+    records: { member_id: string; present: boolean; recorded_by: string }[],
+    newSession?: SessionRecord
+  ) => Promise<void>;
 }
 
 export const useDataStore = create<DataStore>((set, get) => ({
@@ -50,6 +62,7 @@ export const useDataStore = create<DataStore>((set, get) => ({
   members: [],
   attendance: [],
   followup: [],
+  sessions: [],
 
   sync: async () => {
     if (get().syncing) return;
@@ -136,5 +149,58 @@ export const useDataStore = create<DataStore>((set, get) => ({
     const row = [updated.id, updated.member_id, updated.date, updated.type, updated.note, updated.done, updated.assigned_to];
     await withExpiryHandling(() => updateRow(range, row));
     set((s) => ({ followup: s.followup.map((f) => (f.id === id ? updated : f)) }));
+  },
+
+  appendSession: async (record) => {
+    const row = [record.id, record.date, record.type, record.name, record.notes, record.status];
+    await withExpiryHandling(() => appendRow("sessions", row));
+    set((s) => ({ sessions: [...s.sessions, record] }));
+  },
+
+  updateSession: async (id, updated) => {
+    const index = await withExpiryHandling(() => findRowIndexById("sessions", id));
+    const sheetRow = index + 2; // +1 for 1-based, +1 for header row
+    const range = `sessions!A${sheetRow}:F${sheetRow}`;
+    const row = [updated.id, updated.date, updated.type, updated.name, updated.notes, updated.status];
+    await withExpiryHandling(() => updateRow(range, row));
+    set((s) => ({ sessions: s.sessions.map((session) => (session.id === id ? updated : session)) }));
+  },
+
+  saveAttendance: async (date, records, newSession) => {
+    if (newSession) {
+      await get().appendSession(newSession);
+    }
+
+    const existing = get().attendance;
+    const recordedAt = new Date().toISOString();
+    const toAppend: AttendanceRecord[] = [];
+    const updatedExisting = [...existing];
+
+    for (const r of records) {
+      const stamped: AttendanceRecord = {
+        date,
+        member_id: r.member_id,
+        present: r.present,
+        recorded_by: r.recorded_by,
+        recorded_at: recordedAt,
+      };
+      const index = existing.findIndex((a) => a.date === date && a.member_id === r.member_id);
+      if (index === -1) {
+        toAppend.push(stamped);
+      } else {
+        const sheetRow = index + 2; // +1 for 1-based, +1 for header row
+        const range = `attendance!A${sheetRow}:E${sheetRow}`;
+        const row = [stamped.date, stamped.member_id, stamped.present, stamped.recorded_by, stamped.recorded_at];
+        await withExpiryHandling(() => updateRow(range, row));
+        updatedExisting[index] = stamped;
+      }
+    }
+
+    for (const stamped of toAppend) {
+      const row = [stamped.date, stamped.member_id, stamped.present, stamped.recorded_by, stamped.recorded_at];
+      await withExpiryHandling(() => appendRow("attendance", row));
+    }
+
+    set({ attendance: [...updatedExisting, ...toAppend] });
   },
 }));

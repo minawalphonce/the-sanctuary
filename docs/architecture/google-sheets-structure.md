@@ -65,6 +65,24 @@ One row per member per session.
 
 ---
 
+### `sessions`
+
+Defines recurring (regular) and one-off (special) attendance sessions. Sessions
+apply to all members — there is no per-group/class scoping. Attendance rows link
+to a session via `date` (see `attendance` above), on the assumption that a given
+session occurs at most once per day.
+
+| Column | Header | Format | Notes |
+|---|---|---|---|
+| A | id | UUID | Unique, never reuse |
+| B | date | DD/MM/YYYY | The app defaults this to the upcoming Saturday for new "regular" rows |
+| C | type | "regular" / "special" | |
+| D | name | Text | Free text. The app defaults this to "Lesson" for new "regular" rows, but it's editable like any other row. For "special" rows, the user types a name (e.g. "Mountain Retreat 2024"). |
+| E | notes | Text | Free text — location, time, schedule description, etc. |
+| F | status | "active" / "completed" / "archived" | |
+
+---
+
 ### `followup`
 
 Follow-up tasks and notes for members.
