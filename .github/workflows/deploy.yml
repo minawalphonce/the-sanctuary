@@ -16,7 +16,11 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          # Pinned exact: Node 22.23.0 has an http.Agent keep-alive regression
+          # that makes firebase-tools' Google auth calls throw "Premature
+          # close", breaking Firebase deploys. Fixed in 22.23.1.
+          # See nodejs/node#63989.
+          node-version: 22.23.1
           cache: npm
           cache-dependency-path: source/app/package-lock.json
 
