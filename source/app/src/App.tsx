@@ -5,6 +5,7 @@ import { auth } from "@/lib/firebase";
 import { checkAccess } from "@/lib/sheets";
 import AppShell from "@/layouts/AppShell";
 import { Toaster } from "@/components/ui/sonner";
+import { usePwaUpdate } from "@/hooks/usePwaUpdate";
 
 import Splash from "@/pages/Splash";
 import Login from "@/pages/login";
@@ -30,6 +31,8 @@ export default function App() {
   const [user, setUser] = useState<User | null>(null);
   const [authReady, setAuthReady] = useState(false);
   const [accessState, setAccessState] = useState<AccessState>("checking");
+
+  usePwaUpdate();
 
   useEffect(() => {
     // Sign-in happens via signInWithPopup (see pages/login.tsx), which

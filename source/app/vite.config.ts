@@ -13,7 +13,7 @@ export default defineConfig(({ mode }) => {
       react(),
       tailwindcss(),
       VitePWA({
-        registerType: 'autoUpdate',
+        registerType: 'prompt',
         includeAssets: ['favicon.svg', 'logo.png'],
         manifest: {
           name: appName,
@@ -50,7 +50,10 @@ export default defineConfig(({ mode }) => {
             },
           ],
         },
-        // No offline/SW caching — installability only
+        // No runtime/offline caching of API calls — only the precached
+        // app shell (index.html, JS/CSS, icons) for installability.
+        // Update flow: registerType 'prompt' + usePwaUpdate() shows a
+        // reload toast instead of silently swapping the SW.
         workbox: {
           navigateFallback: null,
           runtimeCaching: [],
