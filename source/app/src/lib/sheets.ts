@@ -73,6 +73,26 @@ async function fetchWithAuth(url: string, options: RequestInit = {}): Promise<Re
   return res;
 }
 
+export type AccessCheckResult =
+  | { status: "ok" }
+  | { status: "forbidden" }
+  | { status: "unauthenticated" }
+  | { status: "network-error" };
+
+// Lightweight call used right after login (and on every app open) to confirm
+// the signed-in user is actually shared on the sheet, before loading any data.
+export async function checkAccess(): Promise<AccessCheckResult> {
+  try {
+    const res = await fetchWithAuth(`${BASE}/${SHEET_ID}?fields=spreadsheetId`);
+    if (res.ok) return { status: "ok" };
+    if (res.status === 403) return { status: "forbidden" };
+    return { status: "network-error" };
+  } catch (err) {
+    if (err instanceof SheetsAuthExpiredError) return { status: "unauthenticated" };
+    return { status: "network-error" };
+  }
+}
+
 async function get(ranges: string[]): Promise<string[][][]> {
   const params = ranges.map((r) => `ranges=${encodeURIComponent(r)}`).join("&");
   const res = await fetchWithAuth(

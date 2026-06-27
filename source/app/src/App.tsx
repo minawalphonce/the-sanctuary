@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router";
-import { onAuthStateChanged, type User } from "firebase/auth";
+import { onAuthStateChanged, signOut, type User } from "firebase/auth";
 import { auth } from "@/lib/firebase";
+import { checkAccess } from "@/lib/sheets";
 import AppShell from "@/layouts/AppShell";
 import { Toaster } from "@/components/ui/sonner";
 
 import Splash from "@/pages/Splash";
 import Login from "@/pages/login";
+import AccessDenied from "@/pages/AccessDenied";
+import NoConnection from "@/pages/NoConnection";
 import Dashboard from "@/pages/Dashboard";
 import Attendance from "@/pages/Attendance";
 import Members from "@/pages/Members";
@@ -19,9 +22,12 @@ import Followup from "@/pages/Followup";
 import PrivacyPolicy from "@/pages/legal/PrivacyPolicy";
 import TermsAndConditions from "@/pages/legal/TermsAndConditions";
 
+type AccessState = "checking" | "ok" | "denied" | "offline";
+
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
   const [authReady, setAuthReady] = useState(false);
+  const [accessState, setAccessState] = useState<AccessState>("checking");
 
   useEffect(() => {
     // Sign-in happens via signInWithPopup (see pages/login.tsx), which
@@ -33,12 +39,49 @@ export default function App() {
     const unsubscribe = onAuthStateChanged(auth, (u) => {
       setUser(u);
       setAuthReady(true);
+      if (!u) setAccessState("checking");
     });
 
     return () => unsubscribe();
   }, []);
 
+  // Re-runs every time a user becomes signed in — both right after login
+  // and on every app open (Firebase restores the session from storage,
+  // which triggers onAuthStateChanged again) — per the access-check story.
+  const runAccessCheck = useCallback(async () => {
+    setAccessState("checking");
+    const result = await checkAccess();
+    switch (result.status) {
+      case "ok":
+        setAccessState("ok");
+        break;
+      case "forbidden":
+        setAccessState("denied");
+        break;
+      case "network-error":
+        setAccessState("offline");
+        break;
+      case "unauthenticated":
+        // Sheets token is bad/expired — sign out and let /login mint a fresh one.
+        await signOut(auth);
+        break;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!user) return;
+    // Queued as a microtask so the state update isn't synchronous within
+    // the effect body (avoids cascading-render lint/perf footgun).
+    queueMicrotask(runAccessCheck);
+  }, [user, runAccessCheck]);
+
   if (!authReady) return <Splash />;
+
+  if (user && accessState !== "ok") {
+    if (accessState === "denied") return <AccessDenied />;
+    if (accessState === "offline") return <NoConnection onRetry={runAccessCheck} />;
+    return <Splash />;
+  }
 
   return (
     <BrowserRouter>

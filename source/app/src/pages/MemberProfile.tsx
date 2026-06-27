@@ -39,18 +39,20 @@ export default function MemberProfile() {
     return (
         <div className="flex h-full flex-col bg-ras-surface-container-lowest">
             {/* Header */}
-            <header className="relative shrink-0 bg-ras-primary px-ras-edge pb-8 pt-12 text-ras-on-primary">
+            <header className="relative shrink-0 bg-ras-primary px-ras-edge pb-8 pt-[calc(env(safe-area-inset-top)+3rem)] text-ras-on-primary">
                 <button
                     type="button"
                     onClick={() => navigate("/members")}
-                    className="absolute left-4 top-4 flex size-10 items-center justify-center rounded-full transition-colors hover:bg-white/10 active:opacity-80"
+                    className="absolute left-4 flex size-10 items-center justify-center rounded-full transition-colors hover:bg-white/10 active:opacity-80"
+                    style={{ top: "calc(env(safe-area-inset-top) + 1rem)" }}
                 >
                     <X className="size-6" />
                 </button>
                 <button
                     type="button"
                     onClick={() => navigate(`/members/${member.id}/edit`)}
-                    className="absolute right-4 top-4 flex items-center gap-2 rounded-ras-full bg-ras-secondary px-4 py-1.5 text-ras-label-caps text-ras-on-secondary transition-transform hover:scale-105 active:scale-95"
+                    className="absolute right-4 flex items-center gap-2 rounded-ras-full bg-ras-secondary px-4 py-1.5 text-ras-label-caps text-ras-on-secondary transition-transform hover:scale-105 active:scale-95"
+                    style={{ top: "calc(env(safe-area-inset-top) + 1rem)" }}
                 >
                     <Pencil className="size-4" />
                     Edit

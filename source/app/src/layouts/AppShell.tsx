@@ -7,7 +7,6 @@ import {
 } from "lucide-react";
 import DataSync from "@/components/DataSync";
 import { UserAvatar } from "@/components/UserAvatar";
-import logo from "@/assets/logo.png";
 
 const tabs = [
     { path: "/", icon: LayoutDashboard, label: "Dashboard" },
@@ -30,16 +29,11 @@ export function AppShell() {
     return (
         <div className="flex flex-col h-screen overflow-hidden bg-ras-background">
             {/* Top Bar */}
-            <header className="shrink-0 relative flex items-center px-ras-edge h-16 bg-ras-surface border-b border-ras-outline-variant">
-                <div className="flex items-center gap-3">
-                    <img src={logo} alt="The Sanctuary" className="w-16 h-16 object-contain" />
-                </div>
-                <span className="absolute left-1/2 -translate-x-1/2 text-ras-label-caps text-ras-on-surface-variant">
+            <header className="shrink-0 flex items-center justify-between gap-3 px-ras-edge h-14 bg-ras-primary pt-[env(safe-area-inset-top)]">
+                <span className="text-ras-headline-md text-ras-on-primary">
                     {title}
                 </span>
-                <div className="ml-auto">
-                    <UserAvatar />
-                </div>
+                <UserAvatar />
             </header>
 
             {/* Page Content */}

@@ -12,7 +12,7 @@ function initials(name: string | null): string {
         .toUpperCase();
 }
 
-export function UserAvatar() {
+export function UserAvatar({ className }: { className?: string }) {
     const [user, setUser] = useState<User | null>(auth.currentUser);
 
     useEffect(() => {
@@ -24,7 +24,12 @@ export function UserAvatar() {
 
     return (
         <div
-            className="size-9 rounded-full overflow-hidden bg-ras-secondary-container text-ras-on-secondary-container flex items-center justify-center shrink-0 select-none"
+            className={[
+                "size-9 rounded-full overflow-hidden bg-ras-primary-container text-ras-secondary-container border-[1.5px] border-ras-secondary-container flex items-center justify-center shrink-0 select-none",
+                className,
+            ]
+                .filter(Boolean)
+                .join(" ")}
             title={label ?? undefined}
             aria-label={label ?? "User avatar"}
         >
