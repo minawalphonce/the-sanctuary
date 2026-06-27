@@ -30,7 +30,7 @@ export function AppShell() {
     return (
         <div className="flex flex-col h-screen overflow-hidden bg-ras-background">
             {/* Top Bar */}
-            <header className="shrink-0 flex items-center justify-between gap-3 px-ras-edge h-14 bg-ras-primary pt-[env(safe-area-inset-top)]">
+            <header className="shrink-0 flex items-center justify-between gap-3 px-ras-edge min-h-14 bg-ras-primary pt-[env(safe-area-inset-top)]">
                 <span className="text-ras-headline-md text-ras-on-primary">
                     {title}
                 </span>
@@ -49,7 +49,7 @@ export function AppShell() {
             </main>
 
             {/* Bottom Navigation */}
-            <nav className="shrink-0 flex h-ras-bottom-nav bg-ras-surface border-t border-ras-outline-variant shadow-[0_-4px_20px_rgba(27,43,72,0.08)] pb-[env(safe-area-inset-bottom)]">
+            <nav className="shrink-0 flex min-h-ras-bottom-nav bg-ras-surface border-t border-ras-outline-variant shadow-[0_-4px_20px_rgba(27,43,72,0.08)] pb-[env(safe-area-inset-bottom)]">
                 {tabs.map(({ path, icon: Icon, label }) => {
                     const isActive = path === "/" ? pathname === "/" : pathname.startsWith(path);
 

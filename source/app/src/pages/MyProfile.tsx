@@ -39,7 +39,7 @@ export default function MyProfile() {
     return (
         <div className="flex h-full flex-col bg-ras-surface">
             {/* Header */}
-            <header className="sticky top-0 z-50 flex h-16 w-full shrink-0 items-center justify-between border-b border-ras-outline-variant bg-ras-surface px-ras-edge pt-[env(safe-area-inset-top)]">
+            <header className="sticky top-0 z-50 flex min-h-16 w-full shrink-0 items-center justify-between border-b border-ras-outline-variant bg-ras-surface px-ras-edge pt-[env(safe-area-inset-top)]">
                 <h1 className="text-ras-headline-md font-extrabold text-ras-primary">My Profile</h1>
                 <button
                     type="button"
