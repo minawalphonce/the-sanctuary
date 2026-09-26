@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router";
 import { onAuthStateChanged, signOut, type User } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { checkAccess } from "@/lib/sheets";
+import { useDataStore } from "@/store/data";
 import AppShell from "@/layouts/AppShell";
 import { Toaster } from "@/components/ui/sonner";
 import { usePwaUpdate } from "@/hooks/usePwaUpdate";
@@ -59,6 +60,11 @@ export default function App() {
     switch (result.status) {
       case "ok":
         setAccessState("ok");
+        // Fire-and-forget: a failed upsert must never block app load, and
+        // it's retried naturally on the next login / app open.
+        useDataStore.getState().upsertCurrentAdmin().catch((err) => {
+          console.warn("Admin directory upsert failed", err);
+        });
         break;
       case "forbidden":
         setAccessState("denied");

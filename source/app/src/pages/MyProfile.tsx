@@ -31,7 +31,7 @@ export default function MyProfile() {
     const photo = user?.photoURL;
     const name = user?.displayName ?? "Admin";
     const email = user?.email ?? "";
-    const isAdmin = email ? admins.includes(email) : false;
+    const isAdmin = user ? admins.some((a) => a.id === user.uid) : false;
 
     const comingSoon = (feature: string) =>
         toast.info("Coming soon", { description: `${feature} isn't available yet.` });

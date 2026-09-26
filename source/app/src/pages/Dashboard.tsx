@@ -94,19 +94,22 @@ export default function Dashboard() {
     const members = useDataStore((s) => s.members);
     const attendance = useDataStore((s) => s.attendance);
     const sessions = useDataStore((s) => s.sessions);
+    const assignments = useDataStore((s) => s.assignments);
     const [user, setUser] = useState<User | null>(auth.currentUser);
 
     useEffect(() => onAuthStateChanged(auth, setUser), []);
 
-    const email = user?.email ?? "";
+    const uid = user?.uid ?? "";
 
     // Section 1: members assigned to the signed-in admin, falling back to
     // the top-X members with the most consecutive missed sessions (looking
     // back over the last Y sessions) when nobody is assigned.
-    const assignedMembers = useMemo(
-        () => members.filter((m) => m.active && m.assigned_to === email),
-        [members, email]
-    );
+    const assignedMembers = useMemo(() => {
+        const mine = new Set(
+            assignments.filter((a) => !a.to && a.admin_id === uid).map((a) => a.member_id)
+        );
+        return members.filter((m) => m.active && mine.has(m.id));
+    }, [members, assignments, uid]);
 
     const recentSessionDates = useMemo(() => {
         const today = todayValue();

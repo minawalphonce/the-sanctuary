@@ -1,8 +1,8 @@
 import { create } from "zustand";
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
-import type { Member, AttendanceRecord, FollowupRecord, SessionRecord, SheetData } from "@/lib/sheets";
-import { loadAll, appendRow, updateRow, findRowIndexById, SheetsAuthExpiredError } from "@/lib/sheets";
+import type { Admin, Assignment, Member, AttendanceRecord, FollowupRecord, SessionRecord, SheetData } from "@/lib/sheets";
+import { loadAll, upsertAdmin, appendRow, updateRow, findRowIndexById, SheetsAuthExpiredError } from "@/lib/sheets";
 
 // The Sheets access token can't be silently refreshed (Google requires a
 // user gesture). When it expires, sign out so the user lands back on
@@ -26,14 +26,19 @@ interface SyncMeta {
 }
 
 interface DataStore extends SyncMeta {
-  admins: string[];
+  admins: Admin[];
   members: Member[];
+  assignments: Assignment[];
   attendance: AttendanceRecord[];
   followup: FollowupRecord[];
   sessions: SessionRecord[];
 
   // Called by DataSync on every poll tick
   sync: () => Promise<void>;
+
+  // Records the signed-in user in the admins directory. Best-effort — callers
+  // shouldn't await it on the load path; it's retried on the next login.
+  upsertCurrentAdmin: () => Promise<void>;
 
   // Write helpers — update Sheets and patch local state optimistically
   appendMember: (record: Member) => Promise<void>;
@@ -60,6 +65,7 @@ export const useDataStore = create<DataStore>((set, get) => ({
   error: null,
   admins: [],
   members: [],
+  assignments: [],
   attendance: [],
   followup: [],
   sessions: [],
@@ -73,6 +79,17 @@ export const useDataStore = create<DataStore>((set, get) => ({
     } catch (err) {
       set({ syncing: false, error: err instanceof Error ? err.message : "Sync failed" });
     }
+  },
+
+  upsertCurrentAdmin: async () => {
+    const user = auth.currentUser;
+    if (!user) return;
+    const admin = await withExpiryHandling(() => upsertAdmin(user));
+    set((s) => ({
+      admins: s.admins.some((a) => a.id === admin.id)
+        ? s.admins.map((a) => (a.id === admin.id ? admin : a))
+        : [...s.admins, admin],
+    }));
   },
 
   appendMember: async (record) => {
@@ -96,7 +113,6 @@ export const useDataStore = create<DataStore>((set, get) => ({
       stamped.photo_url,
       stamped.registered_date,
       stamped.last_updated,
-      stamped.assigned_to,
     ];
     await withExpiryHandling(() => appendRow("members", row));
     set((s) => ({ members: [...s.members, stamped] }));
@@ -107,7 +123,7 @@ export const useDataStore = create<DataStore>((set, get) => ({
     if (index === -1) throw new Error(`Member ${id} not found`);
     const stamped: Member = { ...updated, last_updated: new Date().toISOString() };
     const sheetRow = index + 2; // +1 for 1-based, +1 for header row
-    const range = `members!A${sheetRow}:R${sheetRow}`;
+    const range = `members!A${sheetRow}:Q${sheetRow}`;
     const row = [
       stamped.id,
       stamped.full_name,
@@ -126,7 +142,6 @@ export const useDataStore = create<DataStore>((set, get) => ({
       stamped.photo_url,
       stamped.registered_date,
       stamped.last_updated,
-      stamped.assigned_to,
     ];
     await withExpiryHandling(() => updateRow(range, row));
     set((s) => ({ members: s.members.map((m) => (m.id === id ? stamped : m)) }));
@@ -139,16 +154,16 @@ export const useDataStore = create<DataStore>((set, get) => ({
   },
 
   appendFollowup: async (record) => {
-    const row = [record.id, record.member_id, record.date, record.type, record.note, record.done, record.assigned_to];
-    await withExpiryHandling(() => appendRow("followup", row));
+    const row = [record.id, record.member_id, record.date, record.type, record.outcome, record.notes, record.admin_id, record.timestamp];
+    await withExpiryHandling(() => appendRow("followups", row));
     set((s) => ({ followup: [...s.followup, record] }));
   },
 
   // sheetRowIndex is 1-based data row (row 2 in sheet = index 1 in the array = sheet row 2)
   updateFollowup: async (id, updated, sheetRowIndex) => {
     const sheetRow = sheetRowIndex + 2; // +1 for 1-based, +1 for header row
-    const range = `followup!A${sheetRow}:G${sheetRow}`;
-    const row = [updated.id, updated.member_id, updated.date, updated.type, updated.note, updated.done, updated.assigned_to];
+    const range = `followups!A${sheetRow}:H${sheetRow}`;
+    const row = [updated.id, updated.member_id, updated.date, updated.type, updated.outcome, updated.notes, updated.admin_id, updated.timestamp];
     await withExpiryHandling(() => updateRow(range, row));
     set((s) => ({ followup: s.followup.map((f) => (f.id === id ? updated : f)) }));
   },

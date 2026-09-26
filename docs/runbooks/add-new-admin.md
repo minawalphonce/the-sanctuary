@@ -6,45 +6,51 @@ Use this when someone needs access to the app.
 
 ## What "admin" means
 
-Anyone whose email is in the `admins` tab of the Google Sheet can log in
-to the app. There are no permission levels — all admins see everything.
+Anyone the Google Sheet is shared with (as Editor) can log in to the app.
+There are no permission levels — all admins see everything.
+
+The `admins` tab is **not** access control. It's a directory the app fills
+in by itself: every time an admin logs in, the app records their name,
+email and profile photo there. The app uses it to show who is responsible
+for a member and who logged a contact.
 
 ---
 
 ## Steps
 
 1. Open the Google Sheet for this organisation
-2. Click the **`admins`** tab at the bottom
-3. Scroll to the first empty row
-4. Type the person's Google email address in **column A**
-   - Must be the exact email they use for their Google account
-   - Lowercase, no extra spaces
-5. Save (Ctrl+S or Cmd+S)
+2. Click **Share** (top right)
+3. Add the person's Google email address with the **Editor** role
+   - Must be the exact Google account they will log in with
+4. Click **Send**
+5. Ask them to **open the app and log in once**
 
-That's it. The person can now log in immediately — no app changes, no redeploy needed.
+Step 5 matters: until they've logged in, they aren't in the `admins` tab,
+so they won't appear in the admin pickers (e.g. when assigning members).
+
+Do not type rows into the `admins` tab by hand — the app keys each row by
+the person's Firebase user ID, which you don't have.
 
 ---
 
 ## To remove access
 
-1. Open the `admins` tab
-2. Find the person's row
-3. Delete the entire row (right-click → Delete row)
+1. Open the Google Sheet → **Share**
+2. Remove the person, or change them to no access
+3. Leave their row in the `admins` tab — past assignments and logged
+   contacts still point to it, so names and photos keep showing correctly
 
-Access is revoked immediately on their next page load or login attempt.
-
-If they are currently logged in, they will be blocked on their next API call
-(the app checks admin status on every request).
+Access is revoked on their next page load or login attempt.
 
 ---
 
 ## Troubleshooting
 
-**Person says "access denied" after being added:**
-- Check for typos in the email — it must match exactly
-- Check for extra spaces before or after the email in the cell
+**Person sees "access denied" after being added:**
+- Check the sheet is shared with the exact Google account they log in with
 - Ask them to log out and log back in (their session may be cached)
 
-**Person can log in with Google but still sees "access denied":**
-- They may be logging in with a different Google account than the one you added
-- Ask them: "Which Google account did you use to log in?" and verify it matches what's in the sheet
+**Person can log in but doesn't appear in the admin picker:**
+- Ask them to fully close and reopen the app — the directory updates on each login
+- Check the `admins` tab for a row with their email. If it's missing after
+  a login, check the browser console for "Admin directory upsert failed"

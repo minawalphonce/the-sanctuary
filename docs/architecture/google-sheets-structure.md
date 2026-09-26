@@ -28,6 +28,23 @@ Access to the app is controlled via **Google Sheet sharing settings**, not a tab
 
 ## Tabs
 
+### `admins`
+
+Directory of admins who have logged in at least once. **Not** access control —
+access still comes from sheet sharing. The app upserts the signed-in user's row
+on every login; don't edit it by hand.
+
+| Column | Header | Format | Notes |
+|---|---|---|---|
+| A | id | Firebase Auth UID | Unique key |
+| B | email | Text | Updated on each login |
+| C | name | Text | Google display name, updated on each login |
+| D | photo_url | Text | Google profile photo URL, updated on each login |
+| E | first_seen | ISO timestamp | Set once, on the first login |
+| F | last_seen | ISO timestamp | Updated on each login |
+
+---
+
 ### `members`
 
 All youth members.

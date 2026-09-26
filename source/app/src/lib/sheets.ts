@@ -164,7 +164,27 @@ export interface Member {
   photo_url: string;
   registered_date: string;
   last_updated: string;
-  assigned_to: string;
+}
+
+// Directory of admins who have logged in at least once — not access control
+// (that still comes from sheet sharing). Keyed by Firebase Auth UID.
+export interface Admin {
+  id: string;
+  email: string;
+  name: string;
+  photo_url: string;
+  first_seen: string;
+  last_seen: string;
+}
+
+// Assignment history — `to` empty means this is the member's current assignment.
+export interface Assignment {
+  id: string;
+  member_id: string;
+  admin_id: string;
+  assigned_by: string;
+  from: string;
+  to: string;
 }
 
 export interface AttendanceRecord {
@@ -175,14 +195,18 @@ export interface AttendanceRecord {
   recorded_at: string;
 }
 
+export type FollowupType = "call" | "message";
+export type FollowupOutcome = "coming" | "not coming" | "no answer" | "other";
+
 export interface FollowupRecord {
   id: string;
   member_id: string;
   date: string;
-  type: string;
-  note: string;
-  done: boolean;
-  assigned_to: string;
+  type: FollowupType;
+  outcome: FollowupOutcome;
+  notes: string;
+  admin_id: string;
+  timestamp: string;
 }
 
 export type SessionType = "regular" | "special";
@@ -198,23 +222,50 @@ export interface SessionRecord {
 }
 
 export interface SheetData {
-  admins: string[];
+  admins: Admin[];
   members: Member[];
+  assignments: Assignment[];
   attendance: AttendanceRecord[];
   followup: FollowupRecord[];
   sessions: SessionRecord[];
 }
 
+const FOLLOWUP_OUTCOMES: FollowupOutcome[] = ["coming", "not coming", "no answer", "other"];
+
 export async function loadAll(): Promise<SheetData> {
-  const [adminRows, memberRows, attendanceRows, followupRows, sessionRows] = await get([
-    "admins!A2:A",
-    "members!A2:R",
+  const [adminRows, memberRows, assignmentRows, attendanceRows, followupRows, sessionRows] = await get([
+    "admins!A2:F",
+    "members!A2:Q",
+    "assignments!A2:F",
     "attendance!A2:E",
-    "followup!A2:G",
+    "followups!A2:H",
     "sessions!A2:F",
   ]);
 
-  const admins = adminRows.map((r) => String(r[0] ?? "").trim()).filter(Boolean);
+  // Keep the first row per id — two tabs logging in at the same moment can
+  // each append a row for a brand-new admin.
+  const admins: Admin[] = adminRows
+    .filter((r) => r[0])
+    .map((r) => ({
+      id: String(r[0] ?? ""),
+      email: String(r[1] ?? ""),
+      name: String(r[2] ?? ""),
+      photo_url: String(r[3] ?? ""),
+      first_seen: String(r[4] ?? ""),
+      last_seen: String(r[5] ?? ""),
+    }))
+    .filter((a, i, all) => all.findIndex((b) => b.id === a.id) === i);
+
+  const assignments: Assignment[] = assignmentRows
+    .filter((r) => r[0])
+    .map((r) => ({
+      id: String(r[0] ?? ""),
+      member_id: String(r[1] ?? ""),
+      admin_id: String(r[2] ?? ""),
+      assigned_by: String(r[3] ?? ""),
+      from: String(r[4] ?? ""),
+      to: String(r[5] ?? ""),
+    }));
 
   const members: Member[] = memberRows
     .filter((r) => r[0])
@@ -236,7 +287,6 @@ export async function loadAll(): Promise<SheetData> {
       photo_url: String(r[14] ?? ""),
       registered_date: String(r[15] ?? ""),
       last_updated: String(r[16] ?? ""),
-      assigned_to: String(r[17] ?? ""),
     }));
 
   const attendance: AttendanceRecord[] = attendanceRows
@@ -255,10 +305,13 @@ export async function loadAll(): Promise<SheetData> {
       id: String(r[0] ?? ""),
       member_id: String(r[1] ?? ""),
       date: String(r[2] ?? ""),
-      type: String(r[3] ?? ""),
-      note: String(r[4] ?? ""),
-      done: String(r[5]).toUpperCase() === "TRUE",
-      assigned_to: String(r[6] ?? ""),
+      type: (String(r[3] ?? "").toLowerCase() === "message" ? "message" : "call") as FollowupType,
+      outcome: (FOLLOWUP_OUTCOMES.includes(String(r[4] ?? "").toLowerCase() as FollowupOutcome)
+        ? String(r[4]).toLowerCase()
+        : "other") as FollowupOutcome,
+      notes: String(r[5] ?? ""),
+      admin_id: String(r[6] ?? ""),
+      timestamp: String(r[7] ?? ""),
     }));
 
   const sessions: SessionRecord[] = sessionRows
@@ -274,5 +327,33 @@ export async function loadAll(): Promise<SheetData> {
         : "active") as SessionStatus,
     }));
 
-  return { admins, members, attendance, followup, sessions };
+  return { admins, members, assignments, attendance, followup, sessions };
+}
+
+// Records the signed-in user in the `admins` directory, keyed by Firebase UID.
+// Reads column A fresh (rather than relying on loadAll) because this runs
+// right after the access check, before the first sync has necessarily finished.
+// Returns the row as written so the caller can patch local state.
+export async function upsertAdmin(user: { uid: string; email: string | null; displayName: string | null; photoURL: string | null }): Promise<Admin> {
+  const [rows] = await get(["admins!A2:E"]);
+  const index = rows.findIndex((r) => String(r[0] ?? "") === user.uid);
+  const now = new Date().toISOString();
+
+  const admin: Admin = {
+    id: user.uid,
+    email: user.email ?? "",
+    name: user.displayName ?? user.email ?? "",
+    photo_url: user.photoURL ?? "",
+    first_seen: index === -1 ? now : String(rows[index][4] ?? "") || now,
+    last_seen: now,
+  };
+
+  if (index === -1) {
+    await appendRow("admins", [admin.id, admin.email, admin.name, admin.photo_url, admin.first_seen, admin.last_seen]);
+  } else {
+    const sheetRow = index + 2; // +1 for 1-based, +1 for header row
+    await updateRow(`admins!B${sheetRow}:F${sheetRow}`, [admin.email, admin.name, admin.photo_url, admin.first_seen, admin.last_seen]);
+  }
+
+  return admin;
 }
