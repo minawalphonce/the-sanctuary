@@ -132,6 +132,38 @@ export async function updateRow(range: string, row: (string | boolean | number)[
   if (!res.ok) throw new Error(`Sheets update failed: ${res.status}`);
 }
 
+// Appends several rows in one call. Returns the 1-based sheet row number of
+// the first appended row, parsed from the response's `updatedRange`
+// (e.g. "assignments!A12:F14" → 12), so callers can address them later.
+export async function appendRows(tab: string, rows: (string | boolean | number)[][]): Promise<number> {
+  const res = await fetchWithAuth(
+    `${BASE}/${SHEET_ID}/values/${encodeURIComponent(tab)}:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ values: rows }),
+    }
+  );
+  if (!res.ok) throw new Error(`Sheets append failed: ${res.status}`);
+  const json = await res.json();
+  const match = /![A-Z]+(\d+)/.exec(String(json.updates?.updatedRange ?? ""));
+  if (!match) throw new Error("Sheets append returned no range");
+  return Number(match[1]);
+}
+
+// Writes several ranges in one call — each entry is a single-row range.
+export async function batchUpdateRows(data: { range: string; row: (string | boolean | number)[] }[]): Promise<void> {
+  const res = await fetchWithAuth(`${BASE}/${SHEET_ID}/values:batchUpdate`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      valueInputOption: "RAW",
+      data: data.map((d) => ({ range: d.range, values: [d.row] })),
+    }),
+  });
+  if (!res.ok) throw new Error(`Sheets batch update failed: ${res.status}`);
+}
+
 // Looks up a row's 0-based data-row index by id, reading column A fresh.
 // Needed for tabs like `sessions` where soft-deleted rows are filtered out
 // of the in-memory array after loadAll(), so that array's position no
@@ -178,6 +210,7 @@ export interface Admin {
 }
 
 // Assignment history — `to` empty means this is the member's current assignment.
+// `row` is the 1-based sheet row, kept so closing a row can address it directly.
 export interface Assignment {
   id: string;
   member_id: string;
@@ -185,6 +218,7 @@ export interface Assignment {
   assigned_by: string;
   from: string;
   to: string;
+  row: number;
 }
 
 export interface AttendanceRecord {
@@ -195,7 +229,7 @@ export interface AttendanceRecord {
   recorded_at: string;
 }
 
-export type FollowupType = "call" | "message";
+export type FollowupType = "call" | "message" | "in person";
 export type FollowupOutcome = "coming" | "not coming" | "no answer" | "other";
 
 export interface FollowupRecord {
@@ -230,6 +264,7 @@ export interface SheetData {
   sessions: SessionRecord[];
 }
 
+const FOLLOWUP_TYPES: FollowupType[] = ["call", "message", "in person"];
 const FOLLOWUP_OUTCOMES: FollowupOutcome[] = ["coming", "not coming", "no answer", "other"];
 
 export async function loadAll(): Promise<SheetData> {
@@ -256,16 +291,18 @@ export async function loadAll(): Promise<SheetData> {
     }))
     .filter((a, i, all) => all.findIndex((b) => b.id === a.id) === i);
 
+  // Row number is captured before filtering so blank rows don't shift it.
   const assignments: Assignment[] = assignmentRows
-    .filter((r) => r[0])
-    .map((r) => ({
+    .map((r, i) => ({
       id: String(r[0] ?? ""),
       member_id: String(r[1] ?? ""),
       admin_id: String(r[2] ?? ""),
       assigned_by: String(r[3] ?? ""),
       from: String(r[4] ?? ""),
       to: String(r[5] ?? ""),
-    }));
+      row: i + 2, // +1 for 1-based, +1 for header row
+    }))
+    .filter((a) => a.id);
 
   const members: Member[] = memberRows
     .filter((r) => r[0])
@@ -305,7 +342,9 @@ export async function loadAll(): Promise<SheetData> {
       id: String(r[0] ?? ""),
       member_id: String(r[1] ?? ""),
       date: String(r[2] ?? ""),
-      type: (String(r[3] ?? "").toLowerCase() === "message" ? "message" : "call") as FollowupType,
+      type: (FOLLOWUP_TYPES.includes(String(r[3] ?? "").toLowerCase() as FollowupType)
+        ? String(r[3]).toLowerCase()
+        : "call") as FollowupType,
       outcome: (FOLLOWUP_OUTCOMES.includes(String(r[4] ?? "").toLowerCase() as FollowupOutcome)
         ? String(r[4]).toLowerCase()
         : "other") as FollowupOutcome,

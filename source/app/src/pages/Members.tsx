@@ -1,45 +1,21 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router";
-import { Search, SlidersHorizontal, Phone, MessageCircle, Plus, Rows3, Layers } from "lucide-react";
+import { Search, SlidersHorizontal, Phone, MessageCircle, Plus, Rows3, Layers, UserX } from "lucide-react";
 import { useDataStore } from "@/store/data";
-import type { Member } from "@/lib/sheets";
+import type { Admin, Member } from "@/lib/sheets";
 import { cn } from "@/lib/utils";
-import { initials, avatarPalette, formatDayMonth, calculateAge, whatsappHref } from "@/lib/member";
+import { memberCaption, whatsappHref } from "@/lib/member";
+import { currentAssignmentsByMember } from "@/lib/assignments";
+import { MemberAvatar } from "@/components/MemberAvatar";
+import { AssigneeIndicator } from "@/components/AssigneeIndicator";
+import { FilterChip } from "@/components/FilterChip";
 import {
     MemberFilterSheet,
     type MemberFilters,
 } from "@/components/MemberFilterSheet";
 
-function MemberAvatar({ name, photoUrl }: { name: string; photoUrl?: string }) {
-    if (photoUrl) {
-        return (
-            <img
-                src={photoUrl}
-                alt={name}
-                className="size-12 shrink-0 rounded-full object-cover"
-            />
-        );
-    }
-
-    const palette = avatarPalette(name);
-    return (
-        <div
-            className={cn(
-                "flex size-12 shrink-0 items-center justify-center rounded-full text-ras-headline-md",
-                palette.bg,
-                palette.text
-            )}
-        >
-            {initials(name)}
-        </div>
-    );
-}
-
-function MemberRow({ member }: { member: Member }) {
+function MemberRow({ member, admin }: { member: Member; admin: Admin | null }) {
     const navigate = useNavigate();
-    const dayMonth = formatDayMonth(member.date_of_birth);
-    const age = calculateAge(member.date_of_birth);
-    const birthdayLabel = dayMonth ? `${dayMonth}${age !== null ? ` • ${age}y` : ""}` : null;
 
     return (
         <div
@@ -49,10 +25,10 @@ function MemberRow({ member }: { member: Member }) {
                 !member.active && "opacity-50"
             )}
         >
-            <div className="flex items-center gap-4">
+            <div className="flex min-w-0 items-center gap-4">
                 <MemberAvatar name={member.full_name} photoUrl={member.photo_url} />
-                <div className="flex flex-col">
-                    <span className="flex items-center gap-2 text-ras-title-sm text-ras-on-surface">
+                <div className="flex min-w-0 flex-col">
+                    <span className="flex min-w-0 items-center gap-2 text-ras-title-sm text-ras-on-surface">
                         <span
                             aria-label={member.active ? "Active" : "Inactive"}
                             title={member.active ? "Active" : "Inactive"}
@@ -61,14 +37,17 @@ function MemberRow({ member }: { member: Member }) {
                                 member.active ? "bg-ras-tertiary" : "bg-ras-on-surface-variant"
                             )}
                         />
-                        {member.full_name}
+                        <span className="truncate">{member.full_name}</span>
                     </span>
-                    <span className="text-ras-caption text-ras-on-surface-variant">
-                        {[member.group, birthdayLabel].filter(Boolean).join(" • ")}
+                    <span className="flex min-w-0 items-center gap-1.5 text-ras-caption text-ras-on-surface-variant">
+                        {member.active && <AssigneeIndicator admin={admin} />}
+                        <span className="min-w-0 truncate">
+                            {memberCaption(member)}
+                        </span>
                     </span>
                 </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex shrink-0 items-center gap-2">
                 <a
                     href={member.phone ? `tel:${member.phone}` : undefined}
                     onClick={(e) => e.stopPropagation()}
@@ -105,6 +84,8 @@ function MemberRow({ member }: { member: Member }) {
 export default function Members() {
     const navigate = useNavigate();
     const members = useDataStore((s) => s.members);
+    const admins = useDataStore((s) => s.admins);
+    const assignments = useDataStore((s) => s.assignments);
     const [search, setSearch] = useState("");
     const [filterOpen, setFilterOpen] = useState(false);
     const [groupByClass, setGroupByClass] = useState(true);
@@ -112,7 +93,18 @@ export default function Members() {
         groups: [],
         status: "active",
         sort: "name-az",
+        unassignedOnly: false,
     });
+
+    // member_id → current admin (null when unassigned or the admin isn't in the directory).
+    const adminByMember = useMemo(() => {
+        const adminsById = new Map(admins.map((a) => [a.id, a]));
+        const map = new Map<string, Admin | null>();
+        for (const [memberId, a] of currentAssignmentsByMember(assignments)) {
+            map.set(memberId, adminsById.get(a.admin_id) ?? null);
+        }
+        return map;
+    }, [admins, assignments]);
 
     const allGroups = useMemo(
         () =>
@@ -125,9 +117,10 @@ export default function Members() {
         return members
             .filter((m) => (filters.status === "active" ? m.active : !m.active))
             .filter((m) => filters.groups.length === 0 || filters.groups.includes(m.group))
+            .filter((m) => !filters.unassignedOnly || (m.active && !adminByMember.get(m.id)))
             .filter((m) => !query || m.full_name.toLowerCase().includes(query) || m.id.includes(query))
             .sort((a, b) => a.full_name.localeCompare(b.full_name));
-    }, [members, search, filters]);
+    }, [members, search, filters, adminByMember]);
 
     const grouped = useMemo(() => {
         if (!groupByClass) return null;
@@ -140,7 +133,8 @@ export default function Members() {
         return Array.from(map.entries()).sort(([a], [b]) => a.localeCompare(b));
     }, [filtered, groupByClass]);
 
-    const activeFilterCount = filters.groups.length + (filters.status === "inactive" ? 1 : 0);
+    const activeFilterCount =
+        filters.groups.length + (filters.status === "inactive" ? 1 : 0) + (filters.unassignedOnly ? 1 : 0);
 
     return (
         <div className="flex h-full flex-col">
@@ -170,21 +164,27 @@ export default function Members() {
                                 </span>
                             )}
                         </button>
-                        <button
-                            type="button"
+                        <FilterChip
                             onClick={() => setGroupByClass((v) => !v)}
                             title={groupByClass ? "Show all members" : "Group by class"}
-                            className="flex shrink-0 items-center gap-1.5 rounded-ras-full bg-ras-surface-container-highest px-3 py-1.5 text-ras-label-caps text-ras-on-surface-variant transition-colors hover:bg-ras-surface-container-high"
+                            aria-pressed={undefined}
                         >
-                            {groupByClass ? <Layers className="size-4" /> : <Rows3 className="size-4" />}
+                            {groupByClass ? <Layers /> : <Rows3 />}
                             {groupByClass ? "Grouped" : "All"}
-                        </button>
+                        </FilterChip>
+                        <FilterChip
+                            active={filters.unassignedOnly}
+                            onClick={() => setFilters((f) => ({ ...f, unassignedOnly: !f.unassignedOnly }))}
+                        >
+                            <UserX />
+                            Unassigned
+                        </FilterChip>
                         {allGroups.map((group) => {
                             const checked = filters.groups.includes(group);
                             return (
-                                <button
+                                <FilterChip
                                     key={group}
-                                    type="button"
+                                    active={checked}
                                     onClick={() =>
                                         setFilters((f) => ({
                                             ...f,
@@ -193,15 +193,9 @@ export default function Members() {
                                                 : [...f.groups, group],
                                         }))
                                     }
-                                    className={cn(
-                                        "shrink-0 whitespace-nowrap rounded-ras-full px-4 py-1.5 text-ras-label-caps transition-colors",
-                                        checked
-                                            ? "bg-ras-primary text-ras-on-primary"
-                                            : "bg-ras-surface-container-highest text-ras-on-surface-variant hover:bg-ras-surface-container-high"
-                                    )}
                                 >
                                     {group}
-                                </button>
+                                </FilterChip>
                             );
                         })}
                     </div>
@@ -230,11 +224,13 @@ export default function Members() {
                                   </span>
                               </div>
                               {groupMembers.map((m) => (
-                                  <MemberRow key={m.id} member={m} />
+                                  <MemberRow key={m.id} member={m} admin={adminByMember.get(m.id) ?? null} />
                               ))}
                           </div>
                       ))
-                    : filtered.map((m) => <MemberRow key={m.id} member={m} />)}
+                    : filtered.map((m) => (
+                          <MemberRow key={m.id} member={m} admin={adminByMember.get(m.id) ?? null} />
+                      ))}
             </div>
 
             {/* FAB for adding member */}

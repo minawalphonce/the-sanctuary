@@ -15,7 +15,15 @@ export interface MemberFilters {
     groups: string[];
     status: StatusFilter;
     sort: SortOption;
+    unassignedOnly: boolean;
 }
+
+const DEFAULT_MEMBER_FILTERS: MemberFilters = {
+    groups: [],
+    status: "active",
+    sort: "name-az",
+    unassignedOnly: false,
+};
 
 interface MemberFilterSheetProps {
     open: boolean;
@@ -42,8 +50,7 @@ export function MemberFilterSheet({
     const setStatus = (status: StatusFilter) => onApply({ ...filters, status });
     const setSort = (sort: SortOption) => onApply({ ...filters, sort });
 
-    const reset = () =>
-        onApply({ groups: [], status: "active", sort: "name-az" });
+    const reset = () => onApply(DEFAULT_MEMBER_FILTERS);
 
     return (
         <Sheet open={open} onOpenChange={onOpenChange}>

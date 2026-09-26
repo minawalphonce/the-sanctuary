@@ -4,6 +4,7 @@ import { useDataStore } from "@/store/data";
 import type { Member } from "@/lib/sheets";
 import { parseDdMmYyyy } from "@/lib/member";
 import { cn } from "@/lib/utils";
+import { ResponsibleAdminCard } from "@/components/ResponsibleAdminCard";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const STREAK_SESSIONS = 14;
@@ -87,6 +88,8 @@ export default function MemberOverview() {
 
     return (
         <div className="space-y-ras-stack">
+            {member.active && <ResponsibleAdminCard member={member} />}
+
             {/* Stats */}
             <div className="grid grid-cols-2 gap-4">
                 <div className="rounded-ras-xl border border-ras-outline-variant/30 bg-ras-surface-container-low p-4">

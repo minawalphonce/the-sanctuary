@@ -100,19 +100,20 @@ session occurs at most once per day.
 
 ---
 
-### `followup`
+### `followups`
 
-Follow-up tasks and notes for members.
+One row per logged contact with a member. Rows are append-only — the app never edits or deletes them; corrections are made directly in the sheet.
 
 | Column | Header | Format | Notes |
 |---|---|---|---|
 | A | id | UUID | |
 | B | member_id | Matches `members.id` | |
-| C | date | DD/MM/YYYY | |
-| D | type | Text | e.g. "call", "visit", "message" |
-| E | note | Text | |
-| F | done | TRUE / FALSE | |
-| G | assigned_to | Email | |
+| C | date | DD/MM/YYYY | Date of the contact. Defaults to today; never in the future |
+| D | type | "call" / "message" / "in person" | Unknown values are read as "call" |
+| E | outcome | "coming" / "not coming" / "no answer" / "other" | Unknown values are read as "other" |
+| F | notes | Text | Optional |
+| G | admin_id | Matches `admins.id` | The admin who logged the contact |
+| H | timestamp | ISO timestamp | When the row was logged |
 
 ---
 

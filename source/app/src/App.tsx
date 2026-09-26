@@ -23,6 +23,7 @@ import MemberContact from "@/pages/MemberContact";
 import Followup from "@/pages/Followup";
 import TakeAttendance from "@/pages/TakeAttendance";
 import MyProfile from "@/pages/MyProfile";
+import AssignFollowup from "@/pages/AssignFollowup";
 import PrivacyPolicy from "@/pages/legal/PrivacyPolicy";
 import TermsAndConditions from "@/pages/legal/TermsAndConditions";
 
@@ -109,6 +110,7 @@ export default function App() {
         <Route path="/*" element={user ? <Outlet /> : <Navigate to="/login" replace />}>
           {/* Full-screen modal pages — no shell, no bottom nav */}
           <Route path="profile" element={<MyProfile />} />
+          <Route path="assign" element={<AssignFollowup />} />
           <Route path="attendance/take" element={<TakeAttendance />} />
           <Route path="attendance/take/:sessionId" element={<TakeAttendance />} />
           <Route path="members/add" element={<MemberAddEdit />} />

@@ -2,7 +2,8 @@ import { create } from "zustand";
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import type { Admin, Assignment, Member, AttendanceRecord, FollowupRecord, SessionRecord, SheetData } from "@/lib/sheets";
-import { loadAll, upsertAdmin, appendRow, updateRow, findRowIndexById, SheetsAuthExpiredError } from "@/lib/sheets";
+import { loadAll, upsertAdmin, appendRow, appendRows, updateRow, batchUpdateRows, findRowIndexById, SheetsAuthExpiredError } from "@/lib/sheets";
+import { currentAssignmentsByMember } from "@/lib/assignments";
 
 // The Sheets access token can't be silently refreshed (Google requires a
 // user gesture). When it expires, sign out so the user lands back on
@@ -41,9 +42,17 @@ interface DataStore extends SyncMeta {
   upsertCurrentAdmin: () => Promise<void>;
 
   // Write helpers — update Sheets and patch local state optimistically
+  // Makes `adminId` responsible for each member: closes any current row and
+  // appends a new one. Optimistic — local state updates immediately and is
+  // rolled back (then the promise rejects) if either write fails. Members
+  // already assigned to `adminId` are skipped.
+  assign: (memberIds: string[], adminId: string) => Promise<void>;
+
   appendMember: (record: Member) => Promise<void>;
   updateMember: (id: string, updated: Member) => Promise<void>;
   appendAttendance: (record: AttendanceRecord) => Promise<void>;
+  // Optimistic — the record shows immediately and is removed again (then the
+  // promise rejects) if the write fails.
   appendFollowup: (record: FollowupRecord) => Promise<void>;
   updateFollowup: (id: string, updated: FollowupRecord, sheetRowIndex: number) => Promise<void>;
   appendSession: (record: SessionRecord) => Promise<void>;
@@ -90,6 +99,54 @@ export const useDataStore = create<DataStore>((set, get) => ({
         ? s.admins.map((a) => (a.id === admin.id ? admin : a))
         : [...s.admins, admin],
     }));
+  },
+
+  assign: async (memberIds, adminId) => {
+    const previous = get().assignments;
+    const current = currentAssignmentsByMember(previous);
+    const targets = Array.from(new Set(memberIds)).filter((id) => current.get(id)?.admin_id !== adminId);
+    if (targets.length === 0) return;
+
+    // Same timestamp for the closing `to` and the new `from`.
+    const now = new Date().toISOString();
+    const assignedBy = auth.currentUser?.uid ?? "";
+    const toClose = targets.map((id) => current.get(id)).filter((a): a is Assignment => !!a);
+    const closedIds = new Set(toClose.map((a) => a.id));
+    const created: Assignment[] = targets.map((memberId) => ({
+      id: crypto.randomUUID(),
+      member_id: memberId,
+      admin_id: adminId,
+      assigned_by: assignedBy,
+      from: now,
+      to: "",
+      row: -1, // unknown until the append returns
+    }));
+
+    set({
+      assignments: [...previous.map((a) => (closedIds.has(a.id) ? { ...a, to: now } : a)), ...created],
+    });
+
+    try {
+      await withExpiryHandling(async () => {
+        if (toClose.length > 0) {
+          await batchUpdateRows(toClose.map((a) => ({ range: `assignments!F${a.row}`, row: [now] })));
+        }
+        const firstRow = await appendRows(
+          "assignments",
+          created.map((a) => [a.id, a.member_id, a.admin_id, a.assigned_by, a.from, a.to])
+        );
+        const rowById = new Map(created.map((a, i) => [a.id, firstRow + i]));
+        set((s) => ({
+          assignments: s.assignments.map((a) => (rowById.has(a.id) ? { ...a, row: rowById.get(a.id)! } : a)),
+        }));
+      });
+    } catch (err) {
+      set({ assignments: previous });
+      // The close may have landed before the append failed — resync so local
+      // state matches the sheet rather than the pre-write snapshot.
+      get().sync();
+      throw err;
+    }
   },
 
   appendMember: async (record) => {
@@ -155,8 +212,13 @@ export const useDataStore = create<DataStore>((set, get) => ({
 
   appendFollowup: async (record) => {
     const row = [record.id, record.member_id, record.date, record.type, record.outcome, record.notes, record.admin_id, record.timestamp];
-    await withExpiryHandling(() => appendRow("followups", row));
     set((s) => ({ followup: [...s.followup, record] }));
+    try {
+      await withExpiryHandling(() => appendRow("followups", row));
+    } catch (err) {
+      set((s) => ({ followup: s.followup.filter((f) => f.id !== record.id) }));
+      throw err;
+    }
   },
 
   // sheetRowIndex is 1-based data row (row 2 in sheet = index 1 in the array = sheet row 2)
