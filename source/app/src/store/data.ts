@@ -53,8 +53,8 @@ interface DataStore extends SyncMeta {
   appendAttendance: (record: AttendanceRecord) => Promise<void>;
   // Optimistic — the record shows immediately and is removed again (then the
   // promise rejects) if the write fails.
+  // Contacts are append-only — never edited or deleted in the app.
   appendFollowup: (record: FollowupRecord) => Promise<void>;
-  updateFollowup: (id: string, updated: FollowupRecord, sheetRowIndex: number) => Promise<void>;
   appendSession: (record: SessionRecord) => Promise<void>;
   updateSession: (id: string, updated: SessionRecord) => Promise<void>;
   // Upserts attendance for every member in `records` for the given date —
@@ -219,15 +219,6 @@ export const useDataStore = create<DataStore>((set, get) => ({
       set((s) => ({ followup: s.followup.filter((f) => f.id !== record.id) }));
       throw err;
     }
-  },
-
-  // sheetRowIndex is 1-based data row (row 2 in sheet = index 1 in the array = sheet row 2)
-  updateFollowup: async (id, updated, sheetRowIndex) => {
-    const sheetRow = sheetRowIndex + 2; // +1 for 1-based, +1 for header row
-    const range = `followups!A${sheetRow}:H${sheetRow}`;
-    const row = [updated.id, updated.member_id, updated.date, updated.type, updated.outcome, updated.notes, updated.admin_id, updated.timestamp];
-    await withExpiryHandling(() => updateRow(range, row));
-    set((s) => ({ followup: s.followup.map((f) => (f.id === id ? updated : f)) }));
   },
 
   appendSession: async (record) => {

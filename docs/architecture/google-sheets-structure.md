@@ -45,6 +45,29 @@ on every login; don't edit it by hand.
 
 ---
 
+### `assignments`
+
+History of which admin is responsible for each member — the single source of
+truth for assignments. Written by the app when members are assigned or
+reassigned; don't edit it by hand.
+
+| Column | Header | Format | Notes |
+|---|---|---|---|
+| A | id | UUID | |
+| B | member_id | Matches `members.id` | |
+| C | admin_id | Matches `admins.id` | The responsible admin |
+| D | assigned_by | Matches `admins.id` | The admin who made the assignment |
+| E | from | ISO timestamp | When this assignment started |
+| F | to | ISO timestamp | When it ended. **Empty = current assignment** |
+
+- A member has at most one row with an empty `to` — that row is their current
+  assignment. A member with no such row is unassigned.
+- Reassigning sets `to` on the current row and appends a new row, using the same
+  timestamp for the old `to` and the new `from`.
+- Rows are never deleted, so the tab is the full assignment history.
+
+---
+
 ### `members`
 
 All youth members.
