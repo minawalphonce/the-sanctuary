@@ -1,8 +1,9 @@
 import { create } from "zustand";
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
-import type { Member, AttendanceRecord, FollowupRecord, SessionRecord, SheetData } from "@/lib/sheets";
-import { loadAll, appendRow, updateRow, findRowIndexById, SheetsAuthExpiredError } from "@/lib/sheets";
+import type { Admin, Assignment, Member, AttendanceRecord, FollowupRecord, SessionRecord, SheetData } from "@/lib/sheets";
+import { loadAll, upsertAdmin, appendRow, appendRows, updateRow, batchUpdateRows, findRowIndexById, SheetsAuthExpiredError } from "@/lib/sheets";
+import { currentAssignmentsByMember } from "@/lib/assignments";
 
 // The Sheets access token can't be silently refreshed (Google requires a
 // user gesture). When it expires, sign out so the user lands back on
@@ -26,8 +27,9 @@ interface SyncMeta {
 }
 
 interface DataStore extends SyncMeta {
-  admins: string[];
+  admins: Admin[];
   members: Member[];
+  assignments: Assignment[];
   attendance: AttendanceRecord[];
   followup: FollowupRecord[];
   sessions: SessionRecord[];
@@ -35,12 +37,24 @@ interface DataStore extends SyncMeta {
   // Called by DataSync on every poll tick
   sync: () => Promise<void>;
 
+  // Records the signed-in user in the admins directory. Best-effort — callers
+  // shouldn't await it on the load path; it's retried on the next login.
+  upsertCurrentAdmin: () => Promise<void>;
+
   // Write helpers — update Sheets and patch local state optimistically
+  // Makes `adminId` responsible for each member: closes any current row and
+  // appends a new one. Optimistic — local state updates immediately and is
+  // rolled back (then the promise rejects) if either write fails. Members
+  // already assigned to `adminId` are skipped.
+  assign: (memberIds: string[], adminId: string) => Promise<void>;
+
   appendMember: (record: Member) => Promise<void>;
   updateMember: (id: string, updated: Member) => Promise<void>;
   appendAttendance: (record: AttendanceRecord) => Promise<void>;
+  // Optimistic — the record shows immediately and is removed again (then the
+  // promise rejects) if the write fails.
+  // Contacts are append-only — never edited or deleted in the app.
   appendFollowup: (record: FollowupRecord) => Promise<void>;
-  updateFollowup: (id: string, updated: FollowupRecord, sheetRowIndex: number) => Promise<void>;
   appendSession: (record: SessionRecord) => Promise<void>;
   updateSession: (id: string, updated: SessionRecord) => Promise<void>;
   // Upserts attendance for every member in `records` for the given date —
@@ -60,6 +74,7 @@ export const useDataStore = create<DataStore>((set, get) => ({
   error: null,
   admins: [],
   members: [],
+  assignments: [],
   attendance: [],
   followup: [],
   sessions: [],
@@ -72,6 +87,65 @@ export const useDataStore = create<DataStore>((set, get) => ({
       set({ ...data, syncing: false, lastSyncedAt: new Date() });
     } catch (err) {
       set({ syncing: false, error: err instanceof Error ? err.message : "Sync failed" });
+    }
+  },
+
+  upsertCurrentAdmin: async () => {
+    const user = auth.currentUser;
+    if (!user) return;
+    const admin = await withExpiryHandling(() => upsertAdmin(user));
+    set((s) => ({
+      admins: s.admins.some((a) => a.id === admin.id)
+        ? s.admins.map((a) => (a.id === admin.id ? admin : a))
+        : [...s.admins, admin],
+    }));
+  },
+
+  assign: async (memberIds, adminId) => {
+    const previous = get().assignments;
+    const current = currentAssignmentsByMember(previous);
+    const targets = Array.from(new Set(memberIds)).filter((id) => current.get(id)?.admin_id !== adminId);
+    if (targets.length === 0) return;
+
+    // Same timestamp for the closing `to` and the new `from`.
+    const now = new Date().toISOString();
+    const assignedBy = auth.currentUser?.uid ?? "";
+    const toClose = targets.map((id) => current.get(id)).filter((a): a is Assignment => !!a);
+    const closedIds = new Set(toClose.map((a) => a.id));
+    const created: Assignment[] = targets.map((memberId) => ({
+      id: crypto.randomUUID(),
+      member_id: memberId,
+      admin_id: adminId,
+      assigned_by: assignedBy,
+      from: now,
+      to: "",
+      row: -1, // unknown until the append returns
+    }));
+
+    set({
+      assignments: [...previous.map((a) => (closedIds.has(a.id) ? { ...a, to: now } : a)), ...created],
+    });
+
+    try {
+      await withExpiryHandling(async () => {
+        if (toClose.length > 0) {
+          await batchUpdateRows(toClose.map((a) => ({ range: `assignments!F${a.row}`, row: [now] })));
+        }
+        const firstRow = await appendRows(
+          "assignments",
+          created.map((a) => [a.id, a.member_id, a.admin_id, a.assigned_by, a.from, a.to])
+        );
+        const rowById = new Map(created.map((a, i) => [a.id, firstRow + i]));
+        set((s) => ({
+          assignments: s.assignments.map((a) => (rowById.has(a.id) ? { ...a, row: rowById.get(a.id)! } : a)),
+        }));
+      });
+    } catch (err) {
+      set({ assignments: previous });
+      // The close may have landed before the append failed — resync so local
+      // state matches the sheet rather than the pre-write snapshot.
+      get().sync();
+      throw err;
     }
   },
 
@@ -96,7 +170,6 @@ export const useDataStore = create<DataStore>((set, get) => ({
       stamped.photo_url,
       stamped.registered_date,
       stamped.last_updated,
-      stamped.assigned_to,
     ];
     await withExpiryHandling(() => appendRow("members", row));
     set((s) => ({ members: [...s.members, stamped] }));
@@ -107,7 +180,7 @@ export const useDataStore = create<DataStore>((set, get) => ({
     if (index === -1) throw new Error(`Member ${id} not found`);
     const stamped: Member = { ...updated, last_updated: new Date().toISOString() };
     const sheetRow = index + 2; // +1 for 1-based, +1 for header row
-    const range = `members!A${sheetRow}:R${sheetRow}`;
+    const range = `members!A${sheetRow}:Q${sheetRow}`;
     const row = [
       stamped.id,
       stamped.full_name,
@@ -126,7 +199,6 @@ export const useDataStore = create<DataStore>((set, get) => ({
       stamped.photo_url,
       stamped.registered_date,
       stamped.last_updated,
-      stamped.assigned_to,
     ];
     await withExpiryHandling(() => updateRow(range, row));
     set((s) => ({ members: s.members.map((m) => (m.id === id ? stamped : m)) }));
@@ -139,18 +211,14 @@ export const useDataStore = create<DataStore>((set, get) => ({
   },
 
   appendFollowup: async (record) => {
-    const row = [record.id, record.member_id, record.date, record.type, record.note, record.done, record.assigned_to];
-    await withExpiryHandling(() => appendRow("followup", row));
+    const row = [record.id, record.member_id, record.date, record.type, record.outcome, record.notes, record.admin_id, record.timestamp];
     set((s) => ({ followup: [...s.followup, record] }));
-  },
-
-  // sheetRowIndex is 1-based data row (row 2 in sheet = index 1 in the array = sheet row 2)
-  updateFollowup: async (id, updated, sheetRowIndex) => {
-    const sheetRow = sheetRowIndex + 2; // +1 for 1-based, +1 for header row
-    const range = `followup!A${sheetRow}:G${sheetRow}`;
-    const row = [updated.id, updated.member_id, updated.date, updated.type, updated.note, updated.done, updated.assigned_to];
-    await withExpiryHandling(() => updateRow(range, row));
-    set((s) => ({ followup: s.followup.map((f) => (f.id === id ? updated : f)) }));
+    try {
+      await withExpiryHandling(() => appendRow("followups", row));
+    } catch (err) {
+      set((s) => ({ followup: s.followup.filter((f) => f.id !== record.id) }));
+      throw err;
+    }
   },
 
   appendSession: async (record) => {

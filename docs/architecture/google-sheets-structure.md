@@ -28,6 +28,46 @@ Access to the app is controlled via **Google Sheet sharing settings**, not a tab
 
 ## Tabs
 
+### `admins`
+
+Directory of admins who have logged in at least once. **Not** access control —
+access still comes from sheet sharing. The app upserts the signed-in user's row
+on every login; don't edit it by hand.
+
+| Column | Header | Format | Notes |
+|---|---|---|---|
+| A | id | Firebase Auth UID | Unique key |
+| B | email | Text | Updated on each login |
+| C | name | Text | Google display name, updated on each login |
+| D | photo_url | Text | Google profile photo URL, updated on each login |
+| E | first_seen | ISO timestamp | Set once, on the first login |
+| F | last_seen | ISO timestamp | Updated on each login |
+
+---
+
+### `assignments`
+
+History of which admin is responsible for each member — the single source of
+truth for assignments. Written by the app when members are assigned or
+reassigned; don't edit it by hand.
+
+| Column | Header | Format | Notes |
+|---|---|---|---|
+| A | id | UUID | |
+| B | member_id | Matches `members.id` | |
+| C | admin_id | Matches `admins.id` | The responsible admin |
+| D | assigned_by | Matches `admins.id` | The admin who made the assignment |
+| E | from | ISO timestamp | When this assignment started |
+| F | to | ISO timestamp | When it ended. **Empty = current assignment** |
+
+- A member has at most one row with an empty `to` — that row is their current
+  assignment. A member with no such row is unassigned.
+- Reassigning sets `to` on the current row and appends a new row, using the same
+  timestamp for the old `to` and the new `from`.
+- Rows are never deleted, so the tab is the full assignment history.
+
+---
+
 ### `members`
 
 All youth members.
@@ -83,19 +123,20 @@ session occurs at most once per day.
 
 ---
 
-### `followup`
+### `followups`
 
-Follow-up tasks and notes for members.
+One row per logged contact with a member. Rows are append-only — the app never edits or deletes them; corrections are made directly in the sheet.
 
 | Column | Header | Format | Notes |
 |---|---|---|---|
 | A | id | UUID | |
 | B | member_id | Matches `members.id` | |
-| C | date | DD/MM/YYYY | |
-| D | type | Text | e.g. "call", "visit", "message" |
-| E | note | Text | |
-| F | done | TRUE / FALSE | |
-| G | assigned_to | Email | |
+| C | date | DD/MM/YYYY | Date of the contact. Defaults to today; never in the future |
+| D | type | "call" / "message" / "in person" | Unknown values are read as "call" |
+| E | outcome | "coming" / "not coming" / "no answer" / "other" | Unknown values are read as "other" |
+| F | notes | Text | Optional |
+| G | admin_id | Matches `admins.id` | The admin who logged the contact |
+| H | timestamp | ISO timestamp | When the row was logged |
 
 ---
 

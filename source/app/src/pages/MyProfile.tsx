@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { onAuthStateChanged, signOut, type User } from "firebase/auth";
 import { toast } from "sonner";
-import { X, ShieldCheck, BarChart3, ChevronRight, LogOut } from "lucide-react";
+import { X, ShieldCheck, BarChart3, ChevronRight, LogOut, UserPlus } from "lucide-react";
 import { auth } from "@/lib/firebase";
 import { useDataStore } from "@/store/data";
 
@@ -31,7 +31,7 @@ export default function MyProfile() {
     const photo = user?.photoURL;
     const name = user?.displayName ?? "Admin";
     const email = user?.email ?? "";
-    const isAdmin = email ? admins.includes(email) : false;
+    const isAdmin = user ? admins.some((a) => a.id === user.uid) : false;
 
     const comingSoon = (feature: string) =>
         toast.info("Coming soon", { description: `${feature} isn't available yet.` });
@@ -107,13 +107,26 @@ export default function MyProfile() {
                         <button
                             type="button"
                             onClick={() => comingSoon("Yearly Performance Roll-up")}
-                            className="flex w-full items-center justify-between p-ras-list-item transition-colors hover:bg-ras-surface-container-low"
+                            className="flex w-full items-center justify-between border-b border-ras-outline-variant/30 p-ras-list-item transition-colors hover:bg-ras-surface-container-low"
                         >
                             <div className="flex items-center gap-4">
                                 <div className="flex size-10 items-center justify-center rounded-ras-lg bg-ras-secondary-container text-ras-on-secondary-container">
                                     <BarChart3 className="size-5" />
                                 </div>
                                 <span className="text-ras-title-sm text-ras-primary">Yearly Performance Roll-up</span>
+                            </div>
+                            <ChevronRight className="size-5 text-ras-outline" />
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => navigate("/assign")}
+                            className="flex w-full items-center justify-between p-ras-list-item transition-colors hover:bg-ras-surface-container-low"
+                        >
+                            <div className="flex items-center gap-4">
+                                <div className="flex size-10 items-center justify-center rounded-ras-lg bg-ras-secondary-container text-ras-on-secondary-container">
+                                    <UserPlus className="size-5" />
+                                </div>
+                                <span className="text-ras-title-sm text-ras-primary">Assign Follow-up</span>
                             </div>
                             <ChevronRight className="size-5 text-ras-outline" />
                         </button>

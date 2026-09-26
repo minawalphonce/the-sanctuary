@@ -1,17 +1,11 @@
 import { useEffect, useState } from "react";
 import { onAuthStateChanged, type User } from "firebase/auth";
 import { auth } from "@/lib/firebase";
+import { AdminAvatar } from "@/components/AdminAvatar";
+import { cn } from "@/lib/utils";
 
-function initials(name: string | null): string {
-    if (!name) return "?";
-    return name
-        .split(" ")
-        .slice(0, 2)
-        .map((w) => w[0])
-        .join("")
-        .toUpperCase();
-}
-
+// The signed-in user's avatar — reads straight from Firebase Auth so it
+// renders before the admins directory has synced.
 export function UserAvatar({ className }: { className?: string }) {
     const [user, setUser] = useState<User | null>(auth.currentUser);
 
@@ -19,35 +13,17 @@ export function UserAvatar({ className }: { className?: string }) {
         return onAuthStateChanged(auth, setUser);
     }, []);
 
-    const photo = user?.photoURL;
-    const label = user?.displayName ?? user?.email ?? null;
-
     return (
-        <div
-            className={[
-                "size-9 rounded-full overflow-hidden bg-ras-primary-container text-ras-secondary-container border-[1.5px] border-ras-secondary-container flex items-center justify-center shrink-0 select-none",
-                className,
-            ]
-                .filter(Boolean)
-                .join(" ")}
-            title={label ?? undefined}
-            aria-label={label ?? "User avatar"}
-        >
-            {photo ? (
-                <img
-                    src={photo}
-                    alt={label ?? "User"}
-                    className="size-full object-cover"
-                    referrerPolicy="no-referrer"
-                    onError={(e) => {
-                        (e.currentTarget as HTMLImageElement).style.display = "none";
-                    }}
-                />
-            ) : (
-                <span className="text-ras-label-caps text-[11px]">
-                    {initials(label)}
-                </span>
+        <AdminAvatar
+            admin={{
+                name: user?.displayName ?? "",
+                email: user?.email ?? "",
+                photo_url: user?.photoURL ?? "",
+            }}
+            className={cn(
+                "border-[1.5px] border-ras-secondary-container bg-ras-primary-container text-ras-secondary-container",
+                className
             )}
-        </div>
+        />
     );
 }

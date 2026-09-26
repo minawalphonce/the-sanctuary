@@ -1,5 +1,7 @@
 // Shared formatting helpers for member display — used by the list, profile, and tab pages.
 
+import type { Member } from "@/lib/sheets";
+
 const AVATAR_PALETTE = [
     { bg: "bg-ras-primary-fixed", text: "text-ras-primary" },
     { bg: "bg-ras-secondary-fixed-dim", text: "text-ras-on-secondary-fixed" },
@@ -55,4 +57,12 @@ export function calculateAge(value: string): number | null {
         (today.getMonth() + 1 === parsed.month && today.getDate() >= parsed.day);
     if (!hasHadBirthdayThisYear) age--;
     return age;
+}
+
+// Caption shown under a member's name in lists: class • birthday • age.
+export function memberCaption(m: Pick<Member, "group" | "date_of_birth">): string {
+    const dayMonth = formatDayMonth(m.date_of_birth);
+    const age = calculateAge(m.date_of_birth);
+    const birthday = dayMonth ? `${dayMonth}${age !== null ? ` • ${age}y` : ""}` : null;
+    return [m.group, birthday].filter(Boolean).join(" • ");
 }

@@ -4,7 +4,8 @@ import { Calendar, Check, Save, Search, Sparkles, X } from "lucide-react";
 import { toast } from "sonner";
 import { useDataStore } from "@/store/data";
 import { auth } from "@/lib/firebase";
-import { initials, avatarPalette } from "@/lib/member";
+import { memberCaption } from "@/lib/member";
+import { MemberAvatar } from "@/components/MemberAvatar";
 import { nextRegularSessionDdMmYyyy, findSessionDateCollision } from "@/lib/sessions";
 import { cn } from "@/lib/utils";
 import type { Member, SessionRecord } from "@/lib/sheets";
@@ -33,26 +34,16 @@ function MemberRow({
     state: PresentState;
     onSet: (next: PresentState) => void;
 }) {
-    const palette = avatarPalette(member.full_name);
-
     return (
         <div className="flex items-center justify-between border-b border-ras-outline-variant py-ras-list-item last:border-b-0">
-            <div className="flex items-center gap-4">
-                <div
-                    className={cn(
-                        "flex size-12 shrink-0 items-center justify-center rounded-full text-ras-title-sm",
-                        palette.bg,
-                        palette.text
-                    )}
-                >
-                    {initials(member.full_name)}
-                </div>
-                <div>
-                    <h4 className="text-ras-title-sm text-ras-on-surface">{member.full_name}</h4>
-                    <p className="text-ras-caption text-ras-on-surface-variant">#{member.id}</p>
+            <div className="flex min-w-0 items-center gap-4">
+                <MemberAvatar name={member.full_name} photoUrl={member.photo_url} />
+                <div className="flex min-w-0 flex-col">
+                    <span className="truncate text-ras-title-sm text-ras-on-surface">{member.full_name}</span>
+                    <span className="truncate text-ras-caption text-ras-on-surface-variant">{memberCaption(member)}</span>
                 </div>
             </div>
-            <div className="flex gap-2">
+            <div className="flex shrink-0 gap-2">
                 <button
                     type="button"
                     onClick={() => onSet(state === "absent" ? null : "absent")}

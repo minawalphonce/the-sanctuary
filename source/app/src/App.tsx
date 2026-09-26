@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router";
 import { onAuthStateChanged, signOut, type User } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { checkAccess } from "@/lib/sheets";
+import { useDataStore } from "@/store/data";
 import AppShell from "@/layouts/AppShell";
 import { Toaster } from "@/components/ui/sonner";
 import { usePwaUpdate } from "@/hooks/usePwaUpdate";
@@ -22,6 +23,7 @@ import MemberContact from "@/pages/MemberContact";
 import Followup from "@/pages/Followup";
 import TakeAttendance from "@/pages/TakeAttendance";
 import MyProfile from "@/pages/MyProfile";
+import AssignFollowup from "@/pages/AssignFollowup";
 import PrivacyPolicy from "@/pages/legal/PrivacyPolicy";
 import TermsAndConditions from "@/pages/legal/TermsAndConditions";
 
@@ -59,6 +61,11 @@ export default function App() {
     switch (result.status) {
       case "ok":
         setAccessState("ok");
+        // Fire-and-forget: a failed upsert must never block app load, and
+        // it's retried naturally on the next login / app open.
+        useDataStore.getState().upsertCurrentAdmin().catch((err) => {
+          console.warn("Admin directory upsert failed", err);
+        });
         break;
       case "forbidden":
         setAccessState("denied");
@@ -103,6 +110,7 @@ export default function App() {
         <Route path="/*" element={user ? <Outlet /> : <Navigate to="/login" replace />}>
           {/* Full-screen modal pages — no shell, no bottom nav */}
           <Route path="profile" element={<MyProfile />} />
+          <Route path="assign" element={<AssignFollowup />} />
           <Route path="attendance/take" element={<TakeAttendance />} />
           <Route path="attendance/take/:sessionId" element={<TakeAttendance />} />
           <Route path="members/add" element={<MemberAddEdit />} />
