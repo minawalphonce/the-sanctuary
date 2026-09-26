@@ -101,7 +101,7 @@ export function AddFollowupSheet({ open, onOpenChange, member }: AddFollowupShee
                     <SheetTitle className="text-ras-headline-md text-ras-primary">Add Follow-up</SheetTitle>
                 </SheetHeader>
 
-                <div className="flex-1 space-y-8 overflow-y-auto p-6">
+                <div className="min-h-0 flex-1 space-y-8 overflow-y-auto p-6">
                     {/* Interaction type */}
                     <section className="space-y-3">
                         <h3 className={labelClass}>Interaction Type</h3>
