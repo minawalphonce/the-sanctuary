@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router";
-import { onAuthStateChanged, signOut, type User } from "firebase/auth";
+import { getRedirectResult, onAuthStateChanged, signOut, type User } from "firebase/auth";
 import { auth } from "@/lib/firebase";
-import { checkAccess } from "@/lib/sheets";
+import { checkAccess, getGoogleAccessTokenFromResult, setGoogleAccessToken } from "@/lib/sheets";
 import { useDataStore } from "@/store/data";
 import AppShell from "@/layouts/AppShell";
 import { Toaster } from "@/components/ui/sonner";
@@ -35,23 +35,45 @@ export default function App() {
   const [user, setUser] = useState<User | null>(null);
   const [authReady, setAuthReady] = useState(false);
   const [accessState, setAccessState] = useState<AccessState>("checking");
+  const [signInError, setSignInError] = useState<string | null>(null);
 
   usePwaUpdate();
 
   useEffect(() => {
-    // Sign-in happens via signInWithPopup (see pages/login.tsx), which
-    // resolves with both the Firebase user and the Google Sheets access
-    // token in one round-trip. The Sheets token expires after ~1h and
-    // can't be silently refreshed (Google requires a user gesture), so
-    // store/data.ts signs the user out when it expires, which routes
-    // back here to /login for a fresh popup sign-in.
-    const unsubscribe = onAuthStateChanged(auth, (u) => {
-      setUser(u);
-      setAuthReady(true);
-      if (!u) setAccessState("checking");
-    });
+    // Sign-in happens via signInWithRedirect (see pages/login.tsx). When the
+    // user comes back from Google, getRedirectResult hands us the Google
+    // Sheets access token. It MUST be stored before we start listening to
+    // auth state — otherwise the access check runs without a token, gets
+    // "unauthenticated" and signs the user straight back out.
+    // The Sheets token expires after ~1h and can't be silently refreshed,
+    // so store/data.ts signs the user out when it expires, which routes
+    // back to /login for a fresh sign-in.
+    let unsubscribe: (() => void) | undefined;
+    let cancelled = false;
 
-    return () => unsubscribe();
+    getRedirectResult(auth)
+      .then((result) => {
+        if (!result) return;
+        const token = getGoogleAccessTokenFromResult(result);
+        if (token) setGoogleAccessToken(token);
+      })
+      .catch((err: unknown) => {
+        console.warn("Redirect sign-in failed", err);
+        setSignInError(err instanceof Error ? err.message : String(err));
+      })
+      .finally(() => {
+        if (cancelled) return;
+        unsubscribe = onAuthStateChanged(auth, (u) => {
+          setUser(u);
+          setAuthReady(true);
+          if (!u) setAccessState("checking");
+        });
+      });
+
+    return () => {
+      cancelled = true;
+      unsubscribe?.();
+    };
   }, []);
 
   // Re-runs every time a user becomes signed in — both right after login
@@ -102,7 +124,7 @@ export default function App() {
       <Toaster position={direction === "rtl" ? "top-left" : "top-right"} />
       <Routes>
         {/* Login — no shell, no bottom nav */}
-        <Route path="/login" element={user ? <Navigate to="/" replace /> : <Login />} />
+        <Route path="/login" element={user ? <Navigate to="/" replace /> : <Login initialError={signInError} />} />
 
         {/* Public legal pages — no auth required, no shell */}
         <Route path="/privacy" element={<PrivacyPolicy />} />

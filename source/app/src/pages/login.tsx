@@ -1,24 +1,24 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
-import { signInWithPopup } from "firebase/auth";
+import { signInWithRedirect } from "firebase/auth";
 import { auth, googleProvider } from "@/lib/firebase";
-import { setGoogleAccessToken, getGoogleAccessTokenFromResult } from "@/lib/sheets";
 import { Button } from "@/components/ui/button";
 
-export default function Login() {
+export default function Login({ initialError }: { initialError?: string | null }) {
     const { t } = useTranslation(undefined, { keyPrefix: "auth.login" });
-    const [error, setError] = useState<string | null>(null);
+    // initialError: a failure reported by getRedirectResult in App.tsx after
+    // coming back from Google.
+    const [error, setError] = useState<string | null>(initialError ? friendlyError(initialError, t) : null);
     const [loading, setLoading] = useState(false);
 
     async function handleGoogleSignIn() {
         setError(null);
         setLoading(true);
         try {
-            const result = await signInWithPopup(auth, googleProvider);
-            const accessToken = getGoogleAccessTokenFromResult(result);
-            if (accessToken) setGoogleAccessToken(accessToken);
-            // App.tsx's onAuthStateChanged listener picks up the signed-in user and navigates.
+            // Leaves the app; App.tsx picks up the result (user + Sheets
+            // token) via getRedirectResult when Google sends the user back.
+            await signInWithRedirect(auth, googleProvider);
         } catch (err: unknown) {
             const msg = err instanceof Error ? err.message : "";
             setError(friendlyError(msg, t));
@@ -98,12 +98,6 @@ function friendlyError(msg: string, t: TFunction<"translation", "auth.login">): 
     }
     if (msg.includes("unauthorized-domain")) {
         return t("errors.unauthorizedDomain");
-    }
-    if (msg.includes("popup-closed-by-user") || msg.includes("cancelled-popup-request")) {
-        return t("errors.popupClosed");
-    }
-    if (msg.includes("popup-blocked")) {
-        return t("errors.popupBlocked");
     }
     return t("errors.generic");
 }

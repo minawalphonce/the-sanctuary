@@ -5,7 +5,11 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 let firebaseConfig: object;
 try {
     const response = await fetch("/__/firebase/init.json");
-    firebaseConfig = await response.json();
+    // Serve the auth handler (/__/auth/handler) from the same host the app
+    // runs on, so the sign-in redirect never leaves the app's origin. This
+    // avoids "missing initial state" in the iOS home-screen app, whose
+    // storage is partitioned from other sites.
+    firebaseConfig = { ...(await response.json()), authDomain: window.location.host };
 } catch {
     firebaseConfig = {
         apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -28,7 +32,7 @@ googleProvider.addScope("https://www.googleapis.com/auth/spreadsheets");
 googleProvider.setCustomParameters({ prompt: "select_account" });
 
 export async function uploadMemberPhoto(memberId: string, file: File): Promise<string> {
-  const photoRef = ref(storage, `member-photos/${memberId}`);
-  await uploadBytes(photoRef, file);
-  return getDownloadURL(photoRef);
+    const photoRef = ref(storage, `member-photos/${memberId}`);
+    await uploadBytes(photoRef, file);
+    return getDownloadURL(photoRef);
 }

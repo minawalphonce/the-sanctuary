@@ -27,18 +27,20 @@ export function AppShell() {
     return (
         <div className="flex flex-col h-screen overflow-hidden bg-ras-background">
             {/* Top Bar */}
-            <header className="shrink-0 flex items-center justify-between gap-3 px-ras-edge min-h-14 bg-ras-primary pt-[env(safe-area-inset-top)]">
-                <span className="text-ras-headline-md text-ras-on-primary">
-                    {title}
-                </span>
-                <button
-                    type="button"
-                    onClick={() => navigate("/profile")}
-                    aria-label={t("profileAria")}
-                    className="rounded-full transition-opacity active:opacity-80"
-                >
-                    <UserAvatar />
-                </button>
+            <header className="shrink-0 bg-ras-primary pt-[env(safe-area-inset-top)]">
+                <div className="flex items-center justify-between gap-3 px-ras-edge h-14">
+                    <span className="text-ras-headline-md text-ras-on-primary">
+                        {title}
+                    </span>
+                    <button
+                        type="button"
+                        onClick={() => navigate("/profile")}
+                        aria-label={t("profileAria")}
+                        className="rounded-full transition-opacity active:opacity-80"
+                    >
+                        <UserAvatar />
+                    </button>
+                </div>
             </header>
 
             {/* Page Content */}
