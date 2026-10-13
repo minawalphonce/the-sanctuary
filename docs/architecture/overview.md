@@ -31,7 +31,7 @@ spreadsheet.
 - REST API is plain request/response — no listeners, no SDK magic
 - Free
 
-### Firebase Cloud Messaging (FCM)
+### Firebase Cloud Messaging (FCM) — planned, not yet implemented
 - Free push notifications
 - Works on Android and iOS (via PWA/browser)
 - Integrates naturally since Firebase Auth is already in use
@@ -61,18 +61,23 @@ User (browser)
     │                                       │
     │                                  Google Sheet (source of truth)
     │
-    └─── FCM ───────────────────────────── Push notifications
+    └─── FCM (planned) ─────────────────── Push notifications
 ```
 
 ## Access Control
 
-Access is managed entirely through **Google Sheet sharing settings** — no `admins` tab, no app-level list.
+Access is managed entirely through **Google Sheet sharing settings**. There is no
+app-level allow list.
 
-- To **grant access**: share the Google Sheet with the person's Google account
+- To **grant access**: share the Google Sheet with the person's Google account (Editor)
 - To **revoke access**: remove them from the sheet's sharing settings
 - The app verifies access at login by attempting to fetch the sheet with the user's token
 - A `403` response means no access — the user is shown a "not authorized" screen
 - A successful response means access is granted — no further checks needed
+
+The `admins` tab in the sheet is **not** access control. It is a directory the app fills
+in by itself each time someone signs in (name, email, photo), so the app can show who is
+responsible for a member and who logged a contact.
 
 ---
 
@@ -85,7 +90,8 @@ Each organisation gets its **own Firebase project** and its **own Google Sheet**
 - Each deployment is fully independent
 - One Firebase project compromise does not affect others
 
-The same codebase is deployed to each instance with a different `.env` file.
+The same codebase is deployed to each instance, configured with that instance's own
+sheet ID and organisation name (`source/app/.env`).
 See [`setup/NEW_INSTANCE.md`](../setup/NEW_INSTANCE.md).
 
 ---
@@ -96,5 +102,12 @@ See [`setup/NEW_INSTANCE.md`](../setup/NEW_INSTANCE.md).
 |---|---|
 | Google Sheets concurrent writes | Two admins writing simultaneously may conflict. Acceptable at <10 admins. |
 | Sheets API rate limit | 100 requests/100 seconds per user. Not a concern at this scale. |
-| FCM on iOS | Requires iOS 16.4+ and app must be added to home screen. |
-| Offline writes | Not supported. Offline mode shows cached data read-only. |
+| FCM on iOS (planned) | Will require iOS 16.4+ and the app added to the home screen. |
+| Offline use | Not supported. The service worker caches only the app shell so the app can be installed. Data is always fetched live, and without a connection the app shows a "no connection" screen with a retry button. |
+
+---
+
+## Roadmap
+
+- **Push notifications (FCM):** planned, not yet implemented. The app currently has no
+  notification code, so there is nothing to configure for it during setup.

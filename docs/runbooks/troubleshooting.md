@@ -8,13 +8,15 @@ Common issues and how to fix them.
 
 ### "Access denied" after logging in with Google
 
-**Cause:** The user's email is not in the `admins` tab of the sheet.
+**Cause:** The Google account they signed in with is not shared on the sheet. Access
+comes from the sheet's sharing settings, not from the `admins` tab.
 
 **Fix:**
-1. Open the Google Sheet → `admins` tab
-2. Check if their email is there (exact match, no spaces)
-3. If missing, add it
-4. Ask them to log out and log back in
+1. Open the Google Sheet → **Share**
+2. Check that the exact Google account they sign in with is listed as **Editor**
+   (people with several Google accounts often pick the wrong one in the account chooser)
+3. If missing, add it (see [add-new-admin.md](add-new-admin.md))
+4. Ask them to log out and log back in, choosing the right account
 
 ---
 
@@ -44,8 +46,9 @@ Common issues and how to fix them.
 
 ### Data not loading / "Failed to fetch" error
 
-**Cause A:** The Sheet ID in `.env` is wrong.
-**Fix:** Double-check `VITE_SHEET_ID` matches the ID in the sheet URL.
+**Cause A:** The Sheet ID in `source/app/.env` is wrong.
+**Fix:** Double-check `VITE_SHEET_ID` matches the ID in the sheet URL. It is compiled into
+the build, so after changing it you must rebuild and run `firebase deploy` again.
 
 **Cause B:** The Google Sheets API is not enabled for this project.
 **Fix:**
@@ -54,8 +57,8 @@ Common issues and how to fix them.
 3. If missing → search and enable it
 
 **Cause C:** The sheet is not shared properly.
-**Fix:** The sheet must be accessible to the logged-in user's Google account.
-Share the sheet with "Anyone with the link can edit" or share it explicitly with the user's email.
+**Fix:** The sheet must be shared with the logged-in user's Google account as **Editor**.
+Share it explicitly with their email. Don't use "Anyone with the link".
 
 ---
 
@@ -80,12 +83,9 @@ firebase use PROJECT_ID   # switch to the right one
 
 ### Build fails with "VITE_... is not defined"
 
-**Cause:** `.env` file is missing or incomplete.
-**Fix:**
-```bash
-./docs/scripts/validate-env.sh
-```
-Fill in any missing values, then try building again.
+**Cause:** `source/app/.env` is missing or incomplete.
+**Fix:** Make sure it exists and sets `VITE_SHEET_ID` and `VITE_ORG_NAME`
+(see [NEW_INSTANCE.md](../setup/NEW_INSTANCE.md#3-configure-the-app)), then build again.
 
 ---
 
@@ -100,6 +100,9 @@ If the PWA is installed on a phone, it may take a few minutes to pick up the new
 ---
 
 ## FCM / Notifications Not Working
+
+> **Not available yet.** Push notifications are on the [roadmap](../architecture/overview.md#roadmap)
+> and are not implemented. The notes below are for when the feature ships.
 
 ### Notifications not received on iOS
 
@@ -126,7 +129,7 @@ If the PWA is installed on a phone, it may take a few minutes to pick up the new
 
 ### The app works locally but not after deploy
 
-1. Run `validate-env.sh` to check all vars are set
+1. Check `source/app/.env` sets `VITE_SHEET_ID` and `VITE_ORG_NAME` (they are baked into the build)
 2. Check browser console for errors (F12)
 3. Check Firebase Hosting deploy logs: `firebase deploy --debug`
 4. Make sure the domain is in Firebase Auth authorised domains

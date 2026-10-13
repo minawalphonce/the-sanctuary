@@ -1,6 +1,6 @@
 # Docs — Infrastructure & Operations
 
-This folder contains everything needed to understand, deploy, and hand over this project.
+This folder contains everything needed to understand, set up, and hand over this project.
 
 ## Stack
 
@@ -9,7 +9,8 @@ This folder contains everything needed to understand, deploy, and hand over this
 | Hosting | Firebase Hosting |
 | Auth | Firebase Auth (Google Sign-In) |
 | Database | Google Sheets API (REST) |
-| Notifications | Firebase Cloud Messaging (FCM) |
+| File storage | Firebase Storage (member photos) |
+| Notifications | Firebase Cloud Messaging (FCM) — planned, see the [roadmap](architecture/overview.md#roadmap) |
 | Frontend | React + Vite (PWA) |
 
 ## Folder Structure
@@ -22,17 +23,11 @@ docs/
 │
 ├── setup/
 │   ├── NEW_INSTANCE.md             ← start here for a new deployment
-│   ├── firebase-console-steps.md  ← manual Firebase console steps
-│   └── google-cloud-steps.md      ← enabling APIs, OAuth consent screen
-│
-├── scripts/
-│   ├── create-instance.sh         ← automates Firebase project creation
-│   ├── deploy.sh                  ← build + deploy
-│   └── validate-env.sh            ← checks .env before deploy
+│   └── sanctuary-template.xlsx    ← starter Google Sheet (six tabs with headers)
 │
 ├── config/
-│   ├── .env.example               ← all required env vars with descriptions
-│   └── firebase.rules             ← Firestore/Storage security rules template
+│   ├── .env.example               ← copy to source/app/.env and fill in
+│   └── firebase.rules             ← reference copy of the Storage rules
 │
 └── runbooks/
     ├── add-new-admin.md           ← how to grant someone access

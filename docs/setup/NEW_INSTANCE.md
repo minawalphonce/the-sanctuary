@@ -1,162 +1,185 @@
-# New Instance Setup Checklist
+# Set Up a New Instance
 
-Use this document every time you deploy the app for a new organisation.
-Complete steps in order — some steps depend on earlier ones.
-
-Estimated time: **45–60 minutes** (most of it waiting for Google to propagate things)
-
----
+How to run your own copy of The Sanctuary for your organisation. Each organisation
+gets its own Firebase project and its own Google Sheet.
 
 ## Prerequisites
 
-- [ ] Node.js 18+ installed
-- [ ] Firebase CLI installed: `npm install -g firebase-tools`
-- [ ] `gcloud` CLI installed: https://cloud.google.com/sdk/docs/install
-- [ ] You are logged in: `firebase login` and `gcloud auth login`
-- [ ] You have the source code repo cloned locally
+Install these before you start:
 
----
+| What | Why | Check it |
+|---|---|---|
+| A Google account | Owns the sheet and the Firebase project | |
+| [Git](https://git-scm.com/downloads) | To clone the repo | `git --version` |
+| [Node.js](https://nodejs.org) 22.23.1 or newer (includes npm) | To build the app. Node 22.23.0 has a bug that breaks `firebase deploy`, so avoid that exact version | `node --version` |
+| Firebase CLI | To deploy: `npm install -g firebase-tools` | `firebase --version` |
 
-## Step 1 — Google Sheet
+Then sign in to the Firebase CLI with the Google account that will own the project:
 
-- [ ] Make a copy of the master sheet template (see `architecture/google-sheets-structure.md`)
-- [ ] Rename it to the organisation name, e.g. `St Mark Youth - App Data`
-- [ ] Move it to the organisation's Google Drive folder
-- [ ] Share it with anyone who should have fallback access
-- [ ] Note the **Sheet ID** from the URL — you will need it in Step 4
-
----
-
-## Step 2 — Firebase Project
-
-Run the automated script or follow these manual steps.
-
-**Automated (recommended):**
 ```bash
-cd docs/scripts
-chmod +x create-instance.sh
-./create-instance.sh YOUR-PROJECT-ID "Display Name"
+firebase login
 ```
 
-**Manual steps** (if script fails — see `firebase-console-steps.md` for screenshots):
-- [ ] Go to https://console.firebase.google.com
-- [ ] Create new project (use a clear name like `stmark-youth-app`)
-- [ ] Disable Google Analytics (not needed)
-- [ ] Wait for project to be created
+You don't need the `gcloud` CLI.
 
----
+## 1. Create the Google Sheet
 
-## Step 3 — Firebase Auth
+The sheet is the app's database. It has **six tabs**, and the tab names must match
+exactly:
 
-- [ ] In Firebase Console → Authentication → Get Started
-- [ ] Enable **Google** as a sign-in provider
-- [ ] Set project support email
-- [ ] Note the **Web Client ID** — you will need it in Step 4
-- [ ] Add your hosting domain to authorised domains (do this again after Step 5)
+| Tab | What it holds |
+|---|---|
+| `admins` | Directory of admins who have signed in (filled in by the app) |
+| `members` | The people you look after: contact details, group, photo |
+| `assignments` | Which admin is responsible for which member, with history |
+| `attendance` | One row per member per session: present or not |
+| `sessions` | Regular and special sessions that attendance is taken for |
+| `followups` | Log of calls, messages and visits to members, with outcomes |
 
-Full steps with screenshots: [`firebase-console-steps.md`](firebase-console-steps.md)
+Every tab, column and format is described in
+[google-sheets-structure.md](../architecture/google-sheets-structure.md).
 
----
+**Easiest way to start: import the template.**
 
-## Step 4 — Google Cloud (Sheets API)
+1. Download [sanctuary-template.xlsx](sanctuary-template.xlsx). It has the six tabs
+   with the header row already filled in.
+2. In [Google Sheets](https://sheets.google.com): **File → Import → Upload** the file,
+   then choose **Create new spreadsheet**.
+3. Rename the spreadsheet to something like `<Your Organisation> - Sanctuary Data`.
 
-- [ ] Go to https://console.cloud.google.com → select the same project
-- [ ] Enable **Google Sheets API**
-- [ ] Configure **OAuth Consent Screen**
-- [ ] Add `../auth/spreadsheets` scope
+**Or create it by hand.** Make a new Google Sheet with the six tabs above, and fill
+row 1 of each tab with its headers. The step-by-step is in
+[Creating the sheet by hand](../architecture/google-sheets-structure.md#creating-the-sheet-by-hand).
 
-Full steps: [`google-cloud-steps.md`](google-cloud-steps.md)
+Whichever way you create it, leave the header row (row 1) alone and don't insert, delete or reorder columns. The
+app reads columns by position. Only add new columns to the right, if you need to.
 
----
+Finally, copy the **Sheet ID** from the URL. It's the part between `/d/` and `/edit`.
+You'll need it in step 3:
+`https://docs.google.com/spreadsheets/d/`**`THIS_PART`**`/edit`
 
-## Step 5 — Firebase Hosting
+## 2. Create the Firebase project
 
-- [ ] In Firebase Console → Hosting → Get Started
-- [ ] Follow the setup wizard (you will run `firebase init` in the next step)
+1. In the [Firebase Console](https://console.firebase.google.com), **Add project**
+   (Google Analytics isn't needed). The project ID can't be changed later.
+2. **Build → Authentication → Get started → Sign-in method → Google → Enable**, and set
+   a support email.
+3. **Project settings → Your apps → Web (`</>`)**: register a web app. The deployed app
+   reads its Firebase settings from this registration automatically.
+4. **Build → Hosting → Get started** (you can skip the CLI commands it shows).
+5. **Build → Storage → Get started.** This is needed for member photos.
+6. **Enable the Google Sheets API.** The app talks to your sheet through it. Every
+   Firebase project is also a Google Cloud project with the same project ID, so you do
+   this in the Google Cloud Console. Open this link, replacing `<project-id>` with your
+   Firebase project ID (Firebase Console → Project settings → General → **Project ID**):
 
----
+   `https://console.cloud.google.com/apis/library/sheets.googleapis.com?project=<project-id>`
 
-## Step 6 — Environment File (local dev only)
+   Check that your project is selected in the project picker at the top of the page,
+   then click **Enable**. The button changes to **Manage** / "API enabled" when it's
+   done. That is the only Google Cloud step. The sign-in client and OAuth settings are
+   already created for you when you enable Google sign-in in step 2.
 
-The deployed app on Firebase Hosting loads its Firebase config automatically from `/__/firebase/init.json` — no env file needed for production.
+## 3. Configure the app
 
-The `.env` file is only required to run `vite dev` locally.
+```bash
+git clone https://github.com/<you>/the-sanctuary.git
+cd the-sanctuary
+```
+
+Create `source/app/.env`. The easiest way is to copy the example file, which has every
+variable with comments, and then fill in the values:
 
 ```bash
 cp docs/config/.env.example source/app/.env
 ```
 
-Fill in the values for local development:
-
-```
-VITE_FIREBASE_API_KEY=          ← Firebase Console → Project Settings → Your apps
-VITE_FIREBASE_AUTH_DOMAIN=      ← your-project-id.firebaseapp.com
-VITE_FIREBASE_PROJECT_ID=       ← your-project-id
-VITE_FIREBASE_STORAGE_BUCKET=   ← your-project-id.appspot.com
-VITE_FIREBASE_MESSAGING_SENDER_ID=
-VITE_FIREBASE_APP_ID=
-VITE_FIREBASE_MEASUREMENT_ID=   ← optional, leave blank if not using Analytics
-VITE_SHEET_ID=                  ← from Step 1
-VITE_ORG_NAME=                  ← display name e.g. "St Mark Youth"
-```
-
-- [ ] All values filled in
-- [ ] No trailing spaces
-- [ ] `source/app/.env` is in `.gitignore` — **never commit this file**
-
----
-
-## Step 7 — First Deploy
+Every deployment needs these two values:
 
 ```bash
-# Validate env first
-chmod +x docs/scripts/validate-env.sh
-./docs/scripts/validate-env.sh
-
-# Build and deploy
-chmod +x docs/scripts/deploy.sh
-./docs/scripts/deploy.sh
+VITE_SHEET_ID=<sheet id from step 1>
+VITE_ORG_NAME=<your organisation name>
 ```
 
-- [ ] Build succeeds with no errors
-- [ ] Deploy completes — note the hosting URL printed at the end
+These are compiled into the build, so they must be set before you build. Never commit
+`.env` (it's already gitignored), and keep a copy somewhere safe.
 
----
+Optional settings (the defaults are used if you leave them out):
 
-## Step 8 — Post-Deploy Checks
+```bash
+VITE_REGULAR_SESSION_WEEKDAY=saturday   # day your regular session happens
+VITE_DASHBOARD_TOP_X=5                  # dashboard fallback list: top X members...
+VITE_DASHBOARD_LAST_Y=8                 # ...missing the most of the last Y sessions
+```
 
-- [ ] Open the app URL in Chrome on a phone
-- [ ] Click Login — Google sign-in popup appears
-- [ ] Log in with a Google account
-- [ ] If email is not in the `admins` tab of the sheet → access denied (correct)
-- [ ] Add your email to the `admins` tab in the sheet
-- [ ] Log in again → access granted
-- [ ] Navigate all sections — no console errors
-- [ ] Add a test member → row appears in the sheet
-- [ ] Delete the test member
+**Only if you want to run the app on your computer** (`npm run dev`, for example to
+contribute), also add your Firebase web app config. Find it in Firebase Console →
+Project settings → Your apps. A deployed app doesn't need these.
 
----
+```bash
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
+```
 
-## Step 9 — FCM (Push Notifications) — Optional
+## 4. Deploy
 
-- [ ] In Firebase Console → Cloud Messaging → Get Started
-- [ ] Generate VAPID key pair
-- [ ] Add `VITE_FIREBASE_VAPID_KEY` to `.env`
-- [ ] Redeploy
+From the repo root:
 
----
+```bash
+cd source/app
+npm ci
+npm run build
 
-## Step 10 — Custom Domain — Optional
+cd ..
+firebase use <your-project-id>
+firebase deploy
+```
 
-- [ ] Firebase Console → Hosting → Add custom domain
-- [ ] Follow DNS verification steps
-- [ ] Update authorised domains in Firebase Auth
+`firebase use` links this folder to your project. It's saved in `source/.firebaserc`,
+which is gitignored, so you do it once per clone.
 
----
+The storage rules come from [source/storage.rules](../../source/storage.rules);
+[docs/config/firebase.rules](../config/firebase.rules) is a reference copy you can use as
+a starting point if you want to change them.
 
-## Done
+The first `firebase deploy` publishes both the app (hosting) and the storage rules
+that member photos need. The URL is printed at the end (`https://<project-id>.web.app`).
 
-- [ ] Share the app URL with the organisation
-- [ ] Add all admin emails to the `admins` tab in the sheet
-- [ ] Store the `.env` file somewhere safe (NOT in the repo) — a password manager or the organisation's secure shared drive
-- [ ] Fill in `runbooks/transfer-ownership.md` with org-specific details
+To ship later changes, rebuild and run `firebase deploy --only hosting`.
+
+## 5. Give people access
+
+Access is controlled **only by sharing the Google Sheet**. The sheet is the source of
+truth for who is allowed in.
+
+1. Open the sheet → **Share** → add each admin's Google account as **Editor**.
+   Don't share it with "anyone with the link".
+2. Each admin opens the app URL and signs in with that account. The app adds them to
+   the `admins` tab automatically. Don't edit that tab by hand.
+3. Sign in yourself first and add a test member to confirm a row appears in the sheet.
+
+## Optional: deploy automatically from GitHub
+
+`.github/workflows/deploy.yml` deploys on every push to `main`. To use it on your own
+repo, add these repository secrets: `VITE_FIREBASE_PROJECT_ID`, `VITE_SHEET_ID`,
+`VITE_ORG_NAME`, and `FIREBASE_SERVICE_ACCOUNT` (the JSON key of a Firebase service
+account for your project). Add them under GitHub → Settings → Secrets and variables →
+Actions.
+
+## Troubleshooting
+
+- **"Access denied" after signing in:** the Google account you signed in with isn't
+  shared on the sheet (Editor). Share it, then sign in again.
+- **Sign-in popup fails on your domain:** add the domain under Authentication →
+  Settings → Authorised domains. `*.web.app` and `*.firebaseapp.com` are there by
+  default, so this only matters for a custom domain.
+- **Data not loading:** check `VITE_SHEET_ID`, that the Google Sheets API is enabled,
+  and that the six tab names match exactly.
+- **Old version after a deploy:** the PWA shows a "reload" prompt, or close and
+  reopen the installed app.
+
+More in [../runbooks/troubleshooting.md](../runbooks/troubleshooting.md).

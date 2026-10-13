@@ -77,17 +77,20 @@ All youth members.
 | A | id | UUID or row number | Unique, never reuse |
 | B | full_name | Text | |
 | C | date_of_birth | DD/MM/YYYY | |
-| D | phone | Text | Include country code |
-| E | parent_phone | Text | Also used as the emergency contact number |
-| F | group | Text | e.g. "seniors", "juniors" |
-| G | active | TRUE / FALSE | |
-| H | notes | Text | Free text |
-| I | email | Text | |
-| J | address | Text | Free text, multi-line |
-| K | whatsapp | Text | Handle/number |
-| L | instagram | Text | Handle |
-| M | tiktok | Text | Handle |
-| N | photo_url | Text | Firebase Storage download URL; blank if no photo uploaded |
+| D | gender | "Male" / "Female" | Required in the app's add/edit form |
+| E | phone | Text | Include country code |
+| F | parent_phone | Text | Also used as the emergency contact number |
+| G | group | Text | e.g. "seniors", "juniors" |
+| H | active | TRUE / FALSE | |
+| I | notes | Text | Free text |
+| J | email | Text | |
+| K | address | Text | Free text, multi-line |
+| L | whatsapp | Text | Handle/number |
+| M | instagram | Text | Handle |
+| N | tiktok | Text | Handle |
+| O | photo_url | Text | Firebase Storage download URL; blank if no photo uploaded |
+| P | registered_date | ISO timestamp | Set by the app when the member is added |
+| Q | last_updated | ISO timestamp | Set by the app on every add/edit |
 
 ---
 
@@ -137,6 +140,22 @@ One row per logged contact with a member. Rows are append-only — the app never
 | F | notes | Text | Optional |
 | G | admin_id | Matches `admins.id` | The admin who logged the contact |
 | H | timestamp | ISO timestamp | When the row was logged |
+
+---
+
+## Creating the Sheet by Hand
+
+Instead of using the template in [`setup/`](../setup/sanctuary-template.xlsx):
+
+1. Create a new Google Sheet.
+2. Add one tab for each of the six tabs above (`admins`, `members`, `assignments`,
+   `attendance`, `sessions`, `followups`). Tab names must match exactly. Delete the
+   default `Sheet1`.
+3. In row 1 of each tab, type that tab's **Header** values, one per column, starting at
+   column A and following the column order in its table.
+4. Leave everything below row 1 empty. The app fills in the data.
+
+Tip: paste a comma-separated line into A1, then use **Data → Split text to columns**.
 
 ---
 
