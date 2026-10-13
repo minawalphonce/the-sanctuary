@@ -87,6 +87,8 @@
   },
   "dashboard": {
     "home": {
+      "welcome": "Welcome, {{name}}",
+      "welcomeNoName": "Welcome",
       "viewAll": "View All",
       "comingSoon": {
         "title": "Coming soon",

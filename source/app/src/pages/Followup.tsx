@@ -213,7 +213,7 @@ export default function Followup() {
                 type="button"
                 onClick={() => setPickerOpen(true)}
                 aria-label={t("addAria")}
-                className="fixed bottom-24 end-6 z-50 flex size-14 items-center justify-center rounded-ras-xl bg-ras-primary text-ras-on-primary shadow-[0px_4px_20px_rgba(27,43,72,0.2)] transition-transform active:scale-95"
+                className="fixed bottom-24 end-6 z-50 flex size-14 items-center justify-center rounded-full bg-ras-primary text-ras-on-primary shadow-[0px_4px_20px_rgba(27,43,72,0.2)] transition-transform active:scale-95"
             >
                 <Plus className="size-6" />
             </button>

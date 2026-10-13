@@ -87,6 +87,8 @@
   },
   "dashboard": {
     "home": {
+      "welcome": "أهلاً، {{name}}",
+      "welcomeNoName": "أهلاً بك",
       "viewAll": "عرض الكل",
       "comingSoon": {
         "title": "قريبًا",

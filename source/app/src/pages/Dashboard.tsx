@@ -1,17 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { onAuthStateChanged, type User } from "firebase/auth";
-import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
-import { Phone, MessageCircle, UserPlus, ClipboardCheck, Sparkles, MapPin, Inbox } from "lucide-react";
+import { Phone, MessageCircle } from "lucide-react";
 import { auth } from "@/lib/firebase";
 import { useDataStore } from "@/store/data";
-import type { Member, SessionRecord } from "@/lib/sheets";
+import type { Member } from "@/lib/sheets";
 import { formatDdMmYyyy, parseDdMmYyyy } from "@/lib/member";
 import { initials, avatarPalette, whatsappHref } from "@/lib/member";
 import { cn } from "@/lib/utils";
 
 const DASHBOARD_TOP_X = Number(import.meta.env.VITE_DASHBOARD_TOP_X as string) || 5;
+const DASHBOARD_MAX_ROWS = 3;
 const DASHBOARD_LAST_Y = Number(import.meta.env.VITE_DASHBOARD_LAST_Y as string) || 8;
 
 function dateValue(value: string): number {
@@ -91,7 +91,6 @@ function MemberRow({ member, subtitle }: { member: Member; subtitle: string }) {
 }
 
 export default function Dashboard() {
-    const navigate = useNavigate();
     const { t } = useTranslation(undefined, { keyPrefix: "dashboard.home" });
     const members = useDataStore((s) => s.members);
     const attendance = useDataStore((s) => s.attendance);
@@ -102,6 +101,7 @@ export default function Dashboard() {
     useEffect(() => onAuthStateChanged(auth, setUser), []);
 
     const uid = user?.uid ?? "";
+    const firstName = user?.displayName?.trim().split(/\s+/)[0] ?? "";
 
     // Section 1: members assigned to the signed-in admin, falling back to
     // the top-X members with the most consecutive missed sessions (looking
@@ -165,164 +165,57 @@ export default function Dashboard() {
         return attendance.filter((a) => a.date === statusSession.session.date && a.present).length;
     }, [attendance, statusSession]);
 
-    // Section 4: next upcoming special session (future-dated, any status).
-    const nextSpecialSession = useMemo(() => {
-        const today = todayValue();
-        return [...sessions]
-            .filter((s) => s.type === "special" && dateValue(s.date) > today)
-            .sort((a, b) => dateValue(a.date) - dateValue(b.date))[0] as SessionRecord | undefined;
-    }, [sessions]);
+    const visibleMembers = assignedMembers.length > 0
+        ? assignedMembers.slice(0, DASHBOARD_MAX_ROWS).map((member) => ({ member, subtitle: member.group || "—" }))
+        : mostMissedMembers.slice(0, DASHBOARD_MAX_ROWS).map(({ member, consecutiveMissed }) => ({
+              member,
+              subtitle: t("needsFollowup.missedInARow", { count: consecutiveMissed }),
+          }));
+    const percent =
+        activeMemberCount > 0 ? Math.min(100, Math.round((statusCount / activeMemberCount) * 100)) : 0;
 
     return (
         <div className="space-y-6 px-ras-edge py-ras-section pb-24">
-            {/* Section 1: Assigned members / most-missed fallback */}
+            <h1 className="text-ras-display-lg text-ras-primary">
+                {firstName ? t("welcome", { name: firstName }) : t("welcomeNoName")}
+            </h1>
+
             <section className="space-y-3">
-                <div className="flex items-center justify-between">
-                    <h2 className="text-ras-title-sm text-ras-primary">
-                        {assignedMembers.length > 0 ? t("assigned.title") : t("needsFollowup.title")}
-                    </h2>
-                    <button
-                        type="button"
-                        onClick={() =>
-                            toast.info(t("comingSoon.title"), { description: t("comingSoon.followupReports") })
-                        }
-                        className="text-ras-label-caps text-ras-secondary underline"
-                    >
-                        {t("viewAll")}
-                    </button>
-                </div>
-
+                <h2 className="text-ras-title-sm text-ras-primary">
+                    {assignedMembers.length > 0 ? t("assigned.title") : t("needsFollowup.title")}
+                </h2>
                 <div className="overflow-hidden rounded-ras-xl border border-ras-outline-variant bg-ras-surface-container-lowest">
-                    {assignedMembers.length === 0 && mostMissedMembers.length === 0 && (
-                        <div className="flex items-center gap-3 p-4 bg-ras-surface-container">
-                            <Inbox className="size-5 text-ras-on-surface-variant" />
-                            <p className="text-ras-caption text-ras-on-surface-variant">
-                                {t("empty.noAssignedNoMissed")}
-                            </p>
-                        </div>
-                    )}
-
-                    {assignedMembers.length > 0 ? (
+                    {visibleMembers.length > 0 ? (
                         <div className="divide-y divide-ras-outline-variant">
-                            {assignedMembers.map((m) => (
-                                <MemberRow key={m.id} member={m} subtitle={m.group || "—"} />
+                            {visibleMembers.map(({ member, subtitle }) => (
+                                <MemberRow key={member.id} member={member} subtitle={subtitle} />
                             ))}
                         </div>
                     ) : (
-                        mostMissedMembers.length > 0 && (
-                            <>
-                                <div className="flex items-center gap-3 p-4 bg-ras-surface-container">
-                                    <Inbox className="size-5 text-ras-on-surface-variant" />
-                                    <p className="text-ras-caption text-ras-on-surface">
-                                        {t("needsFollowup.topMissing", { count: mostMissedMembers.length })}
-                                    </p>
-                                </div>
-                                <div className="divide-y divide-ras-outline-variant">
-                                    {mostMissedMembers.map(({ member, consecutiveMissed }) => (
-                                        <MemberRow
-                                            key={member.id}
-                                            member={member}
-                                            subtitle={t("needsFollowup.missedInARow", { count: consecutiveMissed })}
-                                        />
-                                    ))}
-                                </div>
-                            </>
-                        )
+                        <p className="p-4 text-center text-ras-caption text-ras-on-surface-variant">
+                            {t("empty.noAssignedNoMissed")}
+                        </p>
                     )}
                 </div>
             </section>
 
-            {/* Section 2: Today's status */}
-            <section className="space-y-3">
-                <div className="flex items-center justify-between">
-                    <h2 className="text-ras-title-sm text-ras-primary">
-                        {statusSession?.isToday ? t("summary.today") : t("summary.last")}
-                    </h2>
-                    {statusSession && (
+            {statusSession && (
+                <section className="space-y-2 rounded-ras-xl border border-ras-outline-variant bg-ras-surface-container-lowest p-4">
+                    <div className="flex items-baseline justify-between">
                         <span className="text-ras-label-caps text-ras-on-surface-variant">
+                            {statusSession.isToday ? t("summary.today") : t("summary.last")} ·{" "}
                             {formatDdMmYyyy(statusSession.session.date)}
                         </span>
-                    )}
-                </div>
-
-                {statusSession ? (
-                    <div className="rounded-ras-xl border border-ras-outline-variant bg-ras-surface-container-lowest p-4 shadow-sm">
-                        <div className="flex items-center justify-between">
-                            <span className="text-ras-label-caps uppercase text-ras-on-surface-variant">
-                                {statusSession.session.name || t("summary.sessionFallback")}
-                            </span>
-                            <ClipboardCheck className="size-4.5 text-ras-secondary" />
-                        </div>
-                        <div className="mt-1 flex items-baseline gap-1">
-                            <span className="text-ras-display-lg text-ras-primary">{statusCount}</span>
-                            <span className="text-ras-caption text-ras-on-surface-variant">/ {activeMemberCount}</span>
-                        </div>
-                        <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-ras-surface-container">
-                            <div
-                                className="h-full bg-ras-secondary"
-                                style={{
-                                    width: `${activeMemberCount > 0 ? Math.min(100, Math.round((statusCount / activeMemberCount) * 100)) : 0}%`,
-                                }}
-                            />
-                        </div>
+                        <span className="text-ras-title-sm text-ras-primary">
+                            {statusCount}
+                            <span className="text-ras-caption text-ras-on-surface-variant"> / {activeMemberCount}</span>
+                        </span>
                     </div>
-                ) : (
-                    <div className="rounded-ras-xl border border-ras-outline-variant bg-ras-surface-container-lowest p-4 text-center text-ras-caption text-ras-on-surface-variant">
-                        {t("summary.empty")}
+                    <div className="h-1 w-full overflow-hidden rounded-full bg-ras-surface-container">
+                        <div className="h-full bg-ras-secondary" style={{ width: `${percent}%` }} />
                     </div>
-                )}
-            </section>
-
-            {/* Section 3: Quick Actions */}
-            <section className="space-y-3">
-                <h2 className="text-ras-title-sm text-ras-primary">{t("quickActions.title")}</h2>
-                <div className="grid grid-cols-2 gap-3">
-                    <button
-                        type="button"
-                        onClick={() => navigate("/members/add")}
-                        className="flex items-center gap-3 rounded-ras-xl bg-ras-primary p-4 text-ras-on-primary transition-all hover:opacity-90 active:scale-95"
-                    >
-                        <UserPlus className="size-5" />
-                        <span className="text-ras-label-caps">{t("quickActions.addMember")}</span>
-                    </button>
-                    <button
-                        type="button"
-                        onClick={() => navigate("/attendance/take")}
-                        className="flex items-center gap-3 rounded-ras-xl bg-ras-secondary-container p-4 text-ras-on-secondary-container transition-all hover:bg-ras-secondary-fixed active:scale-95"
-                    >
-                        <ClipboardCheck className="size-5" />
-                        <span className="text-ras-label-caps">{t("quickActions.takeAttendance")}</span>
-                    </button>
-                </div>
-            </section>
-
-            {/* Section 4: Next upcoming special session */}
-            <section className="space-y-3">
-                <h2 className="text-ras-title-sm text-ras-primary">{t("special.title")}</h2>
-                {nextSpecialSession ? (
-                    <div
-                        onClick={() => navigate(`/attendance/take/${nextSpecialSession.id}`)}
-                        className="flex cursor-pointer items-center gap-4 rounded-ras-xl border-s-4 border-s-ras-secondary-container bg-ras-surface-container-low p-5 transition-colors hover:border-ras-secondary"
-                    >
-                        <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-ras-secondary-container text-ras-on-secondary-container">
-                            <Sparkles className="size-5" />
-                        </div>
-                        <div className="min-w-0">
-                            <h3 className="truncate text-ras-title-sm text-ras-primary">{nextSpecialSession.name}</h3>
-                            <div className="flex items-center gap-2 text-ras-caption text-ras-on-surface-variant">
-                                <MapPin className="size-3.5 shrink-0" />
-                                <span className="truncate">
-                                    {[formatDdMmYyyy(nextSpecialSession.date), nextSpecialSession.notes].filter(Boolean).join(" • ")}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                ) : (
-                    <div className="rounded-ras-xl border border-ras-outline-variant bg-ras-surface-container-lowest p-4 text-center text-ras-caption text-ras-on-surface-variant">
-                        {t("special.empty")}
-                    </div>
-                )}
-            </section>
+                </section>
+            )}
         </div>
     );
 }
