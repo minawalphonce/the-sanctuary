@@ -1,6 +1,8 @@
 // Shared formatting helpers for member display — used by the list, profile, and tab pages.
 
 import type { Member } from "@/lib/sheets";
+import i18n from "@/i18n";
+import { formatDate } from "@/i18n/format";
 
 const AVATAR_PALETTE = [
     { bg: "bg-ras-primary-fixed", text: "text-ras-primary" },
@@ -25,21 +27,22 @@ export function avatarPalette(name: string) {
     return AVATAR_PALETTE[hash];
 }
 
-const MONTH_ABBR = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-];
-
 export function parseDdMmYyyy(value: string): { day: number; month: number; year: number } | null {
     const [d, m, y] = value.split("/").map(Number);
     if (!d || !m || !y) return null;
     return { day: d, month: m, year: y };
 }
 
+// DD/MM/YYYY (as stored in the sheet) → "20 Oct 2026" in the active language.
+export function formatDdMmYyyy(value: string): string {
+    const parsed = parseDdMmYyyy(value);
+    return parsed ? formatDate(new Date(parsed.year, parsed.month - 1, parsed.day)) : value;
+}
+
 export function formatDayMonth(value: string): string | null {
     const parsed = parseDdMmYyyy(value);
     if (!parsed) return null;
-    return `${parsed.day} ${MONTH_ABBR[parsed.month - 1]}`;
+    return formatDate(new Date(parsed.year, parsed.month - 1, parsed.day), { day: "numeric", month: "short" });
 }
 
 export function whatsappHref(phone: string): string | null {
@@ -63,6 +66,6 @@ export function calculateAge(value: string): number | null {
 export function memberCaption(m: Pick<Member, "group" | "date_of_birth">): string {
     const dayMonth = formatDayMonth(m.date_of_birth);
     const age = calculateAge(m.date_of_birth);
-    const birthday = dayMonth ? `${dayMonth}${age !== null ? ` • ${age}y` : ""}` : null;
+    const birthday = dayMonth ? `${dayMonth}${age !== null ? ` • ${i18n.t("shared.memberCaption.age", { age })}` : ""}` : null;
     return [m.group, birthday].filter(Boolean).join(" • ");
 }

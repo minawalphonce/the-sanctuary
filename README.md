@@ -72,7 +72,7 @@ Finished epics are crossed out.
 **Future**
 
 - Push notifications (FCM)
-- Translations: Arabic and Swedish
+- ~~Translations: English, Swedish, Arabic, Italian and German~~
 - Reporting
 - AI chat
 

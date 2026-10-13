@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import type { Admin } from "@/lib/sheets";
 import { initials, avatarPalette } from "@/lib/member";
 import { cn } from "@/lib/utils";
@@ -11,11 +12,12 @@ type AdminAvatarProps = {
 // Shared avatar for admins — shows the Google profile photo, falling back to
 // initials when there's no photo or it fails to load.
 export function AdminAvatar({ admin, className }: AdminAvatarProps) {
+    const { t } = useTranslation(undefined, { keyPrefix: "shared.adminAvatar" });
     // Tracks which URL failed (rather than a boolean) so a changed photo_url
     // gets a fresh attempt without needing an effect to reset state.
     const [failedSrc, setFailedSrc] = useState<string | null>(null);
 
-    const label = admin.name || admin.email || "Admin";
+    const label = admin.name || admin.email || t("fallbackName");
     const showPhoto = !!admin.photo_url && failedSrc !== admin.photo_url;
     const palette = avatarPalette(label);
 

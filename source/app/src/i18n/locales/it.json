@@ -1,0 +1,561 @@
+{
+  "language": {
+    "label": "Lingua"
+  },
+  "app": {
+    "shell": {
+      "appName": "The Sanctuary",
+      "profileAria": "Il mio profilo",
+      "tabs": {
+        "dashboard": "Pannello",
+        "attendance": "Presenze",
+        "members": "Membri",
+        "followup": "Follow-up"
+      }
+    },
+    "pwaUpdate": {
+      "title": "È disponibile una nuova versione",
+      "description": "Ricarica per ottenere gli ultimi aggiornamenti.",
+      "reload": "Ricarica"
+    }
+  },
+  "auth": {
+    "splash": {
+      "logoAlt": "Logo di The Sanctuary",
+      "tagline": "Dare forza ai giovani, rafforzare la comunità"
+    },
+    "noConnection": {
+      "title": "Nessuna connessione a Internet",
+      "description": "Non siamo riusciti a raggiungere i registri di The Sanctuary. Controlla la connessione e riprova.",
+      "retry": "Riprova"
+    },
+    "accessDenied": {
+      "title": "Accesso negato",
+      "description": "Il tuo account Google non ha accesso ai registri di The Sanctuary. Chiedi a un amministratore di condividere il foglio con questo account, poi riprova.",
+      "switchAccount": "Accedi con un altro account"
+    },
+    "login": {
+      "logoAlt": "Logo di The Sanctuary",
+      "subtitle": "Accesso amministratore per gestire le presenze dei membri e il follow-up spirituale.",
+      "signIn": "Accedi con Google",
+      "signingIn": "Accesso in corso…",
+      "errors": {
+        "network": "Errore di rete. Controlla la connessione e riprova.",
+        "unauthorizedDomain": "Questo dominio non è autorizzato per l'accesso con Google.",
+        "popupClosed": "La finestra di accesso è stata chiusa prima del completamento. Riprova.",
+        "popupBlocked": "Il browser ha bloccato la finestra di accesso. Consenti i popup per questo sito e riprova.",
+        "generic": "Accesso non riuscito. Riprova."
+      }
+    }
+  },
+  "shared": {
+    "assignee": {
+      "unassigned": "Non assegnato"
+    },
+    "adminAvatar": {
+      "fallbackName": "Admin"
+    },
+    "memberCaption": {
+      "age": "{{age}} anni"
+    }
+  },
+  "profile": {
+    "me": {
+      "title": "Il mio profilo",
+      "closeAria": "Chiudi",
+      "defaultName": "Admin",
+      "fullName": "Nome completo",
+      "email": "Indirizzo e-mail",
+      "googleNote": "Nome ed e-mail provengono dal tuo account Google e non possono essere modificati qui.",
+      "administration": {
+        "title": "Amministrazione",
+        "manageAdmins": "Gestisci amministratori",
+        "yearlyRollup": "Riepilogo annuale delle prestazioni",
+        "assignFollowup": "Assegna follow-up"
+      },
+      "comingSoon": {
+        "title": "Prossimamente",
+        "description": "{{feature}} non è ancora disponibile."
+      },
+      "signedInAsAdmin": "Accesso effettuato come amministratore.",
+      "logOut": "Esci",
+      "footer": "Portale amministratori di The Sanctuary",
+      "language": {
+        "title": "Lingua"
+      }
+    }
+  },
+  "dashboard": {
+    "home": {
+      "viewAll": "Vedi tutti",
+      "comingSoon": {
+        "title": "Prossimamente",
+        "followupReports": "I report di follow-up non sono ancora disponibili."
+      },
+      "assigned": {
+        "title": "I tuoi membri assegnati"
+      },
+      "needsFollowup": {
+        "title": "Richiede follow-up",
+        "topMissing_one": "Primo {{count}} membro che ha saltato gli ultimi incontri.",
+        "topMissing_other": "Primi {{count}} membri che hanno saltato gli ultimi incontri.",
+        "missedInARow_one": "Ha saltato {{count}} incontro di fila",
+        "missedInARow_other": "Ha saltato {{count}} incontri di fila"
+      },
+      "empty": {
+        "noAssignedNoMissed": "Nessun membro assegnato e nessuno ha saltato gli ultimi incontri."
+      },
+      "summary": {
+        "today": "Riepilogo di oggi",
+        "last": "Riepilogo dell'ultimo incontro",
+        "sessionFallback": "Incontro",
+        "empty": "Nessun incontro registrato finora."
+      },
+      "quickActions": {
+        "title": "Azioni rapide",
+        "addMember": "Aggiungi membro",
+        "takeAttendance": "Registra presenze"
+      },
+      "special": {
+        "title": "Prossimo incontro speciale",
+        "empty": "Nessun incontro speciale in programma."
+      }
+    }
+  },
+  "followup": {
+    "list": {
+      "callNow": "Chiama ora",
+      "whatsappAria": "WhatsApp",
+      "log": "Registra",
+      "addAria": "Aggiungi follow-up",
+      "empty": {
+        "title": "Nessun membro ti è ancora assegnato",
+        "assign": "Assegna follow-up"
+      },
+      "searchPlaceholder_one": "Cerca tra i miei {{count}} membro...",
+      "searchPlaceholder_other": "Cerca tra i miei {{count}} membri...",
+      "noMatch": "Nessun membro corrisponde alla ricerca.",
+      "groups": {
+        "birthday": "Compleanno questa settimana",
+        "not-contacted": "Non ancora contattati",
+        "missed-after-coming": "Hanno detto che venivano, ma non sono venuti",
+        "no-answer": "Nessuna risposta / non viene",
+        "coming": "Viene",
+        "other": "Altro"
+      },
+      "chips": {
+        "birthday": "Compleanno",
+        "notContacted": "Non contattato",
+        "didntCome": "Non è venuto",
+        "noAnswer": "Nessuna risposta",
+        "notComing": "Non viene",
+        "coming": "Viene",
+        "other": "Altro"
+      },
+      "reasons": {
+        "birthday": "Compleanno {{weekday}}",
+        "assignedNotContacted": "Assegnato il {{date}} · non ancora contattato",
+        "notContacted": "Non ancora contattato",
+        "missedAfterComing": "Ha detto che veniva il {{coming}} — ha saltato il {{missed}}",
+        "saidComing": "Ha detto che veniva il {{date}}",
+        "noAnswerAgo": "Nessuna risposta · {{when}}",
+        "notComingAgo": "Non viene · {{when}}",
+        "otherAgo": "Altro · {{when}}"
+      }
+    },
+    "memberPicker": {
+      "eyebrow": "Aggiungi follow-up",
+      "title": "Scegli un membro",
+      "searchPlaceholder": "Cerca membri...",
+      "noMatch": "Nessun membro corrisponde alla ricerca."
+    },
+    "adminPicker": {
+      "empty": "Nessun amministratore ancora — compaiono dopo il primo accesso.",
+      "current": "Attuale",
+      "assignedCount": "{{count}} assegnati"
+    },
+    "assign": {
+      "title": "Assegna follow-up",
+      "closeAria": "Chiudi",
+      "intro": "Seleziona i membri e assegnali a un amministratore per il follow-up.",
+      "searchPlaceholder": "Cerca membri...",
+      "filter": {
+        "unassigned": "Non assegnati",
+        "all": "Tutti"
+      },
+      "selected": "Membri selezionati ({{count}})",
+      "deselectAll": "Deseleziona tutti",
+      "empty": {
+        "allAssigned": "Ogni membro attivo ha un amministratore.",
+        "noMatch": "Nessun membro corrisponde alla ricerca."
+      },
+      "ungrouped": "Senza gruppo",
+      "selectClass": "Seleziona classe",
+      "clearClass": "Deseleziona classe",
+      "assignToAdmin": "Assegna all'amministratore",
+      "chooseAdmin": "Scegli un amministratore",
+      "assignCountTo": "Assegna {{count}} a {{admin}}",
+      "assignTo": "Assegna a {{admin}}",
+      "anotherAdmin": "un altro amministratore",
+      "confirm": {
+        "title": "Conferma assegnazione",
+        "cancel": "Annulla",
+        "assign": "Assegna"
+      },
+      "summary": {
+        "assign_one": "Assegna {{count}} membro a {{admin}}.",
+        "assign_other": "Assegna {{count}} membri a {{admin}}.",
+        "movedFirst": "{{count}} saranno spostati da {{name}}",
+        "movedNext": "{{count}} da {{name}}",
+        "moved": "{{list}}.",
+        "unchanged_one": "{{count}} è già con {{admin}} e non cambierà.",
+        "unchanged_other": "{{count}} sono già con {{admin}} e non cambieranno."
+      },
+      "toast": {
+        "assigned_one": "{{count}} membro assegnato a {{admin}}",
+        "assigned_other": "{{count}} membri assegnati a {{admin}}",
+        "error": "Impossibile assegnare i membri"
+      }
+    },
+    "addSheet": {
+      "title": "Aggiungi follow-up",
+      "interactionType": "Tipo di contatto",
+      "types": {
+        "call": "Chiamata",
+        "message": "Messaggio",
+        "in person": "Di persona"
+      },
+      "outcome": "Esito / Stato",
+      "outcomes": {
+        "coming": "Viene",
+        "not coming": "Non viene",
+        "no answer": "Nessuna risposta",
+        "other": "Altro"
+      },
+      "outcomeError": "Scegli un esito.",
+      "date": "Data",
+      "notes": "Note del follow-up",
+      "notesPlaceholder": "Inserisci i dettagli della conversazione...",
+      "save": "Salva follow-up",
+      "toast": {
+        "saved": "Follow-up salvato",
+        "error": "Impossibile salvare il follow-up"
+      }
+    }
+  },
+  "members": {
+    "assignAdminSheet": {
+      "eyebrow": "Amministratore responsabile",
+      "titleAssign": "Assegna {{member}}",
+      "titleReassign": "Riassegna {{member}}",
+      "assignToAdmin": "Assegna all'amministratore",
+      "assignTo": "Assegna a {{admin}}",
+      "chooseAdmin": "Scegli un amministratore",
+      "toast": {
+        "assigned": "{{member}} assegnato a {{admin}}",
+        "error": "Impossibile assegnare il membro"
+      }
+    },
+    "responsibleAdmin": {
+      "title": "Amministratore responsabile",
+      "unknownAdmin": "Amministratore sconosciuto",
+      "since": "dal {{date}}",
+      "unassigned": "Non assegnato",
+      "reassign": "Riassegna",
+      "assign": "Assegna",
+      "history": "Cronologia assegnazioni ({{count}})"
+    },
+    "history": {
+      "title": "Cronologia follow-up",
+      "empty": "Nessun contatto registrato",
+      "add": "Aggiungi follow-up",
+      "unknownAdmin": "Amministratore sconosciuto",
+      "verbs": {
+        "call": "Chiamato",
+        "message": "Contattato via messaggio",
+        "in person": "Parlato di persona"
+      },
+      "outcomes": {
+        "coming": "Viene",
+        "not coming": "Non viene",
+        "no answer": "Nessuna risposta",
+        "other": "Altro"
+      }
+    },
+    "overview": {
+      "attendanceRate": "Tasso di presenza",
+      "lastSession": "Ultimo incontro",
+      "consecutiveMissed": "Incontri saltati di fila",
+      "activityStreak": "Serie di attività",
+      "lastSessions_one": "Ultimo {{count}} incontro",
+      "lastSessions_other": "Ultimi {{count}} incontri",
+      "noSessions": "Nessun incontro registrato finora.",
+      "notes": "Note"
+    },
+    "list": {
+      "status": {
+        "active": "Attivo",
+        "inactive": "Inattivo"
+      },
+      "ungrouped": "Senza gruppo",
+      "searchPlaceholder_one": "Cerca {{count}} membro...",
+      "searchPlaceholder_other": "Cerca {{count}} membri...",
+      "filtersAria": "Filtri",
+      "showAll": "Mostra tutti i membri",
+      "groupByClass": "Raggruppa per classe",
+      "grouped": "Raggruppati",
+      "all": "Tutti",
+      "unassigned": "Non assegnati",
+      "noMatch": "Nessun membro corrisponde ai filtri.",
+      "addAria": "Aggiungi membro"
+    },
+    "filterSheet": {
+      "title": "Filtra membri",
+      "class": "Classe",
+      "status": {
+        "title": "Stato",
+        "active": "Attivo",
+        "inactive": "Inattivo"
+      },
+      "sortBy": "Ordina per",
+      "sort": {
+        "nameAz": "Nome A-Z"
+      },
+      "apply": "Applica filtri",
+      "reset": "Reimposta tutti i filtri"
+    },
+    "profile": {
+      "notFound": "Membro non trovato.",
+      "back": "Torna ai membri",
+      "closeAria": "Chiudi",
+      "edit": "Modifica",
+      "birthday": "Compleanno: {{date}}",
+      "tabs": {
+        "overview": "Panoramica",
+        "history": "Cronologia",
+        "contact": "Contatti"
+      }
+    },
+    "contact": {
+      "title": "Dettagli di contatto",
+      "mobile": "Numero di cellulare",
+      "view": "Vedi",
+      "emergency": "Contatto di emergenza",
+      "empty": "Nessun dato di contatto registrato.",
+      "email": {
+        "label": "Indirizzo e-mail",
+        "copy": "Copia e-mail",
+        "copied": "E-mail copiata",
+        "copyFailed": "Impossibile copiare l'e-mail"
+      },
+      "whatsapp": {
+        "label": "WhatsApp",
+        "chat": "Chatta"
+      },
+      "tiktok": {
+        "label": "TikTok"
+      },
+      "instagram": {
+        "label": "Instagram"
+      },
+      "address": {
+        "label": "Indirizzo di casa",
+        "copy": "Copia indirizzo",
+        "copied": "Indirizzo copiato",
+        "copyFailed": "Impossibile copiare l'indirizzo"
+      }
+    },
+    "addEdit": {
+      "closeAria": "Chiudi",
+      "titleAdd": "Aggiungi membro",
+      "titleEdit": "Modifica membro",
+      "badgeNew": "Nuova scheda",
+      "badgeEdit": "Modifica in corso",
+      "uploadPhoto": "Carica foto del membro",
+      "saving": "Salvataggio...",
+      "saveChanges": "Salva modifiche",
+      "saveMember": "Salva membro",
+      "class": {
+        "select": "Seleziona o aggiungi una classe",
+        "searchPlaceholder": "Cerca o aggiungi una classe...",
+        "add": "Aggiungi \"{{name}}\"",
+        "empty": "Scrivi un nome per aggiungere una classe."
+      },
+      "identity": {
+        "title": "Dati anagrafici",
+        "fullName": "Nome completo",
+        "fullNamePlaceholder": "es. Samuel Markos",
+        "class": "Classe",
+        "birthday": "Data di nascita",
+        "gender": "Sesso",
+        "genderPlaceholder": "Seleziona il sesso",
+        "male": "Maschio",
+        "female": "Femmina",
+        "registeredDate": "Data di registrazione",
+        "lastUpdated": "Ultimo aggiornamento"
+      },
+      "communication": {
+        "title": "Comunicazione",
+        "mobile": "Numero di cellulare",
+        "email": "Indirizzo e-mail",
+        "address": "Indirizzo di casa",
+        "addressPlaceholder": "Via della Chiesa 123, Santa Maria",
+        "notes": "Note",
+        "notesPlaceholder": "Note facoltative su questo membro"
+      },
+      "social": {
+        "title": "Presenza social",
+        "whatsapp": "WhatsApp",
+        "instagram": "Instagram",
+        "tiktok": "TikTok"
+      },
+      "emergency": {
+        "title": "Contatto di emergenza",
+        "number": "Numero del contatto di emergenza"
+      },
+      "errors": {
+        "fullName": "Il nome completo è obbligatorio.",
+        "phoneRequired": "Il numero di cellulare è obbligatorio.",
+        "phoneInvalid": "Inserisci un numero di cellulare valido (almeno 7 cifre).",
+        "whatsappRequired": "Il numero WhatsApp è obbligatorio.",
+        "whatsappInvalid": "Inserisci un numero WhatsApp valido (almeno 7 cifre).",
+        "gender": "Il sesso è obbligatorio.",
+        "fixFields": "Correggi i campi evidenziati."
+      },
+      "toast": {
+        "saved": "Membro salvato",
+        "memberFallback": "Membro",
+        "addedDescription": "{{name}} è stato aggiunto correttamente.",
+        "updatedDescription": "{{name}} è stato aggiornato correttamente.",
+        "error": "Impossibile salvare il membro",
+        "errorDescription": "Controlla la connessione e riprova."
+      }
+    }
+  },
+  "attendance": {
+    "list": {
+      "eyebrow": "Registro presenze",
+      "title": "Incontri",
+      "special": "Speciale",
+      "attending": "{{count}} presenti",
+      "upcoming": "In programma",
+      "active": "Attivo",
+      "editAria": "Modifica incontro",
+      "takeAria": "Registra presenze",
+      "newSpecial": {
+        "title": "Nuovo incontro speciale",
+        "description": "Stai organizzando una gita, un ritiro o un evento giovanile una tantum? Registra le presenze proprio per questa occasione.",
+        "add": "Aggiungi incontro speciale"
+      },
+      "monthly": {
+        "title": "Statistiche mensili",
+        "description": "Presenza media in tutti i programmi giovanili questo mese."
+      },
+      "filters": {
+        "all": "Tutti gli incontri",
+        "regular": "Regolari",
+        "special": "Eventi speciali"
+      },
+      "empty": "Nessun incontro finora.",
+      "activeSessions": "Incontri attivi",
+      "upcomingSessions": "Prossimi incontri"
+    },
+    "take": {
+      "closeAria": "Chiudi",
+      "special": "Speciale",
+      "absentAria": "Segna come assente",
+      "presentAria": "Segna come presente",
+      "defaultSessionName": "Lezione",
+      "searchPlaceholder": "Cerca nome del membro...",
+      "membersCount_one": "{{count}} membro",
+      "membersCount_other": "{{count}} membri",
+      "header": {
+        "details": "Dati del membro",
+        "status": "Stato"
+      },
+      "noMatch": "Nessun membro corrispondente.",
+      "save": "Salva presenze",
+      "saving": "Salvataggio...",
+      "toast": {
+        "collision": {
+          "title": "In quella data è già previsto un altro incontro",
+          "description": "Scegli una data diversa per questo incontro."
+        },
+        "saved": "Presenze salvate",
+        "savedDescription_one": "{{name}} — {{count}} membro registrato.",
+        "savedDescription_other": "{{name}} — {{count}} membri registrati.",
+        "error": "Impossibile salvare le presenze",
+        "errorDescription": "Controlla la connessione e riprova."
+      }
+    },
+    "addSheet": {
+      "eyebrow": "Gestione",
+      "title": "Aggiungi incontro speciale",
+      "sessionType": "Tipo di incontro",
+      "types": {
+        "outing": "Gita",
+        "retreat": "Ritiro",
+        "dayUse": "Giornata",
+        "other": "Altro"
+      },
+      "namePlaceholder": "Dai un nome all'incontro",
+      "date": "Data",
+      "notes": "Note",
+      "notesPlaceholder": "Luogo, orario o altri dettagli",
+      "save": "Crea incontro",
+      "saving": "Salvataggio...",
+      "errors": {
+        "type": "Scegli un tipo di incontro.",
+        "name": "Inserisci un nome per questo incontro."
+      },
+      "toast": {
+        "collision": {
+          "title": "In quella data è già previsto un altro incontro",
+          "description": "Scegli una data diversa per questo incontro."
+        },
+        "added": "Incontro aggiunto",
+        "addedDescription": "{{name}} è stato aggiunto.",
+        "error": "Impossibile salvare l'incontro",
+        "errorDescription": "Controlla la connessione e riprova."
+      }
+    },
+    "editSheet": {
+      "eyebrow": "Gestione",
+      "title": "Modifica incontro speciale",
+      "sessionType": "Tipo di incontro",
+      "types": {
+        "outing": "Gita",
+        "retreat": "Ritiro",
+        "dayUse": "Giornata",
+        "other": "Altro"
+      },
+      "sessionName": "Nome dell'incontro",
+      "namePlaceholder": "es. Ritiro in montagna 2024",
+      "customNameNote": "Nome personalizzato — scegli un tipo qui sopra per sovrascriverlo.",
+      "date": "Data",
+      "notes": "Note",
+      "notesPlaceholder": "Luogo, orario o altri dettagli",
+      "save": "Salva modifiche",
+      "saving": "Salvataggio...",
+      "errors": {
+        "name": "Inserisci un nome per questo incontro."
+      },
+      "toast": {
+        "collision": {
+          "title": "In quella data è già previsto un altro incontro",
+          "description": "Scegli una data diversa per questo incontro."
+        },
+        "updated": "Incontro aggiornato",
+        "updatedDescription": "{{name}} è stato aggiornato.",
+        "error": "Impossibile aggiornare l'incontro",
+        "errorDescription": "Controlla la connessione e riprova."
+      }
+    }
+  },
+  "legal": {
+    "layout": {
+      "englishOnly": "Questo documento è attualmente disponibile solo in inglese.",
+      "logoAlt": "Logo di The Sanctuary"
+    }
+  }
+}

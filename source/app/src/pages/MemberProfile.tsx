@@ -1,32 +1,35 @@
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { NavLink, Outlet, useNavigate, useParams } from "react-router";
 import { X, Pencil, Cake } from "lucide-react";
 import { useDataStore } from "@/store/data";
 import { initials, avatarPalette, formatDayMonth, calculateAge } from "@/lib/member";
 import { cn } from "@/lib/utils";
 
+// `key` is the translation key under members.profile.tabs.
 const tabs = [
-    { path: "overview", label: "Overview" },
-    { path: "history", label: "History" },
-    { path: "contact", label: "Contact" },
+    { path: "overview", key: "overview" },
+    { path: "history", key: "history" },
+    { path: "contact", key: "contact" },
 ];
 
 export default function MemberProfile() {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
+    const { t } = useTranslation(undefined, { keyPrefix: "members.profile" });
     const members = useDataStore((s) => s.members);
     const member = useMemo(() => members.find((m) => m.id === id), [members, id]);
 
     if (!member) {
         return (
             <div className="flex h-full flex-col items-center justify-center gap-4 bg-ras-surface p-ras-edge text-center">
-                <p className="text-ras-body-md text-ras-on-surface-variant">Member not found.</p>
+                <p className="text-ras-body-md text-ras-on-surface-variant">{t("notFound")}</p>
                 <button
                     type="button"
                     onClick={() => navigate("/members")}
                     className="rounded-ras-full bg-ras-primary px-6 py-2 text-ras-label-caps text-ras-on-primary"
                 >
-                    Back to Members
+                    {t("back")}
                 </button>
             </div>
         );
@@ -43,6 +46,7 @@ export default function MemberProfile() {
                 <button
                     type="button"
                     onClick={() => navigate("/members")}
+                    aria-label={t("closeAria")}
                     className="absolute start-4 flex size-10 items-center justify-center rounded-full transition-colors hover:bg-white/10 active:opacity-80"
                     style={{ top: "calc(env(safe-area-inset-top) + 1rem)" }}
                 >
@@ -55,7 +59,7 @@ export default function MemberProfile() {
                     style={{ top: "calc(env(safe-area-inset-top) + 1rem)" }}
                 >
                     <Pencil className="size-4" />
-                    Edit
+                    {t("edit")}
                 </button>
 
                 <div className="flex flex-col items-center text-center">
@@ -82,7 +86,7 @@ export default function MemberProfile() {
                     {birthday && (
                         <p className="mb-3 flex items-center justify-center gap-1 text-ras-secondary-fixed-dim">
                             <Cake className="size-[18px]" />
-                            Birthday: {birthday}
+                            {t("birthday", { date: birthday })}
                             {age !== null && ` (${age})`}
                         </p>
                     )}
@@ -109,7 +113,7 @@ export default function MemberProfile() {
                             )
                         }
                     >
-                        {tab.label}
+                        {t(`tabs.${tab.key}`)}
                     </NavLink>
                 ))}
             </nav>

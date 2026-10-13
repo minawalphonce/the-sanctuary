@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ChevronDown, UserPlus, UserRoundPen } from "lucide-react";
 import { useDataStore } from "@/store/data";
 import type { Member } from "@/lib/sheets";
@@ -9,6 +10,7 @@ import { cn } from "@/lib/utils";
 
 // Who's responsible for this member, with Assign/Reassign and the past assignments.
 export function ResponsibleAdminCard({ member }: { member: Member }) {
+    const { t } = useTranslation(undefined, { keyPrefix: "members.responsibleAdmin" });
     const admins = useDataStore((s) => s.admins);
     const assignments = useDataStore((s) => s.assignments);
     const [sheetOpen, setSheetOpen] = useState(false);
@@ -23,18 +25,18 @@ export function ResponsibleAdminCard({ member }: { member: Member }) {
 
     const adminName = (id: string) => {
         const a = adminsById.get(id);
-        return a ? a.name || a.email : "Unknown admin";
+        return a ? a.name || a.email : t("unknownAdmin");
     };
 
     return (
         <section className="rounded-ras-xl border border-ras-outline-variant/30 bg-ras-surface-container-low p-4">
-            <p className="mb-3 text-ras-label-caps uppercase text-ras-on-surface-variant">Responsible Admin</p>
+            <p className="mb-3 text-ras-label-caps uppercase text-ras-on-surface-variant">{t("title")}</p>
 
             <div className="flex items-center justify-between gap-3">
                 {current ? (
                     <div className="flex min-w-0 items-center gap-3">
                         <AdminAvatar
-                            admin={currentAdmin ?? { name: "Unknown admin", email: "", photo_url: "" }}
+                            admin={currentAdmin ?? { name: t("unknownAdmin"), email: "", photo_url: "" }}
                             className="size-10"
                         />
                         <div className="flex min-w-0 flex-col">
@@ -42,12 +44,12 @@ export function ResponsibleAdminCard({ member }: { member: Member }) {
                                 {adminName(current.admin_id)}
                             </span>
                             <span className="text-ras-caption text-ras-on-surface-variant">
-                                since {formatAssignmentDate(current.from)}
+                                {t("since", { date: formatAssignmentDate(current.from) })}
                             </span>
                         </div>
                     </div>
                 ) : (
-                    <span className="text-ras-title-sm font-semibold text-ras-secondary">Unassigned</span>
+                    <span className="text-ras-title-sm font-semibold text-ras-secondary">{t("unassigned")}</span>
                 )}
 
                 <button
@@ -56,7 +58,7 @@ export function ResponsibleAdminCard({ member }: { member: Member }) {
                     className="flex shrink-0 items-center gap-1.5 rounded-ras-full bg-ras-primary px-4 py-1.5 text-ras-label-caps text-ras-on-primary transition-transform active:scale-95"
                 >
                     {current ? <UserRoundPen className="size-4" /> : <UserPlus className="size-4" />}
-                    {current ? "Reassign" : "Assign"}
+                    {current ? t("reassign") : t("assign")}
                 </button>
             </div>
 
@@ -68,7 +70,7 @@ export function ResponsibleAdminCard({ member }: { member: Member }) {
                         aria-expanded={historyOpen}
                         className="flex w-full items-center justify-between text-ras-label-caps text-ras-on-surface-variant"
                     >
-                        Assignment history ({previous.length})
+                        {t("history", { count: previous.length })}
                         <ChevronDown className={cn("size-4 transition-transform", historyOpen && "rotate-180")} />
                     </button>
                     {historyOpen && (
@@ -78,7 +80,7 @@ export function ResponsibleAdminCard({ member }: { member: Member }) {
                                 return (
                                     <li key={a.id} className="flex items-center gap-3">
                                         <AdminAvatar
-                                            admin={admin ?? { name: "Unknown admin", email: "", photo_url: "" }}
+                                            admin={admin ?? { name: t("unknownAdmin"), email: "", photo_url: "" }}
                                             className="size-7"
                                         />
                                         <div className="flex min-w-0 flex-col">

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 import { onAuthStateChanged, type User } from "firebase/auth";
 import { MessageCircle, NotebookPen, Phone, Plus, Search, UserPlus } from "lucide-react";
 import { auth } from "@/lib/firebase";
@@ -29,6 +30,7 @@ function FollowupCard({
     onLog: () => void;
 }) {
     const navigate = useNavigate();
+    const { t } = useTranslation(undefined, { keyPrefix: "followup.list" });
     const meta = FOLLOWUP_GROUP_META[priority.group];
     const whatsapp = member.phone ? whatsappHref(member.phone) : null;
     const note = priority.latest?.notes;
@@ -49,13 +51,13 @@ function FollowupCard({
                                 meta.chipClass
                             )}
                         >
-                            {priority.chip}
+                            {t(priority.chipKey)}
                         </span>
                     </div>
                     {member.group && (
                         <span className="text-ras-caption text-ras-on-surface-variant">{member.group}</span>
                     )}
-                    <span className="mt-0.5 text-ras-body-md text-ras-on-surface-variant">{priority.reason}</span>
+                    <span className="mt-0.5 text-ras-body-md text-ras-on-surface-variant">{t(priority.reasonKey, priority.reasonParams)}</span>
                 </div>
             </div>
 
@@ -69,13 +71,13 @@ function FollowupCard({
                     )}
                 >
                     <Phone className="size-5" />
-                    Call now
+                    {t("callNow")}
                 </a>
                 <a
                     href={whatsapp ?? undefined}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label="WhatsApp"
+                    aria-label={t("whatsappAria")}
                     aria-disabled={!whatsapp}
                     className={cn(
                         "flex size-12 items-center justify-center rounded-ras-lg border border-ras-outline-variant text-ras-primary transition-colors hover:bg-ras-surface-container-high",
@@ -90,7 +92,7 @@ function FollowupCard({
                     className="flex h-12 items-center justify-center gap-2 rounded-ras-lg border border-ras-secondary px-4 text-ras-label-caps text-ras-secondary transition-colors hover:bg-ras-secondary-fixed/30"
                 >
                     <NotebookPen className="size-5" />
-                    Log
+                    {t("log")}
                 </button>
             </div>
 
@@ -105,6 +107,7 @@ function FollowupCard({
 
 export default function Followup() {
     const navigate = useNavigate();
+    const { t } = useTranslation(undefined, { keyPrefix: "followup.list" });
     const members = useDataStore((s) => s.members);
     const assignments = useDataStore((s) => s.assignments);
     const followup = useDataStore((s) => s.followup);
@@ -157,14 +160,14 @@ export default function Followup() {
                     <div className="flex size-14 items-center justify-center rounded-full bg-ras-secondary-container text-ras-on-secondary-container">
                         <MessageCircle className="size-6" />
                     </div>
-                    <span className="text-ras-body-md text-ras-on-surface-variant">No members assigned to you yet</span>
+                    <span className="text-ras-body-md text-ras-on-surface-variant">{t("empty.title")}</span>
                     <button
                         type="button"
                         onClick={() => navigate("/assign")}
                         className="mt-2 flex items-center gap-2 rounded-ras-full bg-ras-primary px-5 py-2 text-ras-label-caps text-ras-on-primary transition-transform active:scale-95"
                     >
                         <UserPlus className="size-4" />
-                        Assign Follow-up
+                        {t("empty.assign")}
                     </button>
                 </div>
             ) : (
@@ -175,21 +178,21 @@ export default function Followup() {
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             type="text"
-                            placeholder={`Search my ${mine.length} members...`}
+                            placeholder={t("searchPlaceholder", { count: mine.length })}
                             className="h-12 w-full rounded-ras-xl border border-ras-outline-variant bg-ras-surface-container-low ps-11 pe-4 text-ras-body-md outline-none transition-all focus:border-transparent focus:ring-2 focus:ring-ras-primary"
                         />
                     </div>
 
                     {grouped.length === 0 && (
                         <p className="py-12 text-center text-ras-body-md text-ras-on-surface-variant">
-                            No members match your search.
+                            {t("noMatch")}
                         </p>
                     )}
 
                     {grouped.map(([group, rows]) => (
                         <section key={group} className="space-y-ras-stack">
                             <div className="flex items-center justify-between">
-                                <h2 className="text-ras-title-sm text-ras-primary">{FOLLOWUP_GROUP_META[group].title}</h2>
+                                <h2 className="text-ras-title-sm text-ras-primary">{t(`groups.${group}`)}</h2>
                                 <span className="text-ras-label-caps text-ras-on-surface-variant">{rows.length}</span>
                             </div>
                             {rows.map(({ member, priority }) => (
@@ -209,7 +212,7 @@ export default function Followup() {
             <button
                 type="button"
                 onClick={() => setPickerOpen(true)}
-                aria-label="Add follow-up"
+                aria-label={t("addAria")}
                 className="fixed bottom-24 end-6 z-50 flex size-14 items-center justify-center rounded-ras-xl bg-ras-primary text-ras-on-primary shadow-[0px_4px_20px_rgba(27,43,72,0.2)] transition-transform active:scale-95"
             >
                 <Plus className="size-6" />

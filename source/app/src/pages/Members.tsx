@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 import { Search, SlidersHorizontal, Phone, MessageCircle, Plus, Rows3, Layers, UserX } from "lucide-react";
 import { useDataStore } from "@/store/data";
 import type { Admin, Member } from "@/lib/sheets";
@@ -16,6 +17,7 @@ import {
 
 function MemberRow({ member, admin }: { member: Member; admin: Admin | null }) {
     const navigate = useNavigate();
+    const { t } = useTranslation(undefined, { keyPrefix: "members.list" });
 
     return (
         <div
@@ -30,8 +32,8 @@ function MemberRow({ member, admin }: { member: Member; admin: Admin | null }) {
                 <div className="flex min-w-0 flex-col">
                     <span className="flex min-w-0 items-center gap-2 text-ras-title-sm text-ras-on-surface">
                         <span
-                            aria-label={member.active ? "Active" : "Inactive"}
-                            title={member.active ? "Active" : "Inactive"}
+                            aria-label={member.active ? t("status.active") : t("status.inactive")}
+                            title={member.active ? t("status.active") : t("status.inactive")}
                             className={cn(
                                 "size-2 shrink-0 rounded-full",
                                 member.active ? "bg-ras-tertiary" : "bg-ras-on-surface-variant"
@@ -83,6 +85,7 @@ function MemberRow({ member, admin }: { member: Member; admin: Admin | null }) {
 
 export default function Members() {
     const navigate = useNavigate();
+    const { t } = useTranslation(undefined, { keyPrefix: "members.list" });
     const members = useDataStore((s) => s.members);
     const admins = useDataStore((s) => s.admins);
     const assignments = useDataStore((s) => s.assignments);
@@ -126,12 +129,12 @@ export default function Members() {
         if (!groupByClass) return null;
         const map = new Map<string, Member[]>();
         for (const m of filtered) {
-            const key = m.group || "Ungrouped";
+            const key = m.group || t("ungrouped");
             if (!map.has(key)) map.set(key, []);
             map.get(key)!.push(m);
         }
         return Array.from(map.entries()).sort(([a], [b]) => a.localeCompare(b));
-    }, [filtered, groupByClass]);
+    }, [filtered, groupByClass, t]);
 
     const activeFilterCount =
         filters.groups.length + (filters.status === "inactive" ? 1 : 0) + (filters.unassignedOnly ? 1 : 0);
@@ -147,7 +150,7 @@ export default function Members() {
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             type="text"
-                            placeholder={`Search ${members.length} members...`}
+                            placeholder={t("searchPlaceholder", { count: members.length })}
                             className="h-12 w-full rounded-ras-xl border border-ras-outline-variant bg-ras-surface-container-low ps-11 pe-4 text-ras-body-md outline-none transition-all focus:border-transparent focus:ring-2 focus:ring-ras-primary"
                         />
                     </div>
@@ -155,6 +158,7 @@ export default function Members() {
                         <button
                             type="button"
                             onClick={() => setFilterOpen(true)}
+                            aria-label={t("filtersAria")}
                             className="relative flex shrink-0 items-center justify-center rounded-ras-lg bg-ras-surface-container-highest p-2 text-ras-on-surface-variant transition-colors hover:bg-ras-surface-container-high"
                         >
                             <SlidersHorizontal className="size-5" />
@@ -166,18 +170,18 @@ export default function Members() {
                         </button>
                         <FilterChip
                             onClick={() => setGroupByClass((v) => !v)}
-                            title={groupByClass ? "Show all members" : "Group by class"}
+                            title={groupByClass ? t("showAll") : t("groupByClass")}
                             aria-pressed={undefined}
                         >
                             {groupByClass ? <Layers /> : <Rows3 />}
-                            {groupByClass ? "Grouped" : "All"}
+                            {groupByClass ? t("grouped") : t("all")}
                         </FilterChip>
                         <FilterChip
                             active={filters.unassignedOnly}
                             onClick={() => setFilters((f) => ({ ...f, unassignedOnly: !f.unassignedOnly }))}
                         >
                             <UserX />
-                            Unassigned
+                            {t("unassigned")}
                         </FilterChip>
                         {allGroups.map((group) => {
                             const checked = filters.groups.includes(group);
@@ -207,7 +211,7 @@ export default function Members() {
                 {filtered.length === 0 && (
                     <div className="flex flex-col items-center gap-2 px-ras-edge py-16 text-center">
                         <span className="text-ras-body-md text-ras-on-surface-variant">
-                            No members match your filters.
+                            {t("noMatch")}
                         </span>
                     </div>
                 )}
@@ -217,7 +221,7 @@ export default function Members() {
                           <div key={group}>
                               <div className="sticky top-0 z-30 flex items-center justify-between bg-ras-surface-container-low px-ras-edge py-2">
                                   <span className="text-ras-label-caps text-ras-secondary">
-                                      {group.toUpperCase()}
+                                      {group.toLocaleUpperCase()}
                                   </span>
                                   <span className="text-ras-label-caps text-ras-on-surface-variant">
                                       {groupMembers.length}
@@ -237,6 +241,7 @@ export default function Members() {
             <button
                 type="button"
                 onClick={() => navigate("/members/add")}
+                aria-label={t("addAria")}
                 className="fixed bottom-24 end-6 z-50 flex size-14 items-center justify-center rounded-full bg-ras-primary text-ras-on-primary shadow-[0px_4px_20px_rgba(27,43,72,0.2)] transition-transform active:scale-95"
             >
                 <Plus className="size-6" />

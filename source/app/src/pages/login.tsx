@@ -1,10 +1,13 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import type { TFunction } from "i18next";
 import { signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "@/lib/firebase";
 import { setGoogleAccessToken, getGoogleAccessTokenFromResult } from "@/lib/sheets";
 import { Button } from "@/components/ui/button";
 
 export default function Login() {
+    const { t } = useTranslation(undefined, { keyPrefix: "auth.login" });
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
 
@@ -17,8 +20,8 @@ export default function Login() {
             if (accessToken) setGoogleAccessToken(accessToken);
             // App.tsx's onAuthStateChanged listener picks up the signed-in user and navigates.
         } catch (err: unknown) {
-            const msg = err instanceof Error ? err.message : "Google sign in failed.";
-            setError(friendlyError(msg));
+            const msg = err instanceof Error ? err.message : "";
+            setError(friendlyError(msg, t));
             setLoading(false);
         }
     }
@@ -33,7 +36,7 @@ export default function Login() {
                         <div className="size-24 mb-6 rounded-ras-xl overflow-hidden bg-ras-primary border border-ras-on-primary-container/30 flex items-center justify-center">
                             <img
                                 src="/logo.png"
-                                alt="The Sanctuary Logo"
+                                alt={t("logoAlt")}
                                 className="size-16 object-contain"
                                 onError={e => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
                             />
@@ -42,7 +45,7 @@ export default function Login() {
                             The Sanctuary
                         </h1>
                         <p className="text-ras-body-md text-ras-inverse-primary max-w-xs">
-                            Admin access for managing member attendance and spiritual follow-up.
+                            {t("subtitle")}
                         </p>
                     </div>
 
@@ -62,11 +65,11 @@ export default function Login() {
                             className="w-full h-14 text-ras-title-sm bg-ras-on-primary-container/20 hover:bg-ras-on-primary-container/30 border border-ras-on-primary-container/30 text-white rounded-ras"
                         >
                             {loading ? (
-                                <span>Signing in…</span>
+                                <span>{t("signingIn")}</span>
                             ) : (
                                 <>
                                     <GoogleIcon />
-                                    <span>Sign in with Google</span>
+                                    <span>{t("signIn")}</span>
                                 </>
                             )}
                         </Button>
@@ -89,18 +92,18 @@ function GoogleIcon() {
     );
 }
 
-function friendlyError(msg: string): string {
+function friendlyError(msg: string, t: TFunction<"translation", "auth.login">): string {
     if (msg.includes("network-request-failed")) {
-        return "Network error. Check your connection and try again.";
+        return t("errors.network");
     }
     if (msg.includes("unauthorized-domain")) {
-        return "This domain isn't authorized for Google sign-in.";
+        return t("errors.unauthorizedDomain");
     }
     if (msg.includes("popup-closed-by-user") || msg.includes("cancelled-popup-request")) {
-        return "Sign-in popup was closed before completing. Please try again.";
+        return t("errors.popupClosed");
     }
     if (msg.includes("popup-blocked")) {
-        return "Your browser blocked the sign-in popup. Please allow popups for this site and try again.";
+        return t("errors.popupBlocked");
     }
-    return "Sign in failed. Please try again.";
+    return t("errors.generic");
 }

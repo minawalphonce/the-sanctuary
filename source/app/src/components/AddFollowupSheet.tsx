@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Save } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 import {
     Sheet,
     SheetContent,
@@ -12,7 +13,7 @@ import { auth } from "@/lib/firebase";
 import { useDataStore } from "@/store/data";
 import type { FollowupOutcome, FollowupType, Member } from "@/lib/sheets";
 import { cn } from "@/lib/utils";
-import { FOLLOWUP_OUTCOMES, FOLLOWUP_OUTCOME_META, FOLLOWUP_TYPES, FOLLOWUP_TYPE_META } from "@/lib/followups";
+import { FOLLOWUP_OUTCOMES, FOLLOWUP_TYPES, FOLLOWUP_TYPE_META } from "@/lib/followups";
 
 const labelClass = "text-ras-label-caps uppercase text-ras-on-surface-variant";
 
@@ -38,6 +39,7 @@ interface AddFollowupSheetProps {
 // Log a contact with a member — appends a row to `followups`. Shared by the
 // member History tab and the Follow-up tab.
 export function AddFollowupSheet({ open, onOpenChange, member }: AddFollowupSheetProps) {
+    const { t } = useTranslation(undefined, { keyPrefix: "followup.addSheet" });
     const appendFollowup = useDataStore((s) => s.appendFollowup);
 
     const [type, setType] = useState<FollowupType>("call");
@@ -81,9 +83,9 @@ export function AddFollowupSheet({ open, onOpenChange, member }: AddFollowupShee
         close(false);
         try {
             await appendFollowup(record);
-            toast.success("Follow-up saved", { description: member.full_name });
+            toast.success(t("toast.saved"), { description: member.full_name });
         } catch (err) {
-            toast.error("Could not save follow-up", {
+            toast.error(t("toast.error"), {
                 description: err instanceof Error ? err.message : undefined,
             });
         }
@@ -98,16 +100,16 @@ export function AddFollowupSheet({ open, onOpenChange, member }: AddFollowupShee
             >
                 <SheetHeader className="border-b border-ras-outline-variant px-6 py-5">
                     <p className="text-ras-label-caps uppercase text-ras-secondary">{member.full_name}</p>
-                    <SheetTitle className="text-ras-headline-md text-ras-primary">Add Follow-up</SheetTitle>
+                    <SheetTitle className="text-ras-headline-md text-ras-primary">{t("title")}</SheetTitle>
                 </SheetHeader>
 
                 <div className="min-h-0 flex-1 space-y-8 overflow-y-auto p-6">
                     {/* Interaction type */}
                     <section className="space-y-3">
-                        <h3 className={labelClass}>Interaction Type</h3>
+                        <h3 className={labelClass}>{t("interactionType")}</h3>
                         <div className="grid grid-cols-3 gap-3">
                             {FOLLOWUP_TYPES.map((value) => {
-                                const { label, icon: Icon } = FOLLOWUP_TYPE_META[value];
+                                const { icon: Icon } = FOLLOWUP_TYPE_META[value];
                                 const active = type === value;
                                 return (
                                     <button
@@ -122,7 +124,7 @@ export function AddFollowupSheet({ open, onOpenChange, member }: AddFollowupShee
                                         )}
                                     >
                                         <Icon className={cn("size-5", active ? "text-ras-secondary" : "text-ras-on-surface-variant")} />
-                                        {label}
+                                        {t(`types.${value}`)}
                                     </button>
                                 );
                             })}
@@ -131,10 +133,9 @@ export function AddFollowupSheet({ open, onOpenChange, member }: AddFollowupShee
 
                     {/* Outcome */}
                     <section className="space-y-3">
-                        <h3 className={labelClass}>Outcome / Status</h3>
+                        <h3 className={labelClass}>{t("outcome")}</h3>
                         <div className="flex flex-wrap gap-3">
                             {FOLLOWUP_OUTCOMES.map((value) => {
-                                const { label } = FOLLOWUP_OUTCOME_META[value];
                                 const active = outcome === value;
                                 return (
                                     <button
@@ -151,17 +152,17 @@ export function AddFollowupSheet({ open, onOpenChange, member }: AddFollowupShee
                                                 : "border-ras-outline-variant text-ras-on-surface hover:bg-ras-surface-container-low"
                                         )}
                                     >
-                                        {label}
+                                        {t(`outcomes.${value}`)}
                                     </button>
                                 );
                             })}
                         </div>
-                        {outcomeError && <p className="text-ras-caption text-ras-error">Choose an outcome.</p>}
+                        {outcomeError && <p className="text-ras-caption text-ras-error">{t("outcomeError")}</p>}
                     </section>
 
                     {/* Date */}
                     <section className="space-y-3">
-                        <h3 className={labelClass}>Date</h3>
+                        <h3 className={labelClass}>{t("date")}</h3>
                         <input
                             type="date"
                             value={date}
@@ -173,12 +174,13 @@ export function AddFollowupSheet({ open, onOpenChange, member }: AddFollowupShee
 
                     {/* Notes */}
                     <section className="space-y-3">
-                        <h3 className={labelClass}>Follow-up Notes</h3>
+                        <h3 className={labelClass}>{t("notes")}</h3>
                         <textarea
                             value={notes}
                             onChange={(e) => setNotes(e.target.value)}
                             rows={4}
-                            placeholder="Enter conversation details..."
+                            placeholder={t("notesPlaceholder")}
+                            dir="auto"
                             className="w-full resize-y rounded-ras-lg border border-ras-outline-variant bg-ras-surface-container-low p-3 text-ras-body-md text-ras-on-surface outline-none transition-colors focus:border-ras-secondary focus:ring-1 focus:ring-ras-secondary"
                         />
                     </section>
@@ -191,7 +193,7 @@ export function AddFollowupSheet({ open, onOpenChange, member }: AddFollowupShee
                         className="flex h-14 w-full items-center justify-center gap-2 rounded-ras-xl bg-ras-primary text-ras-title-sm text-ras-on-primary shadow-lg transition-all hover:bg-ras-primary-container active:scale-[0.98]"
                     >
                         <Save className="size-5" />
-                        Save Follow-up
+                        {t("save")}
                     </button>
                 </SheetFooter>
             </SheetContent>

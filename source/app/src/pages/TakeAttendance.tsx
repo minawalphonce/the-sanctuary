@@ -2,9 +2,10 @@ import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { Calendar, Check, Save, Search, Sparkles, X } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 import { useDataStore } from "@/store/data";
 import { auth } from "@/lib/firebase";
-import { memberCaption } from "@/lib/member";
+import { formatDdMmYyyy, memberCaption } from "@/lib/member";
 import { MemberAvatar } from "@/components/MemberAvatar";
 import { nextRegularSessionDdMmYyyy, findSessionDateCollision } from "@/lib/sessions";
 import { cn } from "@/lib/utils";
@@ -34,6 +35,7 @@ function MemberRow({
     state: PresentState;
     onSet: (next: PresentState) => void;
 }) {
+    const { t } = useTranslation(undefined, { keyPrefix: "attendance.take" });
     return (
         <div className="flex items-center justify-between border-b border-ras-outline-variant py-ras-list-item last:border-b-0">
             <div className="flex min-w-0 items-center gap-4">
@@ -47,6 +49,8 @@ function MemberRow({
                 <button
                     type="button"
                     onClick={() => onSet(state === "absent" ? null : "absent")}
+                    aria-label={t("absentAria")}
+                    aria-pressed={state === "absent"}
                     className={cn(
                         "flex size-10 items-center justify-center rounded-ras-lg border transition-colors",
                         state === "absent"
@@ -59,6 +63,8 @@ function MemberRow({
                 <button
                     type="button"
                     onClick={() => onSet(state === "present" ? null : "present")}
+                    aria-label={t("presentAria")}
+                    aria-pressed={state === "present"}
                     className={cn(
                         "flex size-10 items-center justify-center rounded-ras-lg border transition-colors",
                         state === "present"
@@ -75,6 +81,7 @@ function MemberRow({
 
 export default function TakeAttendance() {
     const navigate = useNavigate();
+    const { t } = useTranslation(undefined, { keyPrefix: "attendance.take" });
     const { sessionId } = useParams<{ sessionId: string }>();
     const members = useDataStore((s) => s.members);
     const attendance = useDataStore((s) => s.attendance);
@@ -98,7 +105,7 @@ export default function TakeAttendance() {
         id: crypto.randomUUID(),
         date: draftDate,
         type: "regular",
-        name: "Lesson",
+        name: t("defaultSessionName"),
         notes: "",
         status: "active",
     };
@@ -140,8 +147,8 @@ export default function TakeAttendance() {
 
     const onSave = async () => {
         if (isNewSession && findSessionDateCollision(sessions, session.date)) {
-            toast.error("Another session is already scheduled on that date", {
-                description: "Pick a different date for this session.",
+            toast.error(t("toast.collision.title"), {
+                description: t("toast.collision.description"),
             });
             return;
         }
@@ -157,13 +164,13 @@ export default function TakeAttendance() {
                     recorded_by: recordedBy,
                 }));
             await saveAttendance(session.date, records, isNewSession ? session : undefined);
-            toast.success("Attendance saved", {
-                description: `${session.name} — ${records.length} member${records.length === 1 ? "" : "s"} recorded.`,
+            toast.success(t("toast.saved"), {
+                description: t("toast.savedDescription", { name: session.name, count: records.length }),
             });
             navigate("/attendance");
         } catch {
-            toast.error("Could not save attendance", {
-                description: "Check your connection and try again.",
+            toast.error(t("toast.error"), {
+                description: t("toast.errorDescription"),
             });
         } finally {
             setSaving(false);
@@ -177,6 +184,7 @@ export default function TakeAttendance() {
                     <button
                         type="button"
                         onClick={() => navigate("/attendance")}
+                        aria-label={t("closeAria")}
                         className="flex size-10 items-center justify-center rounded-full transition-colors hover:bg-ras-surface-container-high active:opacity-80"
                     >
                         <X className="size-5 text-ras-primary" />
@@ -186,7 +194,7 @@ export default function TakeAttendance() {
                 {session.type === "special" && (
                     <span className="flex items-center gap-1 rounded-full border border-ras-outline-variant bg-ras-surface-container-low px-3 py-1 text-ras-label-caps text-ras-secondary">
                         <Sparkles className="size-3.5" />
-                        Special
+                        {t("special")}
                     </span>
                 )}
             </header>
@@ -203,7 +211,7 @@ export default function TakeAttendance() {
                             className="bg-transparent text-ras-title-sm text-ras-on-secondary-container outline-none"
                         />
                     ) : (
-                        <span className="text-ras-title-sm text-ras-on-secondary-container">{session.date}</span>
+                        <span className="text-ras-title-sm text-ras-on-secondary-container">{formatDdMmYyyy(session.date)}</span>
                     )}
                 </div>
 
@@ -222,7 +230,7 @@ export default function TakeAttendance() {
                                         : "border-ras-outline-variant bg-ras-surface-container-lowest text-ras-on-surface hover:bg-ras-surface-container-high"
                                 )}
                             >
-                                <span className="text-ras-label-caps">{g.toUpperCase()}</span>
+                                <span className="text-ras-label-caps">{g.toLocaleUpperCase()}</span>
                             </button>
                         ))}
                     </div>
@@ -234,27 +242,27 @@ export default function TakeAttendance() {
                     <input
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        placeholder="Search member name..."
+                        placeholder={t("searchPlaceholder")}
                         type="text"
                         className="flex-1 bg-transparent text-ras-body-md text-ras-on-surface outline-none placeholder:text-ras-on-surface-variant"
                     />
                     <div className="h-6 w-px shrink-0 bg-ras-outline-variant" />
                     <span className="shrink-0 whitespace-nowrap text-ras-label-caps text-ras-on-surface-variant">
-                        {filteredMembers.length} MEMBERS
+                        {t("membersCount", { count: filteredMembers.length })}
                     </span>
                 </div>
 
                 {/* List header */}
                 <div className="sticky top-0 z-40 flex items-center justify-between border-b border-ras-outline-variant bg-ras-surface py-2">
-                    <span className="text-ras-label-caps text-ras-on-surface-variant">MEMBER DETAILS</span>
-                    <span className="text-ras-label-caps text-ras-on-surface-variant">STATUS</span>
+                    <span className="text-ras-label-caps text-ras-on-surface-variant">{t("header.details")}</span>
+                    <span className="text-ras-label-caps text-ras-on-surface-variant">{t("header.status")}</span>
                 </div>
 
                 {/* Member list */}
                 <div className="flex flex-col">
                     {filteredMembers.length === 0 ? (
                         <div className="flex flex-col items-center gap-2 py-16 text-center">
-                            <span className="text-ras-body-md text-ras-on-surface-variant">No members match.</span>
+                            <span className="text-ras-body-md text-ras-on-surface-variant">{t("noMatch")}</span>
                         </div>
                     ) : (
                         filteredMembers.map((m) => (
@@ -277,7 +285,7 @@ export default function TakeAttendance() {
                     className="flex w-full max-w-lg items-center justify-center gap-3 rounded-ras-xl bg-ras-primary py-4 text-ras-title-sm uppercase tracking-wider text-ras-on-primary transition-all active:scale-[0.98] disabled:opacity-60"
                 >
                     <Save className="size-5" />
-                    {saving ? "Saving..." : "Save Attendance"}
+                    {saving ? t("saving") : t("save")}
                 </button>
             </div>
         </div>

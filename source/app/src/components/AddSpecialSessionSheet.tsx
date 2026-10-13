@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Map, NotebookPen, Save, Sun, TreePalm } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 import {
     Sheet,
     SheetContent,
@@ -13,14 +14,15 @@ import type { SessionRecord } from "@/lib/sheets";
 import { findSessionDateCollision } from "@/lib/sessions";
 import { cn } from "@/lib/utils";
 
+// `key` is the translation key under attendance.addSheet.types.
 const SESSION_TYPES = [
-    { label: "Outing", icon: Map },
-    { label: "Retreat", icon: TreePalm },
-    { label: "Day Use", icon: Sun },
-    { label: "Other", icon: NotebookPen },
+    { key: "outing", icon: Map },
+    { key: "retreat", icon: TreePalm },
+    { key: "dayUse", icon: Sun },
+    { key: "other", icon: NotebookPen },
 ];
 
-const OTHER_LABEL = "Other";
+const OTHER_KEY = "other";
 
 const inputClass =
     "w-full rounded-ras-lg border border-ras-outline-variant bg-ras-surface-container-low p-3 text-ras-body-md text-ras-on-surface outline-none transition-colors focus:border-ras-secondary focus:ring-1 focus:ring-ras-secondary";
@@ -39,6 +41,7 @@ interface AddSpecialSessionSheetProps {
 }
 
 export function AddSpecialSessionSheet({ open, onOpenChange }: AddSpecialSessionSheetProps) {
+    const { t } = useTranslation(undefined, { keyPrefix: "attendance.addSheet" });
     const appendSession = useDataStore((s) => s.appendSession);
     const sessions = useDataStore((s) => s.sessions);
 
@@ -49,8 +52,8 @@ export function AddSpecialSessionSheet({ open, onOpenChange }: AddSpecialSession
     const [saving, setSaving] = useState(false);
     const [nameError, setNameError] = useState<string | null>(null);
 
-    const isOther = selectedType === OTHER_LABEL;
-    const name = isOther ? customName.trim() : selectedType ?? "";
+    const isOther = selectedType === OTHER_KEY;
+    const name = isOther ? customName.trim() : selectedType ? t(`types.${selectedType}`) : "";
 
     const reset = () => {
         setSelectedType(null);
@@ -67,19 +70,19 @@ export function AddSpecialSessionSheet({ open, onOpenChange }: AddSpecialSession
 
     const onSave = async () => {
         if (!selectedType) {
-            setNameError("Choose a session type.");
+            setNameError(t("errors.type"));
             return;
         }
         if (isOther && !name) {
-            setNameError("Enter a name for this session.");
+            setNameError(t("errors.name"));
             return;
         }
         setNameError(null);
 
         const ddMmYyyy = isoToDdMmYyyy(date);
         if (findSessionDateCollision(sessions, ddMmYyyy)) {
-            toast.error("Another session is already scheduled on that date", {
-                description: "Pick a different date for this session.",
+            toast.error(t("toast.collision.title"), {
+                description: t("toast.collision.description"),
             });
             return;
         }
@@ -95,13 +98,13 @@ export function AddSpecialSessionSheet({ open, onOpenChange }: AddSpecialSession
                 status: "active",
             };
             await appendSession(session);
-            toast.success("Session added", {
-                description: `${session.name} has been added.`,
+            toast.success(t("toast.added"), {
+                description: t("toast.addedDescription", { name: session.name }),
             });
             close(false);
         } catch {
-            toast.error("Could not save session", {
-                description: "Check your connection and try again.",
+            toast.error(t("toast.error"), {
+                description: t("toast.errorDescription"),
             });
         } finally {
             setSaving(false);
@@ -116,32 +119,32 @@ export function AddSpecialSessionSheet({ open, onOpenChange }: AddSpecialSession
                 className="max-h-[92vh] gap-0 rounded-t-3xl border-t border-ras-outline-variant bg-ras-surface-container-lowest p-0"
             >
                 <SheetHeader className="border-b border-ras-outline-variant px-6 py-5">
-                    <p className="text-ras-label-caps uppercase text-ras-secondary">Management</p>
-                    <SheetTitle className="text-ras-headline-md text-ras-primary">Add Special Session</SheetTitle>
+                    <p className="text-ras-label-caps uppercase text-ras-secondary">{t("eyebrow")}</p>
+                    <SheetTitle className="text-ras-headline-md text-ras-primary">{t("title")}</SheetTitle>
                 </SheetHeader>
 
                 <div className="flex-1 space-y-8 overflow-y-auto p-6">
                     {/* Session Type */}
                     <section className="space-y-3">
-                        <label className={labelClass}>Session Type</label>
+                        <label className={labelClass}>{t("sessionType")}</label>
                         <div className="grid grid-cols-2 gap-3">
-                            {SESSION_TYPES.map(({ label, icon: Icon }) => (
+                            {SESSION_TYPES.map(({ key, icon: Icon }) => (
                                 <button
-                                    key={label}
+                                    key={key}
                                     type="button"
                                     onClick={() => {
-                                        setSelectedType(label);
+                                        setSelectedType(key);
                                         setNameError(null);
                                     }}
                                     className={cn(
                                         "flex items-center gap-3 rounded-ras-lg border p-3 transition-colors",
-                                        selectedType === label
+                                        selectedType === key
                                             ? "border-2 border-ras-secondary bg-ras-secondary-fixed/40 text-ras-secondary"
                                             : "border-ras-outline-variant hover:bg-ras-surface-container-low"
                                     )}
                                 >
                                     <Icon className="size-5 text-ras-secondary" />
-                                    <span className="text-ras-title-sm">{label}</span>
+                                    <span className="text-ras-title-sm">{t(`types.${key}`)}</span>
                                 </button>
                             ))}
                         </div>
@@ -152,7 +155,8 @@ export function AddSpecialSessionSheet({ open, onOpenChange }: AddSpecialSession
                                     setCustomName(e.target.value);
                                     setNameError(null);
                                 }}
-                                placeholder="Name this session"
+                                placeholder={t("namePlaceholder")}
+                                dir="auto"
                                 autoFocus
                                 className={inputClass}
                                 type="text"
@@ -163,7 +167,7 @@ export function AddSpecialSessionSheet({ open, onOpenChange }: AddSpecialSession
 
                     {/* Date */}
                     <section className="space-y-3">
-                        <label className={labelClass}>Date</label>
+                        <label className={labelClass}>{t("date")}</label>
                         <input
                             value={date}
                             onChange={(e) => setDate(e.target.value)}
@@ -174,11 +178,12 @@ export function AddSpecialSessionSheet({ open, onOpenChange }: AddSpecialSession
 
                     {/* Notes */}
                     <section className="space-y-3 pb-4">
-                        <label className={labelClass}>Notes</label>
+                        <label className={labelClass}>{t("notes")}</label>
                         <textarea
                             value={notes}
                             onChange={(e) => setNotes(e.target.value)}
-                            placeholder="Location, time, or any other details"
+                            placeholder={t("notesPlaceholder")}
+                            dir="auto"
                             rows={3}
                             className={inputClass}
                         />
@@ -193,7 +198,7 @@ export function AddSpecialSessionSheet({ open, onOpenChange }: AddSpecialSession
                         className="flex h-14 w-full items-center justify-center gap-2 rounded-ras-xl bg-ras-primary text-ras-title-sm text-ras-on-primary shadow-lg transition-all hover:bg-ras-primary-container active:scale-[0.98] disabled:opacity-60"
                     >
                         <Save className="size-5" />
-                        {saving ? "Saving..." : "Create Session"}
+                        {saving ? t("saving") : t("save")}
                     </button>
                 </SheetFooter>
             </SheetContent>

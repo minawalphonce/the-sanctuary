@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { useOutletContext } from "react-router";
+import { useTranslation } from "react-i18next";
 import { CirclePlus, MessagesSquare } from "lucide-react";
 import { useDataStore } from "@/store/data";
 import type { Admin, FollowupRecord, Member } from "@/lib/sheets";
@@ -13,33 +14,34 @@ import { AdminAvatar } from "@/components/AdminAvatar";
 import { AddFollowupSheet } from "@/components/AddFollowupSheet";
 import { cn } from "@/lib/utils";
 
-const UNKNOWN_ADMIN = { name: "Unknown admin", email: "", photo_url: "" };
 
 function FollowupEntry({ record, admin }: { record: FollowupRecord; admin: Admin | undefined }) {
+    const { t } = useTranslation(undefined, { keyPrefix: "members.history" });
     const [expanded, setExpanded] = useState(false);
-    const { verb, icon: Icon } = FOLLOWUP_TYPE_META[record.type];
+    const { icon: Icon } = FOLLOWUP_TYPE_META[record.type];
     const outcome = FOLLOWUP_OUTCOME_META[record.outcome];
-    const adminName = admin ? admin.name || admin.email : UNKNOWN_ADMIN.name;
+    const unknownAdmin = { name: t("unknownAdmin"), email: "", photo_url: "" };
+    const adminName = admin ? admin.name || admin.email : unknownAdmin.name;
 
     return (
         <li className="flex gap-4 rounded-ras-xl border border-ras-outline-variant bg-ras-surface-container-lowest p-4">
             <Icon className="mt-0.5 size-6 shrink-0 text-ras-secondary" />
             <div className="flex min-w-0 flex-1 flex-col gap-1">
                 <div className="flex items-start justify-between gap-2">
-                    <span className="text-ras-title-sm text-ras-on-surface">{verb}</span>
+                    <span className="text-ras-title-sm text-ras-on-surface">{t(`verbs.${record.type}`)}</span>
                     <span
                         className={cn(
                             "shrink-0 rounded-ras-full px-2.5 py-0.5 text-ras-label-caps text-[10px]",
                             outcome.chip
                         )}
                     >
-                        {outcome.label}
+                        {t(`outcomes.${record.outcome}`)}
                     </span>
                 </div>
                 <span className="flex min-w-0 items-center gap-1.5 text-ras-caption text-ras-on-surface-variant">
                     <span className="shrink-0">{formatFollowupDate(record.date)}</span>
                     <span className="shrink-0">•</span>
-                    <AdminAvatar admin={admin ?? UNKNOWN_ADMIN} className="size-5" />
+                    <AdminAvatar admin={admin ?? unknownAdmin} className="size-5" />
                     <span className="truncate">{adminName}</span>
                 </span>
                 {record.notes && (
@@ -61,6 +63,7 @@ function FollowupEntry({ record, admin }: { record: FollowupRecord; admin: Admin
 }
 
 export default function MemberHistory() {
+    const { t } = useTranslation(undefined, { keyPrefix: "members.history" });
     const { member } = useOutletContext<{ member: Member }>();
     const followup = useDataStore((s) => s.followup);
     const admins = useDataStore((s) => s.admins);
@@ -71,14 +74,14 @@ export default function MemberHistory() {
 
     return (
         <div className="pb-24">
-            <h2 className="mb-ras-stack text-ras-headline-md text-ras-primary">Follow-up History</h2>
+            <h2 className="mb-ras-stack text-ras-headline-md text-ras-primary">{t("title")}</h2>
 
             {history.length === 0 ? (
                 <div className="flex flex-col items-center gap-3 py-16 text-center">
                     <div className="flex size-14 items-center justify-center rounded-full bg-ras-secondary-container text-ras-on-secondary-container">
                         <MessagesSquare className="size-6" />
                     </div>
-                    <span className="text-ras-body-md text-ras-on-surface-variant">No contact logged yet</span>
+                    <span className="text-ras-body-md text-ras-on-surface-variant">{t("empty")}</span>
                 </div>
             ) : (
                 <ul className="space-y-ras-stack">
@@ -95,7 +98,7 @@ export default function MemberHistory() {
                     className="flex h-14 w-full items-center justify-center gap-2 rounded-ras-xl bg-ras-primary-container text-ras-title-sm text-ras-on-primary shadow-lg transition-transform active:scale-[0.98]"
                 >
                     <CirclePlus className="size-5" />
-                    Add Follow-up
+                    {t("add")}
                 </button>
             </div>
 

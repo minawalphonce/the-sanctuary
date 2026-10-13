@@ -1,7 +1,9 @@
 import { WifiOff } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 
 export default function NoConnection({ onRetry }: { onRetry: () => void }) {
+    const { t } = useTranslation(undefined, { keyPrefix: "auth.noConnection" });
     return (
         <div className="min-h-dvh flex flex-col bg-ras-primary-container text-white font-ras-grotesk antialiased">
             <main className="flex-1 flex items-center justify-center px-ras-edge py-ras-section">
@@ -11,10 +13,10 @@ export default function NoConnection({ onRetry }: { onRetry: () => void }) {
                             <WifiOff className="size-12 text-ras-on-primary-container" />
                         </div>
                         <h1 className="text-ras-display-lg text-ras-primary-fixed mb-2">
-                            No Internet Connection
+                            {t("title")}
                         </h1>
                         <p className="text-ras-body-md text-ras-inverse-primary max-w-xs">
-                            We couldn't reach The Sanctuary's records. Check your connection and try again.
+                            {t("description")}
                         </p>
                     </div>
 
@@ -24,7 +26,7 @@ export default function NoConnection({ onRetry }: { onRetry: () => void }) {
                             onClick={onRetry}
                             className="w-full h-14 text-ras-title-sm bg-ras-on-primary-container/20 hover:bg-ras-on-primary-container/30 border border-ras-on-primary-container/30 text-white rounded-ras"
                         >
-                            Try Again
+                            {t("retry")}
                         </Button>
                     </div>
                 </div>

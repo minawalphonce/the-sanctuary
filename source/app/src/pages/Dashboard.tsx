@@ -2,11 +2,12 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { onAuthStateChanged, type User } from "firebase/auth";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 import { Phone, MessageCircle, UserPlus, ClipboardCheck, Sparkles, MapPin, Inbox } from "lucide-react";
 import { auth } from "@/lib/firebase";
 import { useDataStore } from "@/store/data";
 import type { Member, SessionRecord } from "@/lib/sheets";
-import { parseDdMmYyyy } from "@/lib/member";
+import { formatDdMmYyyy, parseDdMmYyyy } from "@/lib/member";
 import { initials, avatarPalette, whatsappHref } from "@/lib/member";
 import { cn } from "@/lib/utils";
 
@@ -91,6 +92,7 @@ function MemberRow({ member, subtitle }: { member: Member; subtitle: string }) {
 
 export default function Dashboard() {
     const navigate = useNavigate();
+    const { t } = useTranslation(undefined, { keyPrefix: "dashboard.home" });
     const members = useDataStore((s) => s.members);
     const attendance = useDataStore((s) => s.attendance);
     const sessions = useDataStore((s) => s.sessions);
@@ -177,16 +179,16 @@ export default function Dashboard() {
             <section className="space-y-3">
                 <div className="flex items-center justify-between">
                     <h2 className="text-ras-title-sm text-ras-primary">
-                        {assignedMembers.length > 0 ? "Your Assigned Members" : "Needs Follow-up"}
+                        {assignedMembers.length > 0 ? t("assigned.title") : t("needsFollowup.title")}
                     </h2>
                     <button
                         type="button"
                         onClick={() =>
-                            toast.info("Coming soon", { description: "Follow-up reports aren't available yet." })
+                            toast.info(t("comingSoon.title"), { description: t("comingSoon.followupReports") })
                         }
                         className="text-ras-label-caps text-ras-secondary underline"
                     >
-                        View All
+                        {t("viewAll")}
                     </button>
                 </div>
 
@@ -195,7 +197,7 @@ export default function Dashboard() {
                         <div className="flex items-center gap-3 p-4 bg-ras-surface-container">
                             <Inbox className="size-5 text-ras-on-surface-variant" />
                             <p className="text-ras-caption text-ras-on-surface-variant">
-                                No assigned members and no one missed recent sessions.
+                                {t("empty.noAssignedNoMissed")}
                             </p>
                         </div>
                     )}
@@ -212,7 +214,7 @@ export default function Dashboard() {
                                 <div className="flex items-center gap-3 p-4 bg-ras-surface-container">
                                     <Inbox className="size-5 text-ras-on-surface-variant" />
                                     <p className="text-ras-caption text-ras-on-surface">
-                                        Top {mostMissedMembers.length} members missing recent sessions.
+                                        {t("needsFollowup.topMissing", { count: mostMissedMembers.length })}
                                     </p>
                                 </div>
                                 <div className="divide-y divide-ras-outline-variant">
@@ -220,7 +222,7 @@ export default function Dashboard() {
                                         <MemberRow
                                             key={member.id}
                                             member={member}
-                                            subtitle={`Missed ${consecutiveMissed} session${consecutiveMissed === 1 ? "" : "s"} in a row`}
+                                            subtitle={t("needsFollowup.missedInARow", { count: consecutiveMissed })}
                                         />
                                     ))}
                                 </div>
@@ -234,11 +236,11 @@ export default function Dashboard() {
             <section className="space-y-3">
                 <div className="flex items-center justify-between">
                     <h2 className="text-ras-title-sm text-ras-primary">
-                        {statusSession?.isToday ? "Today's Summary" : "Last Session Summary"}
+                        {statusSession?.isToday ? t("summary.today") : t("summary.last")}
                     </h2>
                     {statusSession && (
                         <span className="text-ras-label-caps text-ras-on-surface-variant">
-                            {statusSession.session.date}
+                            {formatDdMmYyyy(statusSession.session.date)}
                         </span>
                     )}
                 </div>
@@ -247,7 +249,7 @@ export default function Dashboard() {
                     <div className="rounded-ras-xl border border-ras-outline-variant bg-ras-surface-container-lowest p-4 shadow-sm">
                         <div className="flex items-center justify-between">
                             <span className="text-ras-label-caps uppercase text-ras-on-surface-variant">
-                                {statusSession.session.name || "Session"}
+                                {statusSession.session.name || t("summary.sessionFallback")}
                             </span>
                             <ClipboardCheck className="size-4.5 text-ras-secondary" />
                         </div>
@@ -266,14 +268,14 @@ export default function Dashboard() {
                     </div>
                 ) : (
                     <div className="rounded-ras-xl border border-ras-outline-variant bg-ras-surface-container-lowest p-4 text-center text-ras-caption text-ras-on-surface-variant">
-                        No sessions recorded yet.
+                        {t("summary.empty")}
                     </div>
                 )}
             </section>
 
             {/* Section 3: Quick Actions */}
             <section className="space-y-3">
-                <h2 className="text-ras-title-sm text-ras-primary">Quick Actions</h2>
+                <h2 className="text-ras-title-sm text-ras-primary">{t("quickActions.title")}</h2>
                 <div className="grid grid-cols-2 gap-3">
                     <button
                         type="button"
@@ -281,7 +283,7 @@ export default function Dashboard() {
                         className="flex items-center gap-3 rounded-ras-xl bg-ras-primary p-4 text-ras-on-primary transition-all hover:opacity-90 active:scale-95"
                     >
                         <UserPlus className="size-5" />
-                        <span className="text-ras-label-caps">Add Member</span>
+                        <span className="text-ras-label-caps">{t("quickActions.addMember")}</span>
                     </button>
                     <button
                         type="button"
@@ -289,14 +291,14 @@ export default function Dashboard() {
                         className="flex items-center gap-3 rounded-ras-xl bg-ras-secondary-container p-4 text-ras-on-secondary-container transition-all hover:bg-ras-secondary-fixed active:scale-95"
                     >
                         <ClipboardCheck className="size-5" />
-                        <span className="text-ras-label-caps">Take Attendance</span>
+                        <span className="text-ras-label-caps">{t("quickActions.takeAttendance")}</span>
                     </button>
                 </div>
             </section>
 
             {/* Section 4: Next upcoming special session */}
             <section className="space-y-3">
-                <h2 className="text-ras-title-sm text-ras-primary">Upcoming Special Session</h2>
+                <h2 className="text-ras-title-sm text-ras-primary">{t("special.title")}</h2>
                 {nextSpecialSession ? (
                     <div
                         onClick={() => navigate(`/attendance/take/${nextSpecialSession.id}`)}
@@ -310,14 +312,14 @@ export default function Dashboard() {
                             <div className="flex items-center gap-2 text-ras-caption text-ras-on-surface-variant">
                                 <MapPin className="size-3.5 shrink-0" />
                                 <span className="truncate">
-                                    {[nextSpecialSession.date, nextSpecialSession.notes].filter(Boolean).join(" • ")}
+                                    {[formatDdMmYyyy(nextSpecialSession.date), nextSpecialSession.notes].filter(Boolean).join(" • ")}
                                 </span>
                             </div>
                         </div>
                     </div>
                 ) : (
                     <div className="rounded-ras-xl border border-ras-outline-variant bg-ras-surface-container-lowest p-4 text-center text-ras-caption text-ras-on-surface-variant">
-                        No special sessions scheduled.
+                        {t("special.empty")}
                     </div>
                 )}
             </section>

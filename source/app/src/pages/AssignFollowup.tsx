@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
+import type { TFunction } from "i18next";
 import { X, Search, ClipboardCheck, UserX, Users } from "lucide-react";
 import { useDataStore } from "@/store/data";
 import type { Admin, Member } from "@/lib/sheets";
@@ -16,6 +18,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
+import { formatList } from "@/i18n/format";
 import { MemberAvatar } from "@/components/MemberAvatar";
 import { AdminPicker } from "@/components/AdminPicker";
 import { AssigneeIndicator } from "@/components/AssigneeIndicator";
@@ -36,21 +39,30 @@ function firstName(admin: Pick<Admin, "name" | "email">) {
 
 // "Assign 5 members to Monica. 2 will be moved from Tasoni Mary and 1 from Fr. Bishoy."
 // Members already with `target` are left out of `count` and noted at the end.
-function summarise(count: number, target: Admin, movedFrom: [string, number][], unchanged: number) {
-    let text = `Assign ${count} ${count === 1 ? "member" : "members"} to ${adminLabel(target)}.`;
+function summarise(
+    t: TFunction<"translation", "followup.assign">,
+    count: number,
+    target: Admin,
+    movedFrom: [string, number][],
+    unchanged: number
+) {
+    const admin = adminLabel(target);
+    const sentences = [t("summary.assign", { count, admin })];
     if (movedFrom.length > 0) {
-        const parts = movedFrom.map(([name, n], i) => (i === 0 ? `${n} will be moved from ${name}` : `${n} from ${name}`));
-        const joined = parts.length === 1 ? parts[0] : `${parts.slice(0, -1).join(", ")} and ${parts[parts.length - 1]}`;
-        text += ` ${joined}.`;
+        const parts = movedFrom.map(([name, n], i) =>
+            t(i === 0 ? "summary.movedFirst" : "summary.movedNext", { count: n, name })
+        );
+        sentences.push(t("summary.moved", { list: formatList(parts) }));
     }
     if (unchanged > 0) {
-        text += ` ${unchanged} ${unchanged === 1 ? "is" : "are"} already with ${adminLabel(target)} and won't change.`;
+        sentences.push(t("summary.unchanged", { count: unchanged, admin }));
     }
-    return text;
+    return sentences.join(" ");
 }
 
 export default function AssignFollowup() {
     const navigate = useNavigate();
+    const { t } = useTranslation(undefined, { keyPrefix: "followup.assign" });
     const admins = useDataStore((s) => s.admins);
     const members = useDataStore((s) => s.members);
     const assignments = useDataStore((s) => s.assignments);
@@ -84,13 +96,13 @@ export default function AssignFollowup() {
             if (!m.active) continue;
             if (filter === "unassigned" && currentAdminId.has(m.id)) continue;
             if (query && !m.full_name.toLowerCase().includes(query)) continue;
-            const key = m.group || "Ungrouped";
+            const key = m.group || t("ungrouped");
             if (!map.has(key)) map.set(key, []);
             map.get(key)!.push(m);
         }
         for (const rows of map.values()) rows.sort((a, b) => a.full_name.localeCompare(b.full_name));
         return Array.from(map.entries()).sort(([a], [b]) => a.localeCompare(b));
-    }, [members, filter, search, currentAdminId]);
+    }, [members, filter, search, currentAdminId, t]);
 
     // Selection minus anyone who's already with the chosen admin — assign()
     // skips them anyway; everyone else (assigned or not) can be reassigned.
@@ -126,11 +138,11 @@ export default function AssignFollowup() {
             const prevId = currentAdminId.get(memberId);
             if (!prevId) continue;
             const prev = adminsById.get(prevId);
-            const name = prev ? adminLabel(prev) : "another admin";
+            const name = prev ? adminLabel(prev) : t("anotherAdmin");
             counts.set(name, (counts.get(name) ?? 0) + 1);
         }
         return Array.from(counts.entries());
-    }, [effective, currentAdminId, adminsById]);
+    }, [effective, currentAdminId, adminsById, t]);
 
     const onConfirm = async () => {
         if (!target) return;
@@ -139,9 +151,9 @@ export default function AssignFollowup() {
         setSelected(new Set());
         try {
             await assign(effective, target.id);
-            toast.success(`${count} ${count === 1 ? "member" : "members"} assigned to ${adminLabel(target)}`);
+            toast.success(t("toast.assigned", { count, admin: adminLabel(target) }));
         } catch (err) {
-            toast.error("Could not assign members", {
+            toast.error(t("toast.error"), {
                 description: err instanceof Error ? err.message : undefined,
             });
         }
@@ -150,10 +162,11 @@ export default function AssignFollowup() {
     return (
         <div className="flex h-full flex-col bg-ras-background">
             <header className="sticky top-0 z-50 flex min-h-16 w-full shrink-0 items-center justify-between border-b border-ras-outline-variant bg-ras-surface px-ras-edge pt-[env(safe-area-inset-top)]">
-                <h1 className="text-ras-headline-md font-extrabold text-ras-primary">Assign Follow-up</h1>
+                <h1 className="text-ras-headline-md font-extrabold text-ras-primary">{t("title")}</h1>
                 <button
                     type="button"
                     onClick={close}
+                    aria-label={t("closeAria")}
                     className="flex size-10 items-center justify-center rounded-full transition-colors hover:bg-ras-surface-container-high active:opacity-80"
                 >
                     <X className="size-5 text-ras-primary" />
@@ -162,7 +175,7 @@ export default function AssignFollowup() {
 
             <main className="flex-1 overflow-y-auto px-ras-edge pt-ras-section pb-60">
                 <p className="text-ras-body-md text-ras-on-surface-variant">
-                    Select members and assign them to an admin for follow-up.
+                    {t("intro")}
                 </p>
 
                 {/* Search & filter */}
@@ -173,18 +186,18 @@ export default function AssignFollowup() {
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             type="text"
-                            placeholder="Search members..."
+                            placeholder={t("searchPlaceholder")}
                             className="h-12 w-full rounded-ras-xl border border-ras-outline-variant bg-ras-surface-container-low ps-11 pe-4 text-ras-body-md outline-none transition-all focus:border-transparent focus:ring-2 focus:ring-ras-primary"
                         />
                     </div>
                     <div className="flex gap-2">
                         <FilterChip active={filter === "unassigned"} onClick={() => setFilter("unassigned")}>
                             <UserX />
-                            Unassigned
+                            {t("filter.unassigned")}
                         </FilterChip>
                         <FilterChip active={filter === "all"} onClick={() => setFilter("all")}>
                             <Users />
-                            All
+                            {t("filter.all")}
                         </FilterChip>
                     </div>
                 </div>
@@ -192,7 +205,7 @@ export default function AssignFollowup() {
                 {/* Selection summary */}
                 <div className="mt-ras-section flex items-center justify-between">
                     <span className="text-ras-label-caps text-ras-on-surface-variant">
-                        Selected members ({selected.size})
+                        {t("selected", { count: selected.size })}
                     </span>
                     <button
                         type="button"
@@ -200,13 +213,13 @@ export default function AssignFollowup() {
                         disabled={selected.size === 0}
                         className="text-ras-label-caps text-ras-secondary disabled:opacity-40"
                     >
-                        Deselect all
+                        {t("deselectAll")}
                     </button>
                 </div>
 
                 {grouped.length === 0 && (
                     <p className="py-16 text-center text-ras-body-md text-ras-on-surface-variant">
-                        {filter === "unassigned" && !search ? "Every active member has an admin." : "No members match your search."}
+                        {filter === "unassigned" && !search ? t("empty.allAssigned") : t("empty.noMatch")}
                     </p>
                 )}
 
@@ -224,7 +237,7 @@ export default function AssignFollowup() {
                                     onClick={() => toggleGroup(rows, !allSelected)}
                                     className="text-ras-label-caps text-ras-on-surface-variant"
                                 >
-                                    {allSelected ? "Clear class" : "Select class"}
+                                    {allSelected ? t("clearClass") : t("selectClass")}
                                 </button>
                             </div>
                             {rows.map((m) => {
@@ -262,7 +275,7 @@ export default function AssignFollowup() {
 
             {/* Admin picker + action — pinned so they're reachable from anywhere in a long list */}
             <div className="fixed inset-x-0 bottom-0 z-40 border-t border-ras-outline-variant bg-ras-surface px-ras-edge pt-3 pb-[calc(env(safe-area-inset-bottom)+1rem)] shadow-[0_-4px_20px_rgba(27,43,72,0.08)]">
-                <span className="text-ras-label-caps text-ras-on-surface-variant">Assign to admin</span>
+                <span className="text-ras-label-caps text-ras-on-surface-variant">{t("assignToAdmin")}</span>
                 <AdminPicker selectedId={adminId} onSelect={setAdminId} className="mt-2" />
                 <button
                     type="button"
@@ -272,19 +285,19 @@ export default function AssignFollowup() {
                 >
                     <ClipboardCheck className="size-5" />
                     {!target
-                        ? "Choose an admin"
+                        ? t("chooseAdmin")
                         : effective.length > 0
-                          ? `Assign ${effective.length} to ${firstName(target)}`
-                          : `Assign to ${firstName(target)}`}
+                          ? t("assignCountTo", { count: effective.length, admin: firstName(target) })
+                          : t("assignTo", { admin: firstName(target) })}
                 </button>
             </div>
 
             <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
                 <DialogContent showCloseButton={false} className="gap-ras-section rounded-ras-xl bg-ras-surface p-ras-section">
                     <DialogHeader>
-                        <DialogTitle className="text-ras-headline-md text-ras-primary">Confirm assignment</DialogTitle>
+                        <DialogTitle className="text-ras-headline-md text-ras-primary">{t("confirm.title")}</DialogTitle>
                         <DialogDescription className="text-ras-body-md text-ras-on-surface-variant">
-                            {target && summarise(effective.length, target, movedFrom, selected.size - effective.length)}
+                            {target && summarise(t, effective.length, target, movedFrom, selected.size - effective.length)}
                         </DialogDescription>
                     </DialogHeader>
                     <DialogFooter className="mx-0 mb-0 flex-row gap-3 border-none bg-transparent p-0">
@@ -293,14 +306,14 @@ export default function AssignFollowup() {
                             onClick={() => setConfirmOpen(false)}
                             className="h-12 flex-1 rounded-ras-xl border border-ras-outline-variant text-ras-body-md text-ras-on-surface transition-colors hover:bg-ras-surface-container-low"
                         >
-                            Cancel
+                            {t("confirm.cancel")}
                         </button>
                         <button
                             type="button"
                             onClick={onConfirm}
                             className="h-12 flex-1 rounded-ras-xl bg-ras-primary text-ras-title-sm text-ras-on-primary transition-transform active:scale-95"
                         >
-                            Assign
+                            {t("confirm.assign")}
                         </button>
                     </DialogFooter>
                 </DialogContent>

@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import {
     Sheet,
     SheetContent,
@@ -18,7 +19,8 @@ interface MemberPickerSheetProps {
 }
 
 // Searchable list of active members; picking one calls `onPick` and closes.
-export function MemberPickerSheet({ open, onOpenChange, onPick, title = "Choose a member" }: MemberPickerSheetProps) {
+export function MemberPickerSheet({ open, onOpenChange, onPick, title }: MemberPickerSheetProps) {
+    const { t } = useTranslation(undefined, { keyPrefix: "followup.memberPicker" });
     const members = useDataStore((s) => s.members);
     const [search, setSearch] = useState("");
 
@@ -42,8 +44,8 @@ export function MemberPickerSheet({ open, onOpenChange, onPick, title = "Choose 
                 className="data-[side=bottom]:h-[85dvh] gap-0 rounded-t-3xl border-t border-ras-outline-variant bg-ras-surface-container-lowest p-0"
             >
                 <SheetHeader className="border-b border-ras-outline-variant px-6 py-5">
-                    <p className="text-ras-label-caps uppercase text-ras-secondary">Add Follow-up</p>
-                    <SheetTitle className="text-ras-headline-md text-ras-primary">{title}</SheetTitle>
+                    <p className="text-ras-label-caps uppercase text-ras-secondary">{t("eyebrow")}</p>
+                    <SheetTitle className="text-ras-headline-md text-ras-primary">{title ?? t("title")}</SheetTitle>
                 </SheetHeader>
 
                 <div className="border-b border-ras-outline-variant px-6 py-4">
@@ -53,7 +55,7 @@ export function MemberPickerSheet({ open, onOpenChange, onPick, title = "Choose 
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             type="text"
-                            placeholder="Search members..."
+                            placeholder={t("searchPlaceholder")}
                             className="h-12 w-full rounded-ras-xl border border-ras-outline-variant bg-ras-surface-container-low ps-11 pe-4 text-ras-body-md outline-none transition-all focus:border-transparent focus:ring-2 focus:ring-ras-primary"
                         />
                     </div>
@@ -62,7 +64,7 @@ export function MemberPickerSheet({ open, onOpenChange, onPick, title = "Choose 
                 <div className="min-h-0 flex-1 overflow-y-auto">
                     {filtered.length === 0 && (
                         <p className="px-6 py-12 text-center text-ras-body-md text-ras-on-surface-variant">
-                            No members match your search.
+                            {t("noMatch")}
                         </p>
                     )}
                     {filtered.map((m) => (

@@ -2,6 +2,8 @@ import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { X, IdCard, Contact, Share2, ShieldAlert, Save, Camera, User, Check, ChevronDown, Plus } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
+import { formatDate } from "@/i18n/format";
 import { uploadMemberPhoto } from "@/lib/firebase";
 import { useDataStore } from "@/store/data";
 import type { Member } from "@/lib/sheets";
@@ -62,6 +64,7 @@ function ClassCombobox({
 }) {
     const [open, setOpen] = useState(false);
     const [search, setSearch] = useState("");
+    const { t } = useTranslation(undefined, { keyPrefix: "members.addEdit" });
 
     const trimmedSearch = search.trim();
     const exactMatch = classes.some((c) => c.toLowerCase() === trimmedSearch.toLowerCase());
@@ -81,7 +84,7 @@ function ClassCombobox({
                     className={cn(inputClass, "flex items-center justify-between text-start")}
                 >
                     <span className={value ? "" : "text-ras-on-surface-variant"}>
-                        {value || "Select or add a class"}
+                        {value || t("class.select")}
                     </span>
                     <ChevronDown className="size-4 shrink-0 text-ras-on-surface-variant" />
                 </button>
@@ -91,7 +94,7 @@ function ClassCombobox({
                     <CommandInput
                         value={search}
                         onValueChange={setSearch}
-                        placeholder="Search or add a class..."
+                        placeholder={t("class.searchPlaceholder")}
                     />
                     <CommandList>
                         <CommandGroup>
@@ -108,12 +111,12 @@ function ClassCombobox({
                             <CommandGroup>
                                 <CommandItem value={`__create__${trimmedSearch}`} onSelect={() => select(trimmedSearch)}>
                                     <Plus className="size-4" />
-                                    Add "{trimmedSearch}"
+                                    {t("class.add", { name: trimmedSearch })}
                                 </CommandItem>
                             </CommandGroup>
                         )}
                         {classes.length === 0 && !showCreateOption && (
-                            <CommandEmpty>Type a name to add a class.</CommandEmpty>
+                            <CommandEmpty>{t("class.empty")}</CommandEmpty>
                         )}
                     </CommandList>
                 </Command>
@@ -124,6 +127,7 @@ function ClassCombobox({
 
 export default function MemberAddEdit() {
     const navigate = useNavigate();
+    const { t } = useTranslation(undefined, { keyPrefix: "members.addEdit" });
     const { id } = useParams<{ id: string }>();
     const isEdit = Boolean(id);
     const members = useDataStore((s) => s.members);
@@ -187,20 +191,20 @@ export default function MemberAddEdit() {
     const validate = (): FormErrors => {
         const errors: FormErrors = {};
         if (!fullName.trim()) {
-            errors.fullName = "Full name is required.";
+            errors.fullName = t("errors.fullName");
         }
         if (!phone.trim()) {
-            errors.phone = "Mobile number is required.";
+            errors.phone = t("errors.phoneRequired");
         } else if (!isValidPhone(phone.trim())) {
-            errors.phone = "Enter a valid mobile number (at least 7 digits).";
+            errors.phone = t("errors.phoneInvalid");
         }
         if (!whatsapp.trim()) {
-            errors.whatsapp = "WhatsApp number is required.";
+            errors.whatsapp = t("errors.whatsappRequired");
         } else if (!isValidPhone(whatsapp.trim())) {
-            errors.whatsapp = "Enter a valid WhatsApp number (at least 7 digits).";
+            errors.whatsapp = t("errors.whatsappInvalid");
         }
         if (!gender) {
-            errors.gender = "Gender is required.";
+            errors.gender = t("errors.gender");
         }
         return errors;
     };
@@ -209,7 +213,7 @@ export default function MemberAddEdit() {
         const errors = validate();
         setFieldErrors(errors);
         if (Object.keys(errors).length > 0) {
-            setError("Please fix the highlighted fields.");
+            setError(t("errors.fixFields"));
             return;
         }
         setError(null);
@@ -243,13 +247,15 @@ export default function MemberAddEdit() {
             } else {
                 await appendMember(member);
             }
-            toast.success("Member saved", {
-                description: `${fullName.trim() || "Member"} has been ${isEdit ? "updated" : "added"} successfully.`,
+            toast.success(t("toast.saved"), {
+                description: t(isEdit ? "toast.updatedDescription" : "toast.addedDescription", {
+                    name: fullName.trim() || t("toast.memberFallback"),
+                }),
             });
             navigate(isEdit ? `/members/${memberId}/overview` : "/members");
         } catch {
-            toast.error("Could not save member", {
-                description: "Check your connection and try again.",
+            toast.error(t("toast.error"), {
+                description: t("toast.errorDescription"),
             });
         } finally {
             setSaving(false);
@@ -264,16 +270,17 @@ export default function MemberAddEdit() {
                     <button
                         type="button"
                         onClick={close}
+                        aria-label={t("closeAria")}
                         className="flex size-10 items-center justify-center rounded-full transition-colors hover:bg-ras-surface-container-high active:opacity-80"
                     >
                         <X className="size-5 text-ras-primary" />
                     </button>
                     <h1 className="text-ras-headline-md font-extrabold text-ras-primary">
-                        {isEdit ? "Edit Member" : "Add Member"}
+                        {isEdit ? t("titleEdit") : t("titleAdd")}
                     </h1>
                 </div>
                 <span className="rounded-full bg-ras-surface-container-high px-3 py-1 text-ras-label-caps text-ras-on-surface-variant">
-                    {isEdit ? "Editing" : "New Entry"}
+                    {isEdit ? t("badgeEdit") : t("badgeNew")}
                 </span>
             </header>
 
@@ -298,7 +305,7 @@ export default function MemberAddEdit() {
                             />
                         </label>
                     </div>
-                    <p className="mt-4 text-ras-label-caps text-ras-on-surface-variant">Upload Member Photo</p>
+                    <p className="mt-4 text-ras-label-caps text-ras-on-surface-variant">{t("uploadPhoto")}</p>
                 </section>
 
                 <div className="space-y-8">
@@ -306,15 +313,15 @@ export default function MemberAddEdit() {
                     <div className="space-y-4">
                         <h3 className="flex items-center gap-2 border-b border-ras-outline-variant pb-2 text-ras-title-sm text-ras-secondary">
                             <IdCard className="size-4.5" />
-                            Identity Details
+                            {t("identity.title")}
                         </h3>
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                             <div className="flex flex-col gap-1">
-                                <label className={labelClass}>Full Name</label>
+                                <label className={labelClass}>{t("identity.fullName")}</label>
                                 <input
                                     value={fullName}
                                     onChange={(e) => setFullName(e.target.value)}
-                                    placeholder="e.g. Samuel Markos"
+                                    placeholder={t("identity.fullNamePlaceholder")}
                                     dir="auto"
                                     className={cn(inputClass, fieldErrors.fullName && errorInputClass)}
                                     type="text"
@@ -324,11 +331,11 @@ export default function MemberAddEdit() {
                                 )}
                             </div>
                             <div className="flex flex-col gap-1">
-                                <label className={labelClass}>Class</label>
+                                <label className={labelClass}>{t("identity.class")}</label>
                                 <ClassCombobox value={group} onChange={setGroup} classes={allGroups} />
                             </div>
                             <div className="flex flex-col gap-1">
-                                <label className={labelClass}>Birthday</label>
+                                <label className={labelClass}>{t("identity.birthday")}</label>
                                 <input
                                     value={dateOfBirth}
                                     onChange={(e) => setDateOfBirth(e.target.value)}
@@ -337,17 +344,17 @@ export default function MemberAddEdit() {
                                 />
                             </div>
                             <div className="flex flex-col gap-1">
-                                <label className={labelClass}>Gender</label>
+                                <label className={labelClass}>{t("identity.gender")}</label>
                                 <select
                                     value={gender}
                                     onChange={(e) => setGender(e.target.value)}
                                     className={cn(inputClass, fieldErrors.gender && errorInputClass)}
                                 >
                                     <option value="" disabled>
-                                        Select gender
+                                        {t("identity.genderPlaceholder")}
                                     </option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
+                                    <option value="Male">{t("identity.male")}</option>
+                                    <option value="Female">{t("identity.female")}</option>
                                 </select>
                                 {fieldErrors.gender && (
                                     <p className="px-1 text-ras-label-caps text-ras-error">{fieldErrors.gender}</p>
@@ -356,18 +363,18 @@ export default function MemberAddEdit() {
                             {isEdit && (
                                 <>
                                     <div className="flex flex-col gap-1">
-                                        <label className={labelClass}>Registered Date</label>
+                                        <label className={labelClass}>{t("identity.registeredDate")}</label>
                                         <p className={cn(inputClass, "bg-ras-surface-container-high text-ras-on-surface-variant")}>
                                             {existingMember?.registered_date
-                                                ? new Date(existingMember.registered_date).toLocaleString()
+                                                ? formatDate(existingMember.registered_date, { dateStyle: "medium", timeStyle: "short" })
                                                 : "—"}
                                         </p>
                                     </div>
                                     <div className="flex flex-col gap-1">
-                                        <label className={labelClass}>Last Updated</label>
+                                        <label className={labelClass}>{t("identity.lastUpdated")}</label>
                                         <p className={cn(inputClass, "bg-ras-surface-container-high text-ras-on-surface-variant")}>
                                             {existingMember?.last_updated
-                                                ? new Date(existingMember.last_updated).toLocaleString()
+                                                ? formatDate(existingMember.last_updated, { dateStyle: "medium", timeStyle: "short" })
                                                 : "—"}
                                         </p>
                                     </div>
@@ -380,11 +387,11 @@ export default function MemberAddEdit() {
                     <div className="space-y-4">
                         <h3 className="flex items-center gap-2 border-b border-ras-outline-variant pb-2 text-ras-title-sm text-ras-secondary">
                             <Contact className="size-4.5" />
-                            Communication
+                            {t("communication.title")}
                         </h3>
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                             <div className="flex flex-col gap-1">
-                                <label className={labelClass}>Mobile Number</label>
+                                <label className={labelClass}>{t("communication.mobile")}</label>
                                 <input
                                     value={phone}
                                     onChange={(e) => setPhone(e.target.value)}
@@ -398,7 +405,7 @@ export default function MemberAddEdit() {
                                 )}
                             </div>
                             <div className="flex flex-col gap-1">
-                                <label className={labelClass}>Email Address</label>
+                                <label className={labelClass}>{t("communication.email")}</label>
                                 <input
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
@@ -410,21 +417,22 @@ export default function MemberAddEdit() {
                             </div>
                         </div>
                         <div className="flex flex-col gap-1">
-                            <label className={labelClass}>Home Address</label>
+                            <label className={labelClass}>{t("communication.address")}</label>
                             <textarea
                                 value={address}
                                 onChange={(e) => setAddress(e.target.value)}
-                                placeholder="123 Church Way, St. Mary City"
+                                placeholder={t("communication.addressPlaceholder")}
+                                dir="auto"
                                 rows={2}
                                 className={inputClass}
                             />
                         </div>
                         <div className="flex flex-col gap-1">
-                            <label className={labelClass}>Notes</label>
+                            <label className={labelClass}>{t("communication.notes")}</label>
                             <textarea
                                 value={notes}
                                 onChange={(e) => setNotes(e.target.value)}
-                                placeholder="Optional notes about this member"
+                                placeholder={t("communication.notesPlaceholder")}
                                 dir="auto"
                                 rows={2}
                                 className={inputClass}
@@ -436,24 +444,25 @@ export default function MemberAddEdit() {
                     <div className="space-y-4">
                         <h3 className="flex items-center gap-2 border-b border-ras-outline-variant pb-2 text-ras-title-sm text-ras-secondary">
                             <Share2 className="size-4.5" />
-                            Social Presence
+                            {t("social.title")}
                         </h3>
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                             <div className="flex flex-col gap-1">
-                                <label className={labelClass}>WhatsApp</label>
+                                <label className={labelClass}>{t("social.whatsapp")}</label>
                                 <input
                                     value={whatsapp}
                                     onChange={(e) => setWhatsapp(e.target.value)}
                                     placeholder="+1 (555) 000-0000"
                                     className={cn(inputClass, fieldErrors.whatsapp && errorInputClass)}
                                     type="tel"
+                                    dir="ltr"
                                 />
                                 {fieldErrors.whatsapp && (
                                     <p className="px-1 text-ras-label-caps text-ras-error">{fieldErrors.whatsapp}</p>
                                 )}
                             </div>
                             <div className="flex flex-col gap-1">
-                                <label className={labelClass}>Instagram</label>
+                                <label className={labelClass}>{t("social.instagram")}</label>
                                 <input
                                     value={instagram}
                                     onChange={(e) => setInstagram(e.target.value)}
@@ -463,7 +472,7 @@ export default function MemberAddEdit() {
                                 />
                             </div>
                             <div className="flex flex-col gap-1">
-                                <label className={labelClass}>TikTok</label>
+                                <label className={labelClass}>{t("social.tiktok")}</label>
                                 <input
                                     value={tiktok}
                                     onChange={(e) => setTiktok(e.target.value)}
@@ -479,16 +488,17 @@ export default function MemberAddEdit() {
                     <div className="space-y-4 rounded-ras-xl border border-ras-outline-variant bg-ras-surface-container p-6">
                         <h3 className="flex items-center gap-2 text-ras-title-sm text-ras-primary">
                             <ShieldAlert className="size-4.5" />
-                            Emergency Contact
+                            {t("emergency.title")}
                         </h3>
                         <div className="flex flex-col gap-1">
-                            <label className={labelClass}>Emergency Contact Number</label>
+                            <label className={labelClass}>{t("emergency.number")}</label>
                             <input
                                 value={parentPhone}
                                 onChange={(e) => setParentPhone(e.target.value)}
                                 placeholder="+1 (555) 000-0000"
                                 className={cn(inputClass, "bg-ras-surface-container-lowest")}
                                 type="tel"
+                                dir="ltr"
                             />
                         </div>
                     </div>
@@ -506,7 +516,7 @@ export default function MemberAddEdit() {
                     className="flex w-full max-w-lg items-center justify-center gap-2 rounded-ras-full bg-ras-primary py-4 text-ras-title-sm text-ras-on-primary transition-all hover:bg-ras-primary-container hover:text-ras-on-primary-container active:scale-[0.98] disabled:opacity-60"
                 >
                     <Save className="size-5" />
-                    {saving ? "Saving..." : isEdit ? "Save Changes" : "Save Member"}
+                    {saving ? t("saving") : isEdit ? t("saveChanges") : t("saveMember")}
                 </button>
             </div>
         </div>

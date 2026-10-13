@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { useDataStore } from "@/store/data";
 import type { Admin } from "@/lib/sheets";
 import { currentAssignmentsByMember } from "@/lib/assignments";
@@ -19,6 +20,7 @@ interface AdminPickerProps {
 
 // Horizontal, single-select row of admins (avatar, first name, members assigned).
 export function AdminPicker({ selectedId, onSelect, currentId = null, className }: AdminPickerProps) {
+    const { t } = useTranslation(undefined, { keyPrefix: "followup.adminPicker" });
     const admins = useDataStore((s) => s.admins);
     const members = useDataStore((s) => s.members);
     const assignments = useDataStore((s) => s.assignments);
@@ -43,7 +45,7 @@ export function AdminPicker({ selectedId, onSelect, currentId = null, className 
         <div className={cn("no-scrollbar -mx-ras-edge flex gap-2 overflow-x-auto px-ras-edge pb-3", className)}>
             {sorted.length === 0 && (
                 <span className="text-ras-caption text-ras-on-surface-variant">
-                    No admins yet — admins appear after they sign in once.
+                    {t("empty")}
                 </span>
             )}
             {sorted.map((a) => {
@@ -86,7 +88,7 @@ export function AdminPicker({ selectedId, onSelect, currentId = null, className 
                                 isCurrent ? "font-bold text-ras-secondary" : "text-ras-on-surface-variant"
                             )}
                         >
-                            {isCurrent ? "Current" : `${countByAdmin.get(a.id) ?? 0} assigned`}
+                            {isCurrent ? t("current") : t("assignedCount", { count: countByAdmin.get(a.id) ?? 0 })}
                         </span>
                     </button>
                 );

@@ -3,6 +3,7 @@
 // components can subscribe to `assignments` and re-render on change.
 
 import type { Assignment, Member } from "@/lib/sheets";
+import { formatDate } from "@/i18n/format";
 
 // The member's open row (empty `to`), or null if unassigned.
 export function getCurrentAssignment(assignments: Assignment[], memberId: string): Assignment | null {
@@ -31,11 +32,9 @@ export function currentAssignmentsByMember(assignments: Assignment[]): Map<strin
     return map;
 }
 
-const MONTH_ABBR = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
 // ISO timestamp → "12 Sep 2026".
 export function formatAssignmentDate(iso: string): string {
     const d = new Date(iso);
     if (Number.isNaN(d.getTime())) return "";
-    return `${d.getDate()} ${MONTH_ABBR[d.getMonth()]} ${d.getFullYear()}`;
+    return formatDate(d);
 }

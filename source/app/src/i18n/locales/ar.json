@@ -1,0 +1,601 @@
+{
+  "language": {
+    "label": "اللغة"
+  },
+  "app": {
+    "shell": {
+      "appName": "The Sanctuary",
+      "profileAria": "ملفي الشخصي",
+      "tabs": {
+        "dashboard": "الرئيسية",
+        "attendance": "الحضور",
+        "members": "الأعضاء",
+        "followup": "المتابعة"
+      }
+    },
+    "pwaUpdate": {
+      "title": "يتوفر إصدار جديد",
+      "description": "أعد التحميل للحصول على آخر التحديثات.",
+      "reload": "إعادة التحميل"
+    }
+  },
+  "auth": {
+    "splash": {
+      "logoAlt": "شعار The Sanctuary",
+      "tagline": "تمكين الشباب وتعزيز المجتمع"
+    },
+    "noConnection": {
+      "title": "لا يوجد اتصال بالإنترنت",
+      "description": "تعذّر الوصول إلى سجلات The Sanctuary. تحقق من اتصالك وحاول مرة أخرى.",
+      "retry": "حاول مرة أخرى"
+    },
+    "accessDenied": {
+      "title": "تم رفض الوصول",
+      "description": "حساب Google الخاص بك ليس لديه صلاحية الوصول إلى سجلات The Sanctuary. اطلب من أحد المشرفين مشاركة الجدول مع هذا الحساب، ثم حاول مرة أخرى.",
+      "switchAccount": "تسجيل الدخول بحساب آخر"
+    },
+    "login": {
+      "logoAlt": "شعار The Sanctuary",
+      "subtitle": "دخول المشرفين لإدارة حضور الأعضاء والمتابعة الروحية.",
+      "signIn": "تسجيل الدخول باستخدام Google",
+      "signingIn": "جارٍ تسجيل الدخول…",
+      "errors": {
+        "network": "خطأ في الشبكة. تحقق من اتصالك وحاول مرة أخرى.",
+        "unauthorizedDomain": "هذا النطاق غير مصرّح له بتسجيل الدخول عبر Google.",
+        "popupClosed": "أُغلقت نافذة تسجيل الدخول قبل الاكتمال. يرجى المحاولة مرة أخرى.",
+        "popupBlocked": "حظر المتصفح نافذة تسجيل الدخول. يرجى السماح بالنوافذ المنبثقة لهذا الموقع ثم المحاولة مرة أخرى.",
+        "generic": "فشل تسجيل الدخول. يرجى المحاولة مرة أخرى."
+      }
+    }
+  },
+  "shared": {
+    "assignee": {
+      "unassigned": "غير مُسنَد"
+    },
+    "adminAvatar": {
+      "fallbackName": "مشرف"
+    },
+    "memberCaption": {
+      "age": "{{age}} سنة"
+    }
+  },
+  "profile": {
+    "me": {
+      "title": "ملفي الشخصي",
+      "closeAria": "إغلاق",
+      "defaultName": "مشرف",
+      "fullName": "الاسم الكامل",
+      "email": "البريد الإلكتروني",
+      "googleNote": "الاسم والبريد الإلكتروني يأتيان من حساب Google الخاص بك ولا يمكن تعديلهما هنا.",
+      "administration": {
+        "title": "الإدارة",
+        "manageAdmins": "إدارة المشرفين",
+        "yearlyRollup": "ملخص الأداء السنوي",
+        "assignFollowup": "إسناد متابعة"
+      },
+      "comingSoon": {
+        "title": "قريبًا",
+        "description": "«{{feature}}» غير متاح بعد."
+      },
+      "signedInAsAdmin": "تم تسجيل الدخول كمشرف.",
+      "logOut": "تسجيل الخروج",
+      "footer": "بوابة مشرفي The Sanctuary",
+      "language": {
+        "title": "اللغة"
+      }
+    }
+  },
+  "dashboard": {
+    "home": {
+      "viewAll": "عرض الكل",
+      "comingSoon": {
+        "title": "قريبًا",
+        "followupReports": "تقارير المتابعة غير متاحة بعد."
+      },
+      "assigned": {
+        "title": "الأعضاء المُسنَدون إليك"
+      },
+      "needsFollowup": {
+        "title": "يحتاجون إلى متابعة",
+        "topMissing_zero": "لا يوجد أعضاء تغيّبوا عن الاجتماعات الأخيرة.",
+        "topMissing_one": "أكثر عضو تغيّب عن الاجتماعات الأخيرة.",
+        "topMissing_two": "أكثر عضوين تغيّبا عن الاجتماعات الأخيرة.",
+        "topMissing_few": "أكثر {{count}} أعضاء تغيّبوا عن الاجتماعات الأخيرة.",
+        "topMissing_many": "أكثر {{count}} عضوًا تغيّبوا عن الاجتماعات الأخيرة.",
+        "topMissing_other": "أكثر {{count}} عضو تغيّبوا عن الاجتماعات الأخيرة.",
+        "missedInARow_zero": "لم يتغيّب عن أي اجتماع متتالٍ",
+        "missedInARow_one": "تغيّب عن اجتماع واحد متتالٍ",
+        "missedInARow_two": "تغيّب عن اجتماعين متتاليين",
+        "missedInARow_few": "تغيّب عن {{count}} اجتماعات متتالية",
+        "missedInARow_many": "تغيّب عن {{count}} اجتماعًا متتاليًا",
+        "missedInARow_other": "تغيّب عن {{count}} اجتماع متتالٍ"
+      },
+      "empty": {
+        "noAssignedNoMissed": "لا يوجد أعضاء مُسنَدون ولم يتغيّب أحد عن الاجتماعات الأخيرة."
+      },
+      "summary": {
+        "today": "ملخص اليوم",
+        "last": "ملخص آخر اجتماع",
+        "sessionFallback": "اجتماع",
+        "empty": "لم يُسجَّل أي اجتماع بعد."
+      },
+      "quickActions": {
+        "title": "إجراءات سريعة",
+        "addMember": "إضافة عضو",
+        "takeAttendance": "تسجيل الحضور"
+      },
+      "special": {
+        "title": "الاجتماع الخاص القادم",
+        "empty": "لا توجد اجتماعات خاصة مجدولة."
+      }
+    }
+  },
+  "followup": {
+    "list": {
+      "callNow": "اتصل الآن",
+      "whatsappAria": "واتساب",
+      "log": "تسجيل",
+      "addAria": "إضافة متابعة",
+      "empty": {
+        "title": "لم يُسنَد إليك أي أعضاء بعد",
+        "assign": "إسناد متابعة"
+      },
+      "searchPlaceholder_zero": "البحث بين أعضائي...",
+      "searchPlaceholder_one": "البحث بين أعضائي (عضو واحد)...",
+      "searchPlaceholder_two": "البحث بين أعضائي (عضوان)...",
+      "searchPlaceholder_few": "البحث بين أعضائي ({{count}} أعضاء)...",
+      "searchPlaceholder_many": "البحث بين أعضائي ({{count}} عضوًا)...",
+      "searchPlaceholder_other": "البحث بين أعضائي ({{count}} عضو)...",
+      "noMatch": "لا يوجد أعضاء يطابقون بحثك.",
+      "groups": {
+        "birthday": "عيد ميلاد هذا الأسبوع",
+        "not-contacted": "لم يتم التواصل بعد",
+        "missed-after-coming": "قالوا إنهم سيحضرون ولم يحضروا",
+        "no-answer": "لا رد / لن يحضر",
+        "coming": "سيحضر",
+        "other": "أخرى"
+      },
+      "chips": {
+        "birthday": "عيد ميلاد",
+        "notContacted": "لم يتم التواصل",
+        "didntCome": "لم يحضر",
+        "noAnswer": "لا رد",
+        "notComing": "لن يحضر",
+        "coming": "سيحضر",
+        "other": "أخرى"
+      },
+      "reasons": {
+        "birthday": "عيد ميلاده {{weekday}}",
+        "assignedNotContacted": "أُسنِد في {{date}} · لم يتم التواصل بعد",
+        "notContacted": "لم يتم التواصل بعد",
+        "missedAfterComing": "قال إنه سيحضر في {{coming}} — وتغيّب في {{missed}}",
+        "saidComing": "قال إنه سيحضر في {{date}}",
+        "noAnswerAgo": "لا رد · {{when}}",
+        "notComingAgo": "لن يحضر · {{when}}",
+        "otherAgo": "أخرى · {{when}}"
+      }
+    },
+    "memberPicker": {
+      "eyebrow": "إضافة متابعة",
+      "title": "اختر عضوًا",
+      "searchPlaceholder": "البحث عن الأعضاء...",
+      "noMatch": "لا يوجد أعضاء يطابقون بحثك."
+    },
+    "adminPicker": {
+      "empty": "لا يوجد مشرفون بعد — يظهر المشرفون بعد تسجيل دخولهم مرة واحدة.",
+      "current": "الحالي",
+      "assignedCount": "{{count}} مُسنَد"
+    },
+    "assign": {
+      "title": "إسناد متابعة",
+      "closeAria": "إغلاق",
+      "intro": "اختر الأعضاء وأسندهم إلى أحد المشرفين للمتابعة.",
+      "searchPlaceholder": "البحث عن الأعضاء...",
+      "filter": {
+        "unassigned": "غير مُسنَدين",
+        "all": "الكل"
+      },
+      "selected": "الأعضاء المحددون ({{count}})",
+      "deselectAll": "إلغاء تحديد الكل",
+      "empty": {
+        "allAssigned": "كل عضو نشط لديه مشرف.",
+        "noMatch": "لا يوجد أعضاء يطابقون بحثك."
+      },
+      "ungrouped": "بدون مجموعة",
+      "selectClass": "تحديد الفصل",
+      "clearClass": "إلغاء تحديد الفصل",
+      "assignToAdmin": "إسناد إلى مشرف",
+      "chooseAdmin": "اختر مشرفًا",
+      "assignCountTo": "إسناد {{count}} إلى {{admin}}",
+      "assignTo": "إسناد إلى {{admin}}",
+      "anotherAdmin": "مشرف آخر",
+      "confirm": {
+        "title": "تأكيد الإسناد",
+        "cancel": "إلغاء",
+        "assign": "إسناد"
+      },
+      "summary": {
+        "assign_zero": "لا أعضاء لإسنادهم إلى {{admin}}.",
+        "assign_one": "إسناد عضو واحد إلى {{admin}}.",
+        "assign_two": "إسناد عضوين إلى {{admin}}.",
+        "assign_few": "إسناد {{count}} أعضاء إلى {{admin}}.",
+        "assign_many": "إسناد {{count}} عضوًا إلى {{admin}}.",
+        "assign_other": "إسناد {{count}} عضو إلى {{admin}}.",
+        "movedFirst": "سيُنقَل {{count}} من {{name}}",
+        "movedNext": "{{count}} من {{name}}",
+        "moved": "{{list}}.",
+        "unchanged_zero": "لا أحد لدى {{admin}} بالفعل.",
+        "unchanged_one": "عضو واحد لدى {{admin}} بالفعل ولن يتغير.",
+        "unchanged_two": "عضوان لدى {{admin}} بالفعل ولن يتغيرا.",
+        "unchanged_few": "{{count}} أعضاء لدى {{admin}} بالفعل ولن يتغيروا.",
+        "unchanged_many": "{{count}} عضوًا لدى {{admin}} بالفعل ولن يتغيروا.",
+        "unchanged_other": "{{count}} عضو لدى {{admin}} بالفعل ولن يتغيروا."
+      },
+      "toast": {
+        "assigned_zero": "لم يُسنَد أي عضو إلى {{admin}}",
+        "assigned_one": "تم إسناد عضو واحد إلى {{admin}}",
+        "assigned_two": "تم إسناد عضوين إلى {{admin}}",
+        "assigned_few": "تم إسناد {{count}} أعضاء إلى {{admin}}",
+        "assigned_many": "تم إسناد {{count}} عضوًا إلى {{admin}}",
+        "assigned_other": "تم إسناد {{count}} عضو إلى {{admin}}",
+        "error": "تعذّر إسناد الأعضاء"
+      }
+    },
+    "addSheet": {
+      "title": "إضافة متابعة",
+      "interactionType": "نوع التواصل",
+      "types": {
+        "call": "مكالمة",
+        "message": "رسالة",
+        "in person": "وجهًا لوجه"
+      },
+      "outcome": "النتيجة / الحالة",
+      "outcomes": {
+        "coming": "سيحضر",
+        "not coming": "لن يحضر",
+        "no answer": "لا رد",
+        "other": "أخرى"
+      },
+      "outcomeError": "اختر نتيجة.",
+      "date": "التاريخ",
+      "notes": "ملاحظات المتابعة",
+      "notesPlaceholder": "أدخل تفاصيل المحادثة...",
+      "save": "حفظ المتابعة",
+      "toast": {
+        "saved": "تم حفظ المتابعة",
+        "error": "تعذّر حفظ المتابعة"
+      }
+    }
+  },
+  "members": {
+    "assignAdminSheet": {
+      "eyebrow": "المشرف المسؤول",
+      "titleAssign": "إسناد {{member}}",
+      "titleReassign": "إعادة إسناد {{member}}",
+      "assignToAdmin": "إسناد إلى مشرف",
+      "assignTo": "إسناد إلى {{admin}}",
+      "chooseAdmin": "اختر مشرفًا",
+      "toast": {
+        "assigned": "تم إسناد {{member}} إلى {{admin}}",
+        "error": "تعذّر إسناد العضو"
+      }
+    },
+    "responsibleAdmin": {
+      "title": "المشرف المسؤول",
+      "unknownAdmin": "مشرف غير معروف",
+      "since": "منذ {{date}}",
+      "unassigned": "غير مُسنَد",
+      "reassign": "إعادة إسناد",
+      "assign": "إسناد",
+      "history": "سجل الإسناد ({{count}})"
+    },
+    "history": {
+      "title": "سجل المتابعة",
+      "empty": "لم يُسجَّل أي تواصل بعد",
+      "add": "إضافة متابعة",
+      "unknownAdmin": "مشرف غير معروف",
+      "verbs": {
+        "call": "تم الاتصال به",
+        "message": "تمت مراسلته",
+        "in person": "تمت مقابلته وجهًا لوجه"
+      },
+      "outcomes": {
+        "coming": "سيحضر",
+        "not coming": "لن يحضر",
+        "no answer": "لا رد",
+        "other": "أخرى"
+      }
+    },
+    "overview": {
+      "attendanceRate": "نسبة الحضور",
+      "lastSession": "آخر اجتماع",
+      "consecutiveMissed": "اجتماعات متتالية فائتة",
+      "activityStreak": "سلسلة النشاط",
+      "lastSessions_zero": "لا اجتماعات",
+      "lastSessions_one": "آخر اجتماع",
+      "lastSessions_two": "آخر اجتماعين",
+      "lastSessions_few": "آخر {{count}} اجتماعات",
+      "lastSessions_many": "آخر {{count}} اجتماعًا",
+      "lastSessions_other": "آخر {{count}} اجتماع",
+      "noSessions": "لم يُسجَّل أي اجتماع بعد.",
+      "notes": "ملاحظات"
+    },
+    "list": {
+      "status": {
+        "active": "نشط",
+        "inactive": "غير نشط"
+      },
+      "ungrouped": "بدون مجموعة",
+      "searchPlaceholder_zero": "البحث في الأعضاء...",
+      "searchPlaceholder_one": "البحث في عضو واحد...",
+      "searchPlaceholder_two": "البحث في عضوين...",
+      "searchPlaceholder_few": "البحث في {{count}} أعضاء...",
+      "searchPlaceholder_many": "البحث في {{count}} عضوًا...",
+      "searchPlaceholder_other": "البحث في {{count}} عضو...",
+      "filtersAria": "عوامل التصفية",
+      "showAll": "عرض كل الأعضاء",
+      "groupByClass": "التجميع حسب الفصل",
+      "grouped": "مجمّعون",
+      "all": "الكل",
+      "unassigned": "غير مُسنَدين",
+      "noMatch": "لا يوجد أعضاء يطابقون عوامل التصفية.",
+      "addAria": "إضافة عضو"
+    },
+    "filterSheet": {
+      "title": "تصفية الأعضاء",
+      "class": "الفصل",
+      "status": {
+        "title": "الحالة",
+        "active": "نشط",
+        "inactive": "غير نشط"
+      },
+      "sortBy": "ترتيب حسب",
+      "sort": {
+        "nameAz": "الاسم (أ - ي)"
+      },
+      "apply": "تطبيق التصفية",
+      "reset": "إعادة ضبط كل عوامل التصفية"
+    },
+    "profile": {
+      "notFound": "لم يتم العثور على العضو.",
+      "back": "العودة إلى الأعضاء",
+      "closeAria": "إغلاق",
+      "edit": "تعديل",
+      "birthday": "تاريخ الميلاد: {{date}}",
+      "tabs": {
+        "overview": "نظرة عامة",
+        "history": "السجل",
+        "contact": "التواصل"
+      }
+    },
+    "contact": {
+      "title": "بيانات التواصل",
+      "mobile": "رقم الجوال",
+      "view": "عرض",
+      "emergency": "جهة اتصال للطوارئ",
+      "empty": "لا توجد بيانات تواصل مسجلة.",
+      "email": {
+        "label": "البريد الإلكتروني",
+        "copy": "نسخ البريد",
+        "copied": "تم نسخ البريد الإلكتروني",
+        "copyFailed": "تعذّر نسخ البريد الإلكتروني"
+      },
+      "whatsapp": {
+        "label": "واتساب",
+        "chat": "محادثة"
+      },
+      "tiktok": {
+        "label": "تيك توك"
+      },
+      "instagram": {
+        "label": "إنستغرام"
+      },
+      "address": {
+        "label": "عنوان المنزل",
+        "copy": "نسخ العنوان",
+        "copied": "تم نسخ العنوان",
+        "copyFailed": "تعذّر نسخ العنوان"
+      }
+    },
+    "addEdit": {
+      "closeAria": "إغلاق",
+      "titleAdd": "إضافة عضو",
+      "titleEdit": "تعديل عضو",
+      "badgeNew": "إدخال جديد",
+      "badgeEdit": "قيد التعديل",
+      "uploadPhoto": "رفع صورة العضو",
+      "saving": "جارٍ الحفظ...",
+      "saveChanges": "حفظ التغييرات",
+      "saveMember": "حفظ العضو",
+      "class": {
+        "select": "اختر فصلًا أو أضف فصلًا",
+        "searchPlaceholder": "ابحث عن فصل أو أضفه...",
+        "add": "إضافة «{{name}}»",
+        "empty": "اكتب اسمًا لإضافة فصل."
+      },
+      "identity": {
+        "title": "بيانات الهوية",
+        "fullName": "الاسم الكامل",
+        "fullNamePlaceholder": "مثال: صموئيل مرقس",
+        "class": "الفصل",
+        "birthday": "تاريخ الميلاد",
+        "gender": "الجنس",
+        "genderPlaceholder": "اختر الجنس",
+        "male": "ذكر",
+        "female": "أنثى",
+        "registeredDate": "تاريخ التسجيل",
+        "lastUpdated": "آخر تحديث"
+      },
+      "communication": {
+        "title": "التواصل",
+        "mobile": "رقم الجوال",
+        "email": "البريد الإلكتروني",
+        "address": "عنوان المنزل",
+        "addressPlaceholder": "١٢٣ شارع الكنيسة، مدينة القديسة مريم",
+        "notes": "ملاحظات",
+        "notesPlaceholder": "ملاحظات اختيارية عن هذا العضو"
+      },
+      "social": {
+        "title": "وسائل التواصل الاجتماعي",
+        "whatsapp": "واتساب",
+        "instagram": "إنستغرام",
+        "tiktok": "تيك توك"
+      },
+      "emergency": {
+        "title": "جهة اتصال للطوارئ",
+        "number": "رقم جهة الاتصال للطوارئ"
+      },
+      "errors": {
+        "fullName": "الاسم الكامل مطلوب.",
+        "phoneRequired": "رقم الجوال مطلوب.",
+        "phoneInvalid": "أدخل رقم جوال صالحًا (7 أرقام على الأقل).",
+        "whatsappRequired": "رقم واتساب مطلوب.",
+        "whatsappInvalid": "أدخل رقم واتساب صالحًا (7 أرقام على الأقل).",
+        "gender": "الجنس مطلوب.",
+        "fixFields": "يرجى تصحيح الحقول المميزة."
+      },
+      "toast": {
+        "saved": "تم حفظ العضو",
+        "memberFallback": "العضو",
+        "addedDescription": "تمت إضافة {{name}} بنجاح.",
+        "updatedDescription": "تم تحديث {{name}} بنجاح.",
+        "error": "تعذّر حفظ العضو",
+        "errorDescription": "تحقق من اتصالك وحاول مرة أخرى."
+      }
+    }
+  },
+  "attendance": {
+    "list": {
+      "eyebrow": "تتبّع الحضور",
+      "title": "اجتماعات الحضور",
+      "special": "خاص",
+      "attending": "{{count}} حاضر",
+      "upcoming": "قادم",
+      "active": "نشط",
+      "editAria": "تعديل الاجتماع",
+      "takeAria": "تسجيل الحضور",
+      "newSpecial": {
+        "title": "اجتماع خاص جديد",
+        "description": "هل تنظّم رحلة أو خلوة أو فعالية شبابية لمرة واحدة؟ تتبّع الحضور لهذه المناسبة تحديدًا.",
+        "add": "إضافة اجتماع خاص"
+      },
+      "monthly": {
+        "title": "إحصاءات الشهر",
+        "description": "متوسط الحضور في جميع البرامج الشبابية هذا الشهر."
+      },
+      "filters": {
+        "all": "كل الاجتماعات",
+        "regular": "العادية",
+        "special": "الفعاليات الخاصة"
+      },
+      "empty": "لا توجد اجتماعات بعد.",
+      "activeSessions": "الاجتماعات النشطة",
+      "upcomingSessions": "الاجتماعات القادمة"
+    },
+    "take": {
+      "closeAria": "إغلاق",
+      "special": "خاص",
+      "absentAria": "تحديد كغائب",
+      "presentAria": "تحديد كحاضر",
+      "defaultSessionName": "درس",
+      "searchPlaceholder": "ابحث عن اسم عضو...",
+      "membersCount_zero": "لا أعضاء",
+      "membersCount_one": "عضو واحد",
+      "membersCount_two": "عضوان",
+      "membersCount_few": "{{count}} أعضاء",
+      "membersCount_many": "{{count}} عضوًا",
+      "membersCount_other": "{{count}} عضو",
+      "header": {
+        "details": "بيانات العضو",
+        "status": "الحالة"
+      },
+      "noMatch": "لا يوجد أعضاء مطابقون.",
+      "save": "حفظ الحضور",
+      "saving": "جارٍ الحفظ...",
+      "toast": {
+        "collision": {
+          "title": "يوجد اجتماع آخر مجدول في هذا التاريخ",
+          "description": "اختر تاريخًا مختلفًا لهذا الاجتماع."
+        },
+        "saved": "تم حفظ الحضور",
+        "savedDescription_zero": "{{name}} — لم يُسجَّل أي عضو.",
+        "savedDescription_one": "{{name}} — تم تسجيل عضو واحد.",
+        "savedDescription_two": "{{name}} — تم تسجيل عضوين.",
+        "savedDescription_few": "{{name}} — تم تسجيل {{count}} أعضاء.",
+        "savedDescription_many": "{{name}} — تم تسجيل {{count}} عضوًا.",
+        "savedDescription_other": "{{name}} — تم تسجيل {{count}} عضو.",
+        "error": "تعذّر حفظ الحضور",
+        "errorDescription": "تحقق من اتصالك وحاول مرة أخرى."
+      }
+    },
+    "addSheet": {
+      "eyebrow": "الإدارة",
+      "title": "إضافة اجتماع خاص",
+      "sessionType": "نوع الاجتماع",
+      "types": {
+        "outing": "رحلة",
+        "retreat": "خلوة",
+        "dayUse": "يوم مفتوح",
+        "other": "أخرى"
+      },
+      "namePlaceholder": "سمِّ هذا الاجتماع",
+      "date": "التاريخ",
+      "notes": "ملاحظات",
+      "notesPlaceholder": "المكان أو الوقت أو أي تفاصيل أخرى",
+      "save": "إنشاء الاجتماع",
+      "saving": "جارٍ الحفظ...",
+      "errors": {
+        "type": "اختر نوع الاجتماع.",
+        "name": "أدخل اسمًا لهذا الاجتماع."
+      },
+      "toast": {
+        "collision": {
+          "title": "يوجد اجتماع آخر مجدول في هذا التاريخ",
+          "description": "اختر تاريخًا مختلفًا لهذا الاجتماع."
+        },
+        "added": "تمت إضافة الاجتماع",
+        "addedDescription": "تمت إضافة {{name}}.",
+        "error": "تعذّر حفظ الاجتماع",
+        "errorDescription": "تحقق من اتصالك وحاول مرة أخرى."
+      }
+    },
+    "editSheet": {
+      "eyebrow": "الإدارة",
+      "title": "تعديل اجتماع خاص",
+      "sessionType": "نوع الاجتماع",
+      "types": {
+        "outing": "رحلة",
+        "retreat": "خلوة",
+        "dayUse": "يوم مفتوح",
+        "other": "أخرى"
+      },
+      "sessionName": "اسم الاجتماع",
+      "namePlaceholder": "مثال: خلوة الجبل ٢٠٢٤",
+      "customNameNote": "اسم مخصص — اختر نوعًا أعلاه لاستبداله.",
+      "date": "التاريخ",
+      "notes": "ملاحظات",
+      "notesPlaceholder": "المكان أو الوقت أو أي تفاصيل أخرى",
+      "save": "حفظ التغييرات",
+      "saving": "جارٍ الحفظ...",
+      "errors": {
+        "name": "أدخل اسمًا لهذا الاجتماع."
+      },
+      "toast": {
+        "collision": {
+          "title": "يوجد اجتماع آخر مجدول في هذا التاريخ",
+          "description": "اختر تاريخًا مختلفًا لهذا الاجتماع."
+        },
+        "updated": "تم تحديث الاجتماع",
+        "updatedDescription": "تم تحديث {{name}}.",
+        "error": "تعذّر تحديث الاجتماع",
+        "errorDescription": "تحقق من اتصالك وحاول مرة أخرى."
+      }
+    }
+  },
+  "legal": {
+    "layout": {
+      "englishOnly": "هذه الوثيقة متاحة حاليًا باللغة الإنجليزية فقط.",
+      "logoAlt": "شعار The Sanctuary"
+    }
+  }
+}

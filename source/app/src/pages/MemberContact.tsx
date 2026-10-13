@@ -1,34 +1,36 @@
 import { useOutletContext } from "react-router";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 import { Phone, MessageSquareText, Eye, Camera } from "lucide-react";
 import type { Member } from "@/lib/sheets";
 import { whatsappHref } from "@/lib/member";
 
-async function copyToClipboard(value: string, label: string) {
+async function copyToClipboard(value: string, successMessage: string, errorMessage: string) {
     try {
         await navigator.clipboard.writeText(value);
-        toast.success(`${label} copied`);
+        toast.success(successMessage);
     } catch {
-        toast.error(`Could not copy ${label.toLowerCase()}`);
+        toast.error(errorMessage);
     }
 }
 
 export default function MemberContact() {
     const { member } = useOutletContext<{ member: Member }>();
+    const { t } = useTranslation(undefined, { keyPrefix: "members.contact" });
 
     const rows: { label: string; value: string; action: React.ReactNode }[] = [];
 
     if (member.email) {
         rows.push({
-            label: "Email Address",
+            label: t("email.label"),
             value: member.email,
             action: (
                 <button
                     type="button"
-                    onClick={() => copyToClipboard(member.email, "Email")}
+                    onClick={() => copyToClipboard(member.email, t("email.copied"), t("email.copyFailed"))}
                     className="rounded-ras-lg border border-ras-outline-variant bg-ras-surface-container-high px-4 py-2 text-ras-label-caps transition-colors hover:bg-ras-surface-container-highest"
                 >
-                    Copy Email
+                    {t("email.copy")}
                 </button>
             ),
         });
@@ -37,7 +39,7 @@ export default function MemberContact() {
     if (member.whatsapp) {
         const href = whatsappHref(member.whatsapp);
         rows.push({
-            label: "WhatsApp",
+            label: t("whatsapp.label"),
             value: member.whatsapp,
             action: href ? (
                 <a
@@ -47,7 +49,7 @@ export default function MemberContact() {
                     className="flex items-center gap-2 rounded-ras-lg border border-ras-outline-variant bg-ras-surface-container-high px-4 py-2 text-ras-label-caps transition-colors hover:bg-ras-surface-container-highest"
                 >
                     <MessageSquareText className="size-[18px]" />
-                    Chat
+                    {t("whatsapp.chat")}
                 </a>
             ) : null,
         });
@@ -55,7 +57,7 @@ export default function MemberContact() {
 
     if (member.tiktok) {
         rows.push({
-            label: "TikTok",
+            label: t("tiktok.label"),
             value: member.tiktok,
             action: (
                 <a
@@ -65,7 +67,7 @@ export default function MemberContact() {
                     className="flex items-center gap-2 rounded-ras-lg border border-ras-outline-variant bg-ras-surface-container-high px-4 py-2 text-ras-label-caps transition-colors hover:bg-ras-surface-container-highest"
                 >
                     <Eye className="size-[18px]" />
-                    View
+                    {t("view")}
                 </a>
             ),
         });
@@ -73,7 +75,7 @@ export default function MemberContact() {
 
     if (member.instagram) {
         rows.push({
-            label: "Instagram",
+            label: t("instagram.label"),
             value: member.instagram,
             action: (
                 <a
@@ -83,7 +85,7 @@ export default function MemberContact() {
                     className="flex items-center gap-2 rounded-ras-lg border border-ras-outline-variant bg-ras-surface-container-high px-4 py-2 text-ras-label-caps transition-colors hover:bg-ras-surface-container-highest"
                 >
                     <Camera className="size-[18px]" />
-                    View
+                    {t("view")}
                 </a>
             ),
         });
@@ -91,15 +93,15 @@ export default function MemberContact() {
 
     if (member.address) {
         rows.push({
-            label: "Home Address",
+            label: t("address.label"),
             value: member.address,
             action: (
                 <button
                     type="button"
-                    onClick={() => copyToClipboard(member.address, "Address")}
+                    onClick={() => copyToClipboard(member.address, t("address.copied"), t("address.copyFailed"))}
                     className="rounded-ras-lg border border-ras-outline-variant bg-ras-surface-container-high px-4 py-2 text-ras-label-caps transition-colors hover:bg-ras-surface-container-highest"
                 >
-                    Copy Address
+                    {t("address.copy")}
                 </button>
             ),
         });
@@ -107,14 +109,14 @@ export default function MemberContact() {
 
     return (
         <section className="space-y-4">
-            <h3 className="px-1 text-ras-title-sm text-ras-primary">Contact Details</h3>
+            <h3 className="px-1 text-ras-title-sm text-ras-primary">{t("title")}</h3>
 
             <div className="space-y-4">
                 {member.phone && (
                     <div className="rounded-ras-2xl bg-ras-primary-container p-5 text-ras-on-primary-container">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="mb-1 text-ras-label-caps opacity-70">Mobile Number</p>
+                                <p className="mb-1 text-ras-label-caps opacity-70">{t("mobile")}</p>
                                 <p className="text-ras-headline-md"><bdi dir="ltr">{member.phone}</bdi></p>
                             </div>
                             <div className="flex gap-2">
@@ -151,7 +153,7 @@ export default function MemberContact() {
 
                 {member.parent_phone && (
                     <div className="space-y-3 rounded-ras-xl border border-ras-outline-variant/30 bg-ras-surface-container-low p-4">
-                        <h4 className="text-ras-label-caps text-ras-on-surface-variant">Emergency Contact</h4>
+                        <h4 className="text-ras-label-caps text-ras-on-surface-variant">{t("emergency")}</h4>
                         <div className="flex items-center justify-between">
                             <p className="text-ras-body-md text-ras-on-surface-variant"><bdi dir="ltr">{member.parent_phone}</bdi></p>
                             <a
@@ -165,7 +167,7 @@ export default function MemberContact() {
                 )}
 
                 {rows.length === 0 && !member.phone && !member.parent_phone && (
-                    <p className="px-1 text-ras-body-md text-ras-on-surface-variant">No contact details on file.</p>
+                    <p className="px-1 text-ras-body-md text-ras-on-surface-variant">{t("empty")}</p>
                 )}
             </div>
         </section>

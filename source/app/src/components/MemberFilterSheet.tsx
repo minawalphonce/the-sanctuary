@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Dumbbell, ArrowUpDown, Check, Ban, ArrowDownAZ } from "lucide-react";
 import {
     Sheet,
@@ -42,6 +43,7 @@ export function MemberFilterSheet({
     onApply,
 }: MemberFilterSheetProps) {
     const direction = useDirection();
+    const { t } = useTranslation(undefined, { keyPrefix: "members.filterSheet" });
     const toggleGroup = (group: string) => {
         const groups = filters.groups.includes(group)
             ? filters.groups.filter((g) => g !== group)
@@ -63,7 +65,7 @@ export function MemberFilterSheet({
             >
                 <SheetHeader className="h-16 flex-row items-center justify-between border-b border-ras-outline-variant px-ras-edge py-0">
                     <SheetTitle className="text-ras-headline-md font-extrabold text-ras-primary">
-                        Filter Members
+                        {t("title")}
                     </SheetTitle>
                 </SheetHeader>
 
@@ -73,7 +75,7 @@ export function MemberFilterSheet({
                         <div className="mb-2 flex items-center gap-2">
                             <Dumbbell className="size-5 text-ras-secondary" />
                             <h3 className="text-ras-label-caps text-ras-secondary">
-                                Class
+                                {t("class")}
                             </h3>
                         </div>
                         <div className="space-y-3">
@@ -116,7 +118,7 @@ export function MemberFilterSheet({
                         <div className="mb-2 flex items-center gap-2">
                             <ArrowUpDown className="size-5 text-ras-secondary" />
                             <h3 className="text-ras-label-caps text-ras-secondary">
-                                Status
+                                {t("status.title")}
                             </h3>
                         </div>
                         <div className="grid grid-cols-2 gap-3">
@@ -131,7 +133,7 @@ export function MemberFilterSheet({
                                 )}
                             >
                                 <Check className="size-[18px]" />
-                                Active
+                                {t("status.active")}
                             </button>
                             <button
                                 type="button"
@@ -144,7 +146,7 @@ export function MemberFilterSheet({
                                 )}
                             >
                                 <Ban className="size-[18px]" />
-                                Inactive
+                                {t("status.inactive")}
                             </button>
                         </div>
                     </section>
@@ -154,12 +156,12 @@ export function MemberFilterSheet({
                         <div className="mb-2 flex items-center gap-2">
                             <ArrowDownAZ className="size-5 text-ras-secondary" />
                             <h3 className="text-ras-label-caps text-ras-secondary">
-                                Sort By
+                                {t("sortBy")}
                             </h3>
                         </div>
                         <div className="space-y-3">
                             {([
-                                { value: "name-az", label: "Name A-Z" },
+                                { value: "name-az", label: t("sort.nameAz") },
                             ] as { value: SortOption; label: string }[]).map(
                                 ({ value, label }) => {
                                     const checked = filters.sort === value;
@@ -216,10 +218,10 @@ export function MemberFilterSheet({
                         onClick={() => onOpenChange(false)}
                         className="flex h-14 w-full items-center justify-center gap-2 rounded-ras-xl bg-ras-primary text-ras-title-sm text-ras-on-primary shadow-lg transition-all hover:opacity-90 active:scale-95"
                     >
-                        Apply Filters
+                        {t("apply")}
                     </button>
                     <button type="button" onClick={reset} className="flex h-12 w-full items-center justify-center rounded-ras-xl border border-transparent text-ras-body-md text-ras-error transition-colors hover:bg-ras-error-container/20 active:border-ras-error/20">
-                        Reset All Filters
+                        {t("reset")}
                     </button>
                 </SheetFooter>
             </SheetContent>

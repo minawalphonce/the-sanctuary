@@ -1,0 +1,561 @@
+{
+  "language": {
+    "label": "Sprache"
+  },
+  "app": {
+    "shell": {
+      "appName": "The Sanctuary",
+      "profileAria": "Mein Profil",
+      "tabs": {
+        "dashboard": "Übersicht",
+        "attendance": "Anwesenheit",
+        "members": "Mitglieder",
+        "followup": "Nachverfolgung"
+      }
+    },
+    "pwaUpdate": {
+      "title": "Eine neue Version ist verfügbar",
+      "description": "Neu laden, um die neuesten Updates zu erhalten.",
+      "reload": "Neu laden"
+    }
+  },
+  "auth": {
+    "splash": {
+      "logoAlt": "The-Sanctuary-Logo",
+      "tagline": "Jugend stärken, Gemeinschaft festigen"
+    },
+    "noConnection": {
+      "title": "Keine Internetverbindung",
+      "description": "Wir konnten die Daten von The Sanctuary nicht erreichen. Prüfe deine Verbindung und versuche es erneut.",
+      "retry": "Erneut versuchen"
+    },
+    "accessDenied": {
+      "title": "Zugriff verweigert",
+      "description": "Dein Google-Konto hat keinen Zugriff auf die Daten von The Sanctuary. Bitte einen Administrator, die Tabelle mit diesem Konto zu teilen, und versuche es dann erneut.",
+      "switchAccount": "Mit einem anderen Konto anmelden"
+    },
+    "login": {
+      "logoAlt": "The-Sanctuary-Logo",
+      "subtitle": "Administratorzugang zur Verwaltung der Mitgliederanwesenheit und der geistlichen Nachverfolgung.",
+      "signIn": "Mit Google anmelden",
+      "signingIn": "Anmeldung läuft…",
+      "errors": {
+        "network": "Netzwerkfehler. Prüfe deine Verbindung und versuche es erneut.",
+        "unauthorizedDomain": "Diese Domain ist für die Google-Anmeldung nicht autorisiert.",
+        "popupClosed": "Das Anmeldefenster wurde geschlossen, bevor die Anmeldung abgeschlossen war. Bitte versuche es erneut.",
+        "popupBlocked": "Dein Browser hat das Anmeldefenster blockiert. Erlaube Pop-ups für diese Seite und versuche es erneut.",
+        "generic": "Anmeldung fehlgeschlagen. Bitte versuche es erneut."
+      }
+    }
+  },
+  "shared": {
+    "assignee": {
+      "unassigned": "Nicht zugewiesen"
+    },
+    "adminAvatar": {
+      "fallbackName": "Admin"
+    },
+    "memberCaption": {
+      "age": "{{age}} J."
+    }
+  },
+  "profile": {
+    "me": {
+      "title": "Mein Profil",
+      "closeAria": "Schließen",
+      "defaultName": "Admin",
+      "fullName": "Vollständiger Name",
+      "email": "E-Mail-Adresse",
+      "googleNote": "Name und E-Mail stammen aus deinem Google-Konto und können hier nicht geändert werden.",
+      "administration": {
+        "title": "Verwaltung",
+        "manageAdmins": "Administratoren verwalten",
+        "yearlyRollup": "Jahresauswertung",
+        "assignFollowup": "Nachverfolgung zuweisen"
+      },
+      "comingSoon": {
+        "title": "Demnächst verfügbar",
+        "description": "{{feature}} ist noch nicht verfügbar."
+      },
+      "signedInAsAdmin": "Als Administrator angemeldet.",
+      "logOut": "Abmelden",
+      "footer": "The Sanctuary Admin-Portal",
+      "language": {
+        "title": "Sprache"
+      }
+    }
+  },
+  "dashboard": {
+    "home": {
+      "viewAll": "Alle anzeigen",
+      "comingSoon": {
+        "title": "Demnächst verfügbar",
+        "followupReports": "Nachverfolgungsberichte sind noch nicht verfügbar."
+      },
+      "assigned": {
+        "title": "Deine zugewiesenen Mitglieder"
+      },
+      "needsFollowup": {
+        "title": "Nachverfolgung nötig",
+        "topMissing_one": "Top {{count}} Mitglied, das die letzten Treffen verpasst hat.",
+        "topMissing_other": "Top {{count}} Mitglieder, die die letzten Treffen verpasst haben.",
+        "missedInARow_one": "{{count}} Treffen in Folge verpasst",
+        "missedInARow_other": "{{count}} Treffen in Folge verpasst"
+      },
+      "empty": {
+        "noAssignedNoMissed": "Keine zugewiesenen Mitglieder und niemand hat die letzten Treffen verpasst."
+      },
+      "summary": {
+        "today": "Heutige Zusammenfassung",
+        "last": "Zusammenfassung des letzten Treffens",
+        "sessionFallback": "Treffen",
+        "empty": "Noch keine Treffen erfasst."
+      },
+      "quickActions": {
+        "title": "Schnellaktionen",
+        "addMember": "Mitglied hinzufügen",
+        "takeAttendance": "Anwesenheit erfassen"
+      },
+      "special": {
+        "title": "Nächstes Sondertreffen",
+        "empty": "Keine Sondertreffen geplant."
+      }
+    }
+  },
+  "followup": {
+    "list": {
+      "callNow": "Jetzt anrufen",
+      "whatsappAria": "WhatsApp",
+      "log": "Erfassen",
+      "addAria": "Nachverfolgung hinzufügen",
+      "empty": {
+        "title": "Dir sind noch keine Mitglieder zugewiesen",
+        "assign": "Nachverfolgung zuweisen"
+      },
+      "searchPlaceholder_one": "Meine {{count}} Mitglied durchsuchen...",
+      "searchPlaceholder_other": "Meine {{count}} Mitglieder durchsuchen...",
+      "noMatch": "Keine Mitglieder entsprechen deiner Suche.",
+      "groups": {
+        "birthday": "Geburtstag diese Woche",
+        "not-contacted": "Noch nicht kontaktiert",
+        "missed-after-coming": "Zugesagt, aber nicht gekommen",
+        "no-answer": "Keine Antwort / kommt nicht",
+        "coming": "Kommt",
+        "other": "Sonstiges"
+      },
+      "chips": {
+        "birthday": "Geburtstag",
+        "notContacted": "Nicht kontaktiert",
+        "didntCome": "Nicht gekommen",
+        "noAnswer": "Keine Antwort",
+        "notComing": "Kommt nicht",
+        "coming": "Kommt",
+        "other": "Sonstiges"
+      },
+      "reasons": {
+        "birthday": "Geburtstag {{weekday}}",
+        "assignedNotContacted": "Zugewiesen {{date}} · noch nicht kontaktiert",
+        "notContacted": "Noch nicht kontaktiert",
+        "missedAfterComing": "Zugesagt am {{coming}} — {{missed}} verpasst",
+        "saidComing": "Zugesagt am {{date}}",
+        "noAnswerAgo": "Keine Antwort · {{when}}",
+        "notComingAgo": "Kommt nicht · {{when}}",
+        "otherAgo": "Sonstiges · {{when}}"
+      }
+    },
+    "memberPicker": {
+      "eyebrow": "Nachverfolgung hinzufügen",
+      "title": "Mitglied auswählen",
+      "searchPlaceholder": "Mitglieder suchen...",
+      "noMatch": "Keine Mitglieder entsprechen deiner Suche."
+    },
+    "adminPicker": {
+      "empty": "Noch keine Admins — Admins erscheinen, sobald sie sich einmal angemeldet haben.",
+      "current": "Aktuell",
+      "assignedCount": "{{count}} zugewiesen"
+    },
+    "assign": {
+      "title": "Nachverfolgung zuweisen",
+      "closeAria": "Schließen",
+      "intro": "Wähle Mitglieder aus und weise sie einem Admin zur Nachverfolgung zu.",
+      "searchPlaceholder": "Mitglieder suchen...",
+      "filter": {
+        "unassigned": "Nicht zugewiesen",
+        "all": "Alle"
+      },
+      "selected": "Ausgewählte Mitglieder ({{count}})",
+      "deselectAll": "Alle abwählen",
+      "empty": {
+        "allAssigned": "Jedes aktive Mitglied hat einen Admin.",
+        "noMatch": "Keine Mitglieder entsprechen deiner Suche."
+      },
+      "ungrouped": "Ohne Gruppe",
+      "selectClass": "Klasse auswählen",
+      "clearClass": "Klasse abwählen",
+      "assignToAdmin": "Einem Admin zuweisen",
+      "chooseAdmin": "Admin auswählen",
+      "assignCountTo": "{{count}} {{admin}} zuweisen",
+      "assignTo": "{{admin}} zuweisen",
+      "anotherAdmin": "einem anderen Admin",
+      "confirm": {
+        "title": "Zuweisung bestätigen",
+        "cancel": "Abbrechen",
+        "assign": "Zuweisen"
+      },
+      "summary": {
+        "assign_one": "{{count}} Mitglied {{admin}} zuweisen.",
+        "assign_other": "{{count}} Mitglieder {{admin}} zuweisen.",
+        "movedFirst": "{{count}} werden von {{name}} übernommen",
+        "movedNext": "{{count}} von {{name}}",
+        "moved": "{{list}}.",
+        "unchanged_one": "{{count}} ist bereits bei {{admin}} und bleibt unverändert.",
+        "unchanged_other": "{{count}} sind bereits bei {{admin}} und bleiben unverändert."
+      },
+      "toast": {
+        "assigned_one": "{{count}} Mitglied {{admin}} zugewiesen",
+        "assigned_other": "{{count}} Mitglieder {{admin}} zugewiesen",
+        "error": "Mitglieder konnten nicht zugewiesen werden"
+      }
+    },
+    "addSheet": {
+      "title": "Nachverfolgung hinzufügen",
+      "interactionType": "Art des Kontakts",
+      "types": {
+        "call": "Anruf",
+        "message": "Nachricht",
+        "in person": "Persönlich"
+      },
+      "outcome": "Ergebnis / Status",
+      "outcomes": {
+        "coming": "Kommt",
+        "not coming": "Kommt nicht",
+        "no answer": "Keine Antwort",
+        "other": "Sonstiges"
+      },
+      "outcomeError": "Wähle ein Ergebnis.",
+      "date": "Datum",
+      "notes": "Notizen zur Nachverfolgung",
+      "notesPlaceholder": "Gesprächsdetails eingeben...",
+      "save": "Nachverfolgung speichern",
+      "toast": {
+        "saved": "Nachverfolgung gespeichert",
+        "error": "Nachverfolgung konnte nicht gespeichert werden"
+      }
+    }
+  },
+  "members": {
+    "assignAdminSheet": {
+      "eyebrow": "Verantwortlicher Admin",
+      "titleAssign": "{{member}} zuweisen",
+      "titleReassign": "{{member}} neu zuweisen",
+      "assignToAdmin": "Einem Admin zuweisen",
+      "assignTo": "{{admin}} zuweisen",
+      "chooseAdmin": "Admin auswählen",
+      "toast": {
+        "assigned": "{{member}} {{admin}} zugewiesen",
+        "error": "Mitglied konnte nicht zugewiesen werden"
+      }
+    },
+    "responsibleAdmin": {
+      "title": "Verantwortlicher Admin",
+      "unknownAdmin": "Unbekannter Admin",
+      "since": "seit {{date}}",
+      "unassigned": "Nicht zugewiesen",
+      "reassign": "Neu zuweisen",
+      "assign": "Zuweisen",
+      "history": "Zuweisungsverlauf ({{count}})"
+    },
+    "history": {
+      "title": "Verlauf der Nachverfolgung",
+      "empty": "Noch kein Kontakt erfasst",
+      "add": "Nachverfolgung hinzufügen",
+      "unknownAdmin": "Unbekannter Admin",
+      "verbs": {
+        "call": "Angerufen",
+        "message": "Nachricht geschickt",
+        "in person": "Persönlich gesprochen"
+      },
+      "outcomes": {
+        "coming": "Kommt",
+        "not coming": "Kommt nicht",
+        "no answer": "Keine Antwort",
+        "other": "Sonstiges"
+      }
+    },
+    "overview": {
+      "attendanceRate": "Anwesenheitsquote",
+      "lastSession": "Letztes Treffen",
+      "consecutiveMissed": "Verpasste Treffen in Folge",
+      "activityStreak": "Aktivitätsserie",
+      "lastSessions_one": "Letztes {{count}} Treffen",
+      "lastSessions_other": "Letzte {{count}} Treffen",
+      "noSessions": "Noch keine Treffen erfasst.",
+      "notes": "Notizen"
+    },
+    "list": {
+      "status": {
+        "active": "Aktiv",
+        "inactive": "Inaktiv"
+      },
+      "ungrouped": "Ohne Gruppe",
+      "searchPlaceholder_one": "{{count}} Mitglied durchsuchen...",
+      "searchPlaceholder_other": "{{count}} Mitglieder durchsuchen...",
+      "filtersAria": "Filter",
+      "showAll": "Alle Mitglieder anzeigen",
+      "groupByClass": "Nach Klasse gruppieren",
+      "grouped": "Gruppiert",
+      "all": "Alle",
+      "unassigned": "Nicht zugewiesen",
+      "noMatch": "Keine Mitglieder entsprechen deinen Filtern.",
+      "addAria": "Mitglied hinzufügen"
+    },
+    "filterSheet": {
+      "title": "Mitglieder filtern",
+      "class": "Klasse",
+      "status": {
+        "title": "Status",
+        "active": "Aktiv",
+        "inactive": "Inaktiv"
+      },
+      "sortBy": "Sortieren nach",
+      "sort": {
+        "nameAz": "Name A–Z"
+      },
+      "apply": "Filter anwenden",
+      "reset": "Alle Filter zurücksetzen"
+    },
+    "profile": {
+      "notFound": "Mitglied nicht gefunden.",
+      "back": "Zurück zu Mitgliedern",
+      "closeAria": "Schließen",
+      "edit": "Bearbeiten",
+      "birthday": "Geburtstag: {{date}}",
+      "tabs": {
+        "overview": "Übersicht",
+        "history": "Verlauf",
+        "contact": "Kontakt"
+      }
+    },
+    "contact": {
+      "title": "Kontaktdaten",
+      "mobile": "Handynummer",
+      "view": "Ansehen",
+      "emergency": "Notfallkontakt",
+      "empty": "Keine Kontaktdaten hinterlegt.",
+      "email": {
+        "label": "E-Mail-Adresse",
+        "copy": "E-Mail kopieren",
+        "copied": "E-Mail-Adresse kopiert",
+        "copyFailed": "E-Mail-Adresse konnte nicht kopiert werden"
+      },
+      "whatsapp": {
+        "label": "WhatsApp",
+        "chat": "Chatten"
+      },
+      "tiktok": {
+        "label": "TikTok"
+      },
+      "instagram": {
+        "label": "Instagram"
+      },
+      "address": {
+        "label": "Wohnadresse",
+        "copy": "Adresse kopieren",
+        "copied": "Adresse kopiert",
+        "copyFailed": "Adresse konnte nicht kopiert werden"
+      }
+    },
+    "addEdit": {
+      "closeAria": "Schließen",
+      "titleAdd": "Mitglied hinzufügen",
+      "titleEdit": "Mitglied bearbeiten",
+      "badgeNew": "Neuer Eintrag",
+      "badgeEdit": "Bearbeitung",
+      "uploadPhoto": "Mitgliedsfoto hochladen",
+      "saving": "Speichern...",
+      "saveChanges": "Änderungen speichern",
+      "saveMember": "Mitglied speichern",
+      "class": {
+        "select": "Klasse auswählen oder hinzufügen",
+        "searchPlaceholder": "Klasse suchen oder hinzufügen...",
+        "add": "„{{name}}“ hinzufügen",
+        "empty": "Gib einen Namen ein, um eine Klasse hinzuzufügen."
+      },
+      "identity": {
+        "title": "Persönliche Angaben",
+        "fullName": "Vollständiger Name",
+        "fullNamePlaceholder": "z. B. Samuel Markos",
+        "class": "Klasse",
+        "birthday": "Geburtstag",
+        "gender": "Geschlecht",
+        "genderPlaceholder": "Geschlecht auswählen",
+        "male": "Männlich",
+        "female": "Weiblich",
+        "registeredDate": "Registrierungsdatum",
+        "lastUpdated": "Zuletzt aktualisiert"
+      },
+      "communication": {
+        "title": "Kommunikation",
+        "mobile": "Handynummer",
+        "email": "E-Mail-Adresse",
+        "address": "Wohnadresse",
+        "addressPlaceholder": "Kirchweg 123, St. Mary",
+        "notes": "Notizen",
+        "notesPlaceholder": "Optionale Notizen zu diesem Mitglied"
+      },
+      "social": {
+        "title": "Soziale Medien",
+        "whatsapp": "WhatsApp",
+        "instagram": "Instagram",
+        "tiktok": "TikTok"
+      },
+      "emergency": {
+        "title": "Notfallkontakt",
+        "number": "Nummer des Notfallkontakts"
+      },
+      "errors": {
+        "fullName": "Der vollständige Name ist erforderlich.",
+        "phoneRequired": "Die Handynummer ist erforderlich.",
+        "phoneInvalid": "Gib eine gültige Handynummer ein (mindestens 7 Ziffern).",
+        "whatsappRequired": "Die WhatsApp-Nummer ist erforderlich.",
+        "whatsappInvalid": "Gib eine gültige WhatsApp-Nummer ein (mindestens 7 Ziffern).",
+        "gender": "Das Geschlecht ist erforderlich.",
+        "fixFields": "Bitte korrigiere die markierten Felder."
+      },
+      "toast": {
+        "saved": "Mitglied gespeichert",
+        "memberFallback": "Mitglied",
+        "addedDescription": "{{name}} wurde erfolgreich hinzugefügt.",
+        "updatedDescription": "{{name}} wurde erfolgreich aktualisiert.",
+        "error": "Mitglied konnte nicht gespeichert werden",
+        "errorDescription": "Prüfe deine Verbindung und versuche es erneut."
+      }
+    }
+  },
+  "attendance": {
+    "list": {
+      "eyebrow": "Anwesenheitserfassung",
+      "title": "Treffen",
+      "special": "Sonder",
+      "attending": "{{count}} anwesend",
+      "upcoming": "Bevorstehend",
+      "active": "Aktiv",
+      "editAria": "Treffen bearbeiten",
+      "takeAria": "Anwesenheit erfassen",
+      "newSpecial": {
+        "title": "Neues Sondertreffen",
+        "description": "Planst du einen Ausflug, eine Freizeit oder eine einmalige Jugendveranstaltung? Erfasse die Anwesenheit gezielt für diesen Anlass.",
+        "add": "Sondertreffen hinzufügen"
+      },
+      "monthly": {
+        "title": "Monatsstatistik",
+        "description": "Durchschnittliche Anwesenheit in allen Jugendprogrammen in diesem Monat."
+      },
+      "filters": {
+        "all": "Alle Treffen",
+        "regular": "Regulär",
+        "special": "Sonderveranstaltungen"
+      },
+      "empty": "Noch keine Treffen.",
+      "activeSessions": "Aktive Treffen",
+      "upcomingSessions": "Bevorstehende Treffen"
+    },
+    "take": {
+      "closeAria": "Schließen",
+      "special": "Sonder",
+      "absentAria": "Als abwesend markieren",
+      "presentAria": "Als anwesend markieren",
+      "defaultSessionName": "Unterricht",
+      "searchPlaceholder": "Mitgliedsnamen suchen...",
+      "membersCount_one": "{{count}} Mitglied",
+      "membersCount_other": "{{count}} Mitglieder",
+      "header": {
+        "details": "Mitgliedsdaten",
+        "status": "Status"
+      },
+      "noMatch": "Keine passenden Mitglieder.",
+      "save": "Anwesenheit speichern",
+      "saving": "Speichern...",
+      "toast": {
+        "collision": {
+          "title": "An diesem Datum ist bereits ein anderes Treffen geplant",
+          "description": "Wähle ein anderes Datum für dieses Treffen."
+        },
+        "saved": "Anwesenheit gespeichert",
+        "savedDescription_one": "{{name}} — {{count}} Mitglied erfasst.",
+        "savedDescription_other": "{{name}} — {{count}} Mitglieder erfasst.",
+        "error": "Anwesenheit konnte nicht gespeichert werden",
+        "errorDescription": "Prüfe deine Verbindung und versuche es erneut."
+      }
+    },
+    "addSheet": {
+      "eyebrow": "Verwaltung",
+      "title": "Sondertreffen hinzufügen",
+      "sessionType": "Art des Treffens",
+      "types": {
+        "outing": "Ausflug",
+        "retreat": "Freizeit",
+        "dayUse": "Tagesaktivität",
+        "other": "Sonstiges"
+      },
+      "namePlaceholder": "Treffen benennen",
+      "date": "Datum",
+      "notes": "Notizen",
+      "notesPlaceholder": "Ort, Uhrzeit oder weitere Details",
+      "save": "Treffen erstellen",
+      "saving": "Speichern...",
+      "errors": {
+        "type": "Wähle eine Art des Treffens.",
+        "name": "Gib einen Namen für dieses Treffen ein."
+      },
+      "toast": {
+        "collision": {
+          "title": "An diesem Datum ist bereits ein anderes Treffen geplant",
+          "description": "Wähle ein anderes Datum für dieses Treffen."
+        },
+        "added": "Treffen hinzugefügt",
+        "addedDescription": "{{name}} wurde hinzugefügt.",
+        "error": "Treffen konnte nicht gespeichert werden",
+        "errorDescription": "Prüfe deine Verbindung und versuche es erneut."
+      }
+    },
+    "editSheet": {
+      "eyebrow": "Verwaltung",
+      "title": "Sondertreffen bearbeiten",
+      "sessionType": "Art des Treffens",
+      "types": {
+        "outing": "Ausflug",
+        "retreat": "Freizeit",
+        "dayUse": "Tagesaktivität",
+        "other": "Sonstiges"
+      },
+      "sessionName": "Name des Treffens",
+      "namePlaceholder": "z. B. Berg-Freizeit 2024",
+      "customNameNote": "Eigener Name — wähle oben eine Art, um ihn zu überschreiben.",
+      "date": "Datum",
+      "notes": "Notizen",
+      "notesPlaceholder": "Ort, Uhrzeit oder weitere Details",
+      "save": "Änderungen speichern",
+      "saving": "Speichern...",
+      "errors": {
+        "name": "Gib einen Namen für dieses Treffen ein."
+      },
+      "toast": {
+        "collision": {
+          "title": "An diesem Datum ist bereits ein anderes Treffen geplant",
+          "description": "Wähle ein anderes Datum für dieses Treffen."
+        },
+        "updated": "Treffen aktualisiert",
+        "updatedDescription": "{{name}} wurde aktualisiert.",
+        "error": "Treffen konnte nicht aktualisiert werden",
+        "errorDescription": "Prüfe deine Verbindung und versuche es erneut."
+      }
+    }
+  },
+  "legal": {
+    "layout": {
+      "englishOnly": "Dieses Dokument ist derzeit nur auf Englisch verfügbar.",
+      "logoAlt": "The-Sanctuary-Logo"
+    }
+  }
+}

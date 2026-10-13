@@ -1,9 +1,11 @@
 import { useMemo, useState } from "react";
 import { useOutletContext } from "react-router";
+import { useTranslation } from "react-i18next";
 import { useDataStore } from "@/store/data";
 import type { Member } from "@/lib/sheets";
 import { parseDdMmYyyy } from "@/lib/member";
 import { cn } from "@/lib/utils";
+import { formatDate, formatRelativeDays } from "@/i18n/format";
 import { ResponsibleAdminCard } from "@/components/ResponsibleAdminCard";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -27,12 +29,9 @@ function dateValueFromDate(d: Date): number {
     return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
 }
 
-function formatDate(d: Date): string {
-    return d.toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
-}
-
 export default function MemberOverview() {
     const { member } = useOutletContext<{ member: Member }>();
+    const { t } = useTranslation(undefined, { keyPrefix: "members.overview" });
     const attendance = useDataStore((s) => s.attendance);
     const sessions = useDataStore((s) => s.sessions);
     const [now] = useState(() => Date.now());
@@ -94,7 +93,7 @@ export default function MemberOverview() {
             <div className="grid grid-cols-2 gap-4">
                 <div className="rounded-ras-xl border border-ras-outline-variant/30 bg-ras-surface-container-low p-4">
                     <p className="mb-1 text-ras-label-caps uppercase text-ras-on-surface-variant">
-                        Attendance Rate
+                        {t("attendanceRate")}
                     </p>
                     <div className="flex items-end gap-2">
                         <span className="text-ras-display-lg text-ras-primary">
@@ -104,7 +103,7 @@ export default function MemberOverview() {
                 </div>
                 <div className="rounded-ras-xl border border-ras-outline-variant/30 bg-ras-surface-container-low p-4">
                     <p className="mb-1 text-ras-label-caps uppercase text-ras-on-surface-variant">
-                        Last Session
+                        {t("lastSession")}
                     </p>
                     <div className="flex items-end gap-2">
                         <span className="text-ras-display-lg text-ras-primary">
@@ -113,11 +112,7 @@ export default function MemberOverview() {
                     </div>
                     {lastSession && (
                         <p className="mt-1 text-ras-label-caps text-ras-on-surface-variant">
-                            {lastSession.days === 0
-                                ? "Today"
-                                : lastSession.days === 1
-                                  ? "1 day ago"
-                                  : `${lastSession.days} days ago`}
+                            {formatRelativeDays(lastSession.days)}
                         </p>
                     )}
                 </div>
@@ -126,7 +121,7 @@ export default function MemberOverview() {
             {/* Consecutive Missed */}
             <div className="rounded-ras-xl border border-ras-outline-variant/30 bg-ras-surface-container-low p-4">
                 <p className="mb-1 text-ras-label-caps uppercase text-ras-on-surface-variant">
-                    Consecutive Sessions Missed
+                    {t("consecutiveMissed")}
                 </p>
                 <span
                     className={cn(
@@ -141,13 +136,13 @@ export default function MemberOverview() {
             {/* Activity Streak */}
             <section className="rounded-ras-xl border border-ras-outline-variant/30 bg-ras-surface-container-low p-5">
                 <div className="mb-4 flex items-center justify-between">
-                    <h3 className="text-ras-title-sm text-ras-primary">Activity Streak</h3>
+                    <h3 className="text-ras-title-sm text-ras-primary">{t("activityStreak")}</h3>
                     <span className="text-ras-label-caps text-ras-on-surface-variant">
-                        Last {streak.length} Session{streak.length === 1 ? "" : "s"}
+                        {t("lastSessions", { count: streak.length })}
                     </span>
                 </div>
                 {streak.length === 0 ? (
-                    <p className="text-ras-body-md text-ras-on-surface-variant">No sessions recorded yet.</p>
+                    <p className="text-ras-body-md text-ras-on-surface-variant">{t("noSessions")}</p>
                 ) : (
                     <div className="flex justify-between gap-1">
                         {streak.map((session) => (
@@ -166,7 +161,7 @@ export default function MemberOverview() {
             {/* Notes */}
             {member.notes && (
                 <section className="rounded-ras-xl border border-ras-outline-variant/30 bg-ras-surface-container-low p-5">
-                    <h3 className="mb-2 text-ras-title-sm text-ras-primary">Notes</h3>
+                    <h3 className="mb-2 text-ras-title-sm text-ras-primary">{t("notes")}</h3>
                     <p className="whitespace-pre-wrap text-ras-body-md text-ras-on-surface-variant">
                         {member.notes}
                     </p>

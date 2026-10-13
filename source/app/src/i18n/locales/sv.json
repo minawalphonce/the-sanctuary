@@ -1,0 +1,561 @@
+{
+  "language": {
+    "label": "Språk"
+  },
+  "app": {
+    "shell": {
+      "appName": "The Sanctuary",
+      "profileAria": "Min profil",
+      "tabs": {
+        "dashboard": "Översikt",
+        "attendance": "Närvaro",
+        "members": "Medlemmar",
+        "followup": "Uppföljning"
+      }
+    },
+    "pwaUpdate": {
+      "title": "En ny version finns tillgänglig",
+      "description": "Ladda om för att få de senaste uppdateringarna.",
+      "reload": "Ladda om"
+    }
+  },
+  "auth": {
+    "splash": {
+      "logoAlt": "The Sanctuary-logotyp",
+      "tagline": "Stärker ungdomar, bygger gemenskap"
+    },
+    "noConnection": {
+      "title": "Ingen internetanslutning",
+      "description": "Vi kunde inte nå The Sanctuarys register. Kontrollera din anslutning och försök igen.",
+      "retry": "Försök igen"
+    },
+    "accessDenied": {
+      "title": "Åtkomst nekad",
+      "description": "Ditt Google-konto har inte åtkomst till The Sanctuarys register. Be en administratör dela kalkylarket med det här kontot och försök sedan igen.",
+      "switchAccount": "Logga in med ett annat konto"
+    },
+    "login": {
+      "logoAlt": "The Sanctuary-logotyp",
+      "subtitle": "Administratörsåtkomst för att hantera medlemmars närvaro och andlig uppföljning.",
+      "signIn": "Logga in med Google",
+      "signingIn": "Loggar in…",
+      "errors": {
+        "network": "Nätverksfel. Kontrollera din anslutning och försök igen.",
+        "unauthorizedDomain": "Den här domänen är inte godkänd för Google-inloggning.",
+        "popupClosed": "Inloggningsfönstret stängdes innan inloggningen slutfördes. Försök igen.",
+        "popupBlocked": "Din webbläsare blockerade inloggningsfönstret. Tillåt popup-fönster för den här webbplatsen och försök igen.",
+        "generic": "Inloggningen misslyckades. Försök igen."
+      }
+    }
+  },
+  "shared": {
+    "assignee": {
+      "unassigned": "Ej tilldelad"
+    },
+    "adminAvatar": {
+      "fallbackName": "Admin"
+    },
+    "memberCaption": {
+      "age": "{{age}} år"
+    }
+  },
+  "profile": {
+    "me": {
+      "title": "Min profil",
+      "closeAria": "Stäng",
+      "defaultName": "Admin",
+      "fullName": "Fullständigt namn",
+      "email": "E-postadress",
+      "googleNote": "Namn och e-post kommer från ditt Google-konto och kan inte ändras här.",
+      "administration": {
+        "title": "Administration",
+        "manageAdmins": "Hantera administratörer",
+        "yearlyRollup": "Årlig resultatsammanställning",
+        "assignFollowup": "Tilldela uppföljning"
+      },
+      "comingSoon": {
+        "title": "Kommer snart",
+        "description": "{{feature}} är inte tillgängligt ännu."
+      },
+      "signedInAsAdmin": "Inloggad som administratör.",
+      "logOut": "Logga ut",
+      "footer": "The Sanctuary administratörsportal",
+      "language": {
+        "title": "Språk"
+      }
+    }
+  },
+  "dashboard": {
+    "home": {
+      "viewAll": "Visa alla",
+      "comingSoon": {
+        "title": "Kommer snart",
+        "followupReports": "Uppföljningsrapporter är inte tillgängliga ännu."
+      },
+      "assigned": {
+        "title": "Dina tilldelade medlemmar"
+      },
+      "needsFollowup": {
+        "title": "Behöver uppföljning",
+        "topMissing_one": "Topp {{count}} medlem som missat senaste träffarna.",
+        "topMissing_other": "Topp {{count}} medlemmar som missat senaste träffarna.",
+        "missedInARow_one": "Missat {{count}} träff i rad",
+        "missedInARow_other": "Missat {{count}} träffar i rad"
+      },
+      "empty": {
+        "noAssignedNoMissed": "Inga tilldelade medlemmar och ingen har missat senaste träffarna."
+      },
+      "summary": {
+        "today": "Dagens sammanfattning",
+        "last": "Senaste träffens sammanfattning",
+        "sessionFallback": "Träff",
+        "empty": "Inga träffar registrerade ännu."
+      },
+      "quickActions": {
+        "title": "Snabbåtgärder",
+        "addMember": "Lägg till medlem",
+        "takeAttendance": "Ta närvaro"
+      },
+      "special": {
+        "title": "Kommande specialträff",
+        "empty": "Inga specialträffar planerade."
+      }
+    }
+  },
+  "followup": {
+    "list": {
+      "callNow": "Ring nu",
+      "whatsappAria": "WhatsApp",
+      "log": "Logga",
+      "addAria": "Lägg till uppföljning",
+      "empty": {
+        "title": "Inga medlemmar är tilldelade till dig ännu",
+        "assign": "Tilldela uppföljning"
+      },
+      "searchPlaceholder_one": "Sök bland mina {{count}} medlem...",
+      "searchPlaceholder_other": "Sök bland mina {{count}} medlemmar...",
+      "noMatch": "Inga medlemmar matchar din sökning.",
+      "groups": {
+        "birthday": "Födelsedag den här veckan",
+        "not-contacted": "Inte kontaktade ännu",
+        "missed-after-coming": "Sa att de kommer, kom inte",
+        "no-answer": "Inget svar / kommer inte",
+        "coming": "Kommer",
+        "other": "Övrigt"
+      },
+      "chips": {
+        "birthday": "Födelsedag",
+        "notContacted": "Inte kontaktad",
+        "didntCome": "Kom inte",
+        "noAnswer": "Inget svar",
+        "notComing": "Kommer inte",
+        "coming": "Kommer",
+        "other": "Övrigt"
+      },
+      "reasons": {
+        "birthday": "Födelsedag {{weekday}}",
+        "assignedNotContacted": "Tilldelad {{date}} · inte kontaktad ännu",
+        "notContacted": "Inte kontaktad ännu",
+        "missedAfterComing": "Sa att de kommer {{coming}} — missade {{missed}}",
+        "saidComing": "Sa att de kommer {{date}}",
+        "noAnswerAgo": "Inget svar · {{when}}",
+        "notComingAgo": "Kommer inte · {{when}}",
+        "otherAgo": "Övrigt · {{when}}"
+      }
+    },
+    "memberPicker": {
+      "eyebrow": "Lägg till uppföljning",
+      "title": "Välj en medlem",
+      "searchPlaceholder": "Sök medlemmar...",
+      "noMatch": "Inga medlemmar matchar din sökning."
+    },
+    "adminPicker": {
+      "empty": "Inga administratörer ännu — de visas när de har loggat in en gång.",
+      "current": "Nuvarande",
+      "assignedCount": "{{count}} tilldelade"
+    },
+    "assign": {
+      "title": "Tilldela uppföljning",
+      "closeAria": "Stäng",
+      "intro": "Välj medlemmar och tilldela dem till en administratör för uppföljning.",
+      "searchPlaceholder": "Sök medlemmar...",
+      "filter": {
+        "unassigned": "Ej tilldelade",
+        "all": "Alla"
+      },
+      "selected": "Valda medlemmar ({{count}})",
+      "deselectAll": "Avmarkera alla",
+      "empty": {
+        "allAssigned": "Alla aktiva medlemmar har en administratör.",
+        "noMatch": "Inga medlemmar matchar din sökning."
+      },
+      "ungrouped": "Utan grupp",
+      "selectClass": "Markera klass",
+      "clearClass": "Avmarkera klass",
+      "assignToAdmin": "Tilldela till administratör",
+      "chooseAdmin": "Välj en administratör",
+      "assignCountTo": "Tilldela {{count}} till {{admin}}",
+      "assignTo": "Tilldela till {{admin}}",
+      "anotherAdmin": "en annan administratör",
+      "confirm": {
+        "title": "Bekräfta tilldelning",
+        "cancel": "Avbryt",
+        "assign": "Tilldela"
+      },
+      "summary": {
+        "assign_one": "Tilldela {{count}} medlem till {{admin}}.",
+        "assign_other": "Tilldela {{count}} medlemmar till {{admin}}.",
+        "movedFirst": "{{count}} flyttas från {{name}}",
+        "movedNext": "{{count}} från {{name}}",
+        "moved": "{{list}}.",
+        "unchanged_one": "{{count}} är redan hos {{admin}} och ändras inte.",
+        "unchanged_other": "{{count}} är redan hos {{admin}} och ändras inte."
+      },
+      "toast": {
+        "assigned_one": "{{count}} medlem tilldelad till {{admin}}",
+        "assigned_other": "{{count}} medlemmar tilldelade till {{admin}}",
+        "error": "Det gick inte att tilldela medlemmar"
+      }
+    },
+    "addSheet": {
+      "title": "Lägg till uppföljning",
+      "interactionType": "Typ av kontakt",
+      "types": {
+        "call": "Samtal",
+        "message": "Meddelande",
+        "in person": "Personligt möte"
+      },
+      "outcome": "Utfall / Status",
+      "outcomes": {
+        "coming": "Kommer",
+        "not coming": "Kommer inte",
+        "no answer": "Inget svar",
+        "other": "Övrigt"
+      },
+      "outcomeError": "Välj ett utfall.",
+      "date": "Datum",
+      "notes": "Uppföljningsanteckningar",
+      "notesPlaceholder": "Skriv in samtalsdetaljer...",
+      "save": "Spara uppföljning",
+      "toast": {
+        "saved": "Uppföljningen sparades",
+        "error": "Det gick inte att spara uppföljningen"
+      }
+    }
+  },
+  "members": {
+    "assignAdminSheet": {
+      "eyebrow": "Ansvarig administratör",
+      "titleAssign": "Tilldela {{member}}",
+      "titleReassign": "Tilldela om {{member}}",
+      "assignToAdmin": "Tilldela till administratör",
+      "assignTo": "Tilldela till {{admin}}",
+      "chooseAdmin": "Välj en administratör",
+      "toast": {
+        "assigned": "{{member}} tilldelad till {{admin}}",
+        "error": "Det gick inte att tilldela medlemmen"
+      }
+    },
+    "responsibleAdmin": {
+      "title": "Ansvarig administratör",
+      "unknownAdmin": "Okänd administratör",
+      "since": "sedan {{date}}",
+      "unassigned": "Ej tilldelad",
+      "reassign": "Tilldela om",
+      "assign": "Tilldela",
+      "history": "Tilldelningshistorik ({{count}})"
+    },
+    "history": {
+      "title": "Uppföljningshistorik",
+      "empty": "Ingen kontakt loggad ännu",
+      "add": "Lägg till uppföljning",
+      "unknownAdmin": "Okänd administratör",
+      "verbs": {
+        "call": "Ringde",
+        "message": "Skickade meddelande",
+        "in person": "Pratade personligen"
+      },
+      "outcomes": {
+        "coming": "Kommer",
+        "not coming": "Kommer inte",
+        "no answer": "Inget svar",
+        "other": "Övrigt"
+      }
+    },
+    "overview": {
+      "attendanceRate": "Närvaro",
+      "lastSession": "Senaste träff",
+      "consecutiveMissed": "Missade träffar i rad",
+      "activityStreak": "Aktivitetsserie",
+      "lastSessions_one": "Senaste {{count}} träff",
+      "lastSessions_other": "Senaste {{count}} träffarna",
+      "noSessions": "Inga träffar registrerade ännu.",
+      "notes": "Anteckningar"
+    },
+    "list": {
+      "status": {
+        "active": "Aktiv",
+        "inactive": "Inaktiv"
+      },
+      "ungrouped": "Utan grupp",
+      "searchPlaceholder_one": "Sök bland {{count}} medlem...",
+      "searchPlaceholder_other": "Sök bland {{count}} medlemmar...",
+      "filtersAria": "Filter",
+      "showAll": "Visa alla medlemmar",
+      "groupByClass": "Gruppera efter klass",
+      "grouped": "Grupperade",
+      "all": "Alla",
+      "unassigned": "Ej tilldelade",
+      "noMatch": "Inga medlemmar matchar dina filter.",
+      "addAria": "Lägg till medlem"
+    },
+    "filterSheet": {
+      "title": "Filtrera medlemmar",
+      "class": "Klass",
+      "status": {
+        "title": "Status",
+        "active": "Aktiv",
+        "inactive": "Inaktiv"
+      },
+      "sortBy": "Sortera efter",
+      "sort": {
+        "nameAz": "Namn A–Ö"
+      },
+      "apply": "Använd filter",
+      "reset": "Återställ alla filter"
+    },
+    "profile": {
+      "notFound": "Medlemmen hittades inte.",
+      "back": "Tillbaka till medlemmar",
+      "closeAria": "Stäng",
+      "edit": "Redigera",
+      "birthday": "Födelsedag: {{date}}",
+      "tabs": {
+        "overview": "Översikt",
+        "history": "Historik",
+        "contact": "Kontakt"
+      }
+    },
+    "contact": {
+      "title": "Kontaktuppgifter",
+      "mobile": "Mobilnummer",
+      "view": "Visa",
+      "emergency": "Nödkontakt",
+      "empty": "Inga kontaktuppgifter registrerade.",
+      "email": {
+        "label": "E-postadress",
+        "copy": "Kopiera e-post",
+        "copied": "E-postadressen kopierades",
+        "copyFailed": "Det gick inte att kopiera e-postadressen"
+      },
+      "whatsapp": {
+        "label": "WhatsApp",
+        "chat": "Chatta"
+      },
+      "tiktok": {
+        "label": "TikTok"
+      },
+      "instagram": {
+        "label": "Instagram"
+      },
+      "address": {
+        "label": "Hemadress",
+        "copy": "Kopiera adress",
+        "copied": "Adressen kopierades",
+        "copyFailed": "Det gick inte att kopiera adressen"
+      }
+    },
+    "addEdit": {
+      "closeAria": "Stäng",
+      "titleAdd": "Lägg till medlem",
+      "titleEdit": "Redigera medlem",
+      "badgeNew": "Ny registrering",
+      "badgeEdit": "Redigerar",
+      "uploadPhoto": "Ladda upp medlemsfoto",
+      "saving": "Sparar...",
+      "saveChanges": "Spara ändringar",
+      "saveMember": "Spara medlem",
+      "class": {
+        "select": "Välj eller lägg till en klass",
+        "searchPlaceholder": "Sök eller lägg till en klass...",
+        "add": "Lägg till \"{{name}}\"",
+        "empty": "Skriv ett namn för att lägga till en klass."
+      },
+      "identity": {
+        "title": "Personuppgifter",
+        "fullName": "Fullständigt namn",
+        "fullNamePlaceholder": "t.ex. Samuel Markos",
+        "class": "Klass",
+        "birthday": "Födelsedag",
+        "gender": "Kön",
+        "genderPlaceholder": "Välj kön",
+        "male": "Man",
+        "female": "Kvinna",
+        "registeredDate": "Registreringsdatum",
+        "lastUpdated": "Senast uppdaterad"
+      },
+      "communication": {
+        "title": "Kommunikation",
+        "mobile": "Mobilnummer",
+        "email": "E-postadress",
+        "address": "Hemadress",
+        "addressPlaceholder": "Kyrkvägen 123, Sankt Mary",
+        "notes": "Anteckningar",
+        "notesPlaceholder": "Valfria anteckningar om medlemmen"
+      },
+      "social": {
+        "title": "Sociala medier",
+        "whatsapp": "WhatsApp",
+        "instagram": "Instagram",
+        "tiktok": "TikTok"
+      },
+      "emergency": {
+        "title": "Nödkontakt",
+        "number": "Nödkontaktens nummer"
+      },
+      "errors": {
+        "fullName": "Fullständigt namn krävs.",
+        "phoneRequired": "Mobilnummer krävs.",
+        "phoneInvalid": "Ange ett giltigt mobilnummer (minst 7 siffror).",
+        "whatsappRequired": "WhatsApp-nummer krävs.",
+        "whatsappInvalid": "Ange ett giltigt WhatsApp-nummer (minst 7 siffror).",
+        "gender": "Kön krävs.",
+        "fixFields": "Rätta de markerade fälten."
+      },
+      "toast": {
+        "saved": "Medlemmen sparades",
+        "memberFallback": "Medlem",
+        "addedDescription": "{{name}} har lagts till.",
+        "updatedDescription": "{{name}} har uppdaterats.",
+        "error": "Det gick inte att spara medlemmen",
+        "errorDescription": "Kontrollera din anslutning och försök igen."
+      }
+    }
+  },
+  "attendance": {
+    "list": {
+      "eyebrow": "Närvarouppföljning",
+      "title": "Närvarotillfällen",
+      "special": "Special",
+      "attending": "{{count}} närvarande",
+      "upcoming": "Kommande",
+      "active": "Aktiv",
+      "editAria": "Redigera träff",
+      "takeAria": "Ta närvaro",
+      "newSpecial": {
+        "title": "Ny specialträff",
+        "description": "Ska du ordna en utflykt, ett läger eller ett enstaka ungdomsevenemang? Följ närvaron specifikt för det tillfället.",
+        "add": "Lägg till specialträff"
+      },
+      "monthly": {
+        "title": "Månadsstatistik",
+        "description": "Genomsnittlig närvaro i alla ungdomsprogram den här månaden."
+      },
+      "filters": {
+        "all": "Alla träffar",
+        "regular": "Ordinarie",
+        "special": "Specialevenemang"
+      },
+      "empty": "Inga träffar ännu.",
+      "activeSessions": "Aktiva träffar",
+      "upcomingSessions": "Kommande träffar"
+    },
+    "take": {
+      "closeAria": "Stäng",
+      "special": "Special",
+      "absentAria": "Markera som frånvarande",
+      "presentAria": "Markera som närvarande",
+      "defaultSessionName": "Lektion",
+      "searchPlaceholder": "Sök medlemsnamn...",
+      "membersCount_one": "{{count}} medlem",
+      "membersCount_other": "{{count}} medlemmar",
+      "header": {
+        "details": "Medlemsuppgifter",
+        "status": "Status"
+      },
+      "noMatch": "Inga medlemmar matchar.",
+      "save": "Spara närvaro",
+      "saving": "Sparar...",
+      "toast": {
+        "collision": {
+          "title": "En annan träff är redan planerad det datumet",
+          "description": "Välj ett annat datum för den här träffen."
+        },
+        "saved": "Närvaron sparades",
+        "savedDescription_one": "{{name}} — {{count}} medlem registrerad.",
+        "savedDescription_other": "{{name}} — {{count}} medlemmar registrerade.",
+        "error": "Det gick inte att spara närvaron",
+        "errorDescription": "Kontrollera din anslutning och försök igen."
+      }
+    },
+    "addSheet": {
+      "eyebrow": "Hantering",
+      "title": "Lägg till specialträff",
+      "sessionType": "Typ av träff",
+      "types": {
+        "outing": "Utflykt",
+        "retreat": "Läger",
+        "dayUse": "Dagsaktivitet",
+        "other": "Övrigt"
+      },
+      "namePlaceholder": "Namnge träffen",
+      "date": "Datum",
+      "notes": "Anteckningar",
+      "notesPlaceholder": "Plats, tid eller andra detaljer",
+      "save": "Skapa träff",
+      "saving": "Sparar...",
+      "errors": {
+        "type": "Välj en typ av träff.",
+        "name": "Ange ett namn för träffen."
+      },
+      "toast": {
+        "collision": {
+          "title": "En annan träff är redan planerad det datumet",
+          "description": "Välj ett annat datum för den här träffen."
+        },
+        "added": "Träffen lades till",
+        "addedDescription": "{{name}} har lagts till.",
+        "error": "Det gick inte att spara träffen",
+        "errorDescription": "Kontrollera din anslutning och försök igen."
+      }
+    },
+    "editSheet": {
+      "eyebrow": "Hantering",
+      "title": "Redigera specialträff",
+      "sessionType": "Typ av träff",
+      "types": {
+        "outing": "Utflykt",
+        "retreat": "Läger",
+        "dayUse": "Dagsaktivitet",
+        "other": "Övrigt"
+      },
+      "sessionName": "Träffens namn",
+      "namePlaceholder": "t.ex. Fjällägret 2024",
+      "customNameNote": "Eget namn — välj en typ ovan för att ersätta det.",
+      "date": "Datum",
+      "notes": "Anteckningar",
+      "notesPlaceholder": "Plats, tid eller andra detaljer",
+      "save": "Spara ändringar",
+      "saving": "Sparar...",
+      "errors": {
+        "name": "Ange ett namn för träffen."
+      },
+      "toast": {
+        "collision": {
+          "title": "En annan träff är redan planerad det datumet",
+          "description": "Välj ett annat datum för den här träffen."
+        },
+        "updated": "Träffen uppdaterades",
+        "updatedDescription": "{{name}} har uppdaterats.",
+        "error": "Det gick inte att uppdatera träffen",
+        "errorDescription": "Kontrollera din anslutning och försök igen."
+      }
+    }
+  },
+  "legal": {
+    "layout": {
+      "englishOnly": "Det här dokumentet finns för närvarande bara på engelska.",
+      "logoAlt": "The Sanctuary-logotyp"
+    }
+  }
+}

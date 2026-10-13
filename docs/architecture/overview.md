@@ -111,3 +111,17 @@ See [`setup/NEW_INSTANCE.md`](../setup/NEW_INSTANCE.md).
 
 - **Push notifications (FCM):** planned, not yet implemented. The app currently has no
   notification code, so there is nothing to configure for it during setup.
+
+## Translations (i18n)
+
+The app uses `i18next` + `react-i18next`. Supported: `en`, `sv`, `ar` (RTL), `it`, `de`.
+
+- **Files:** `source/app/src/i18n/locales/<lang>.json`. `en.json` is the source of truth; `languages.ts` lists the languages, their direction and the `Intl` locale (`ar` → `ar-EG`, Eastern Arabic digits).
+- **Key layout:** `module.page.key`, e.g. `members.addEdit.errors.fullName`. Each screen reads its own block with `useTranslation(undefined, { keyPrefix: "members.addEdit" })`, so values are intentionally duplicated per screen.
+- **Plurals:** use `key_one` / `key_other` (Arabic also needs `_zero`, `_two`, `_few`, `_many`) with `{{count}}`.
+- **Dates/numbers:** use the helpers in `src/i18n/format.ts` (`formatDate`, `formatRelativeDays`, `formatList`…), never hand-built strings.
+- **Stored values stay English:** follow-up types/outcomes and weekday names are sheet values; translate only what is displayed.
+- **Choosing a language:** My Profile → Language. It is saved in localStorage (`sanctuary.lang`); first visit follows the browser language. `?lng=ar` overrides it for testing. `<html lang dir>` follows the language.
+- **Adding a string:** add the key to all five files, then run `npm run lint` — `scripts/check-i18n.mjs` fails on missing/extra keys.
+- **Adding a language:** add a JSON file, register it in `languages.ts` and `i18n/index.ts`, add its `Intl` locale, and a name in its own language.
+- Privacy Policy and Terms are English-only (a translated note says so).

@@ -1,0 +1,561 @@
+{
+  "language": {
+    "label": "Language"
+  },
+  "app": {
+    "shell": {
+      "appName": "The Sanctuary",
+      "profileAria": "My profile",
+      "tabs": {
+        "dashboard": "Dashboard",
+        "attendance": "Attendance",
+        "members": "Members",
+        "followup": "Follow-up"
+      }
+    },
+    "pwaUpdate": {
+      "title": "A new version is available",
+      "description": "Reload to get the latest updates.",
+      "reload": "Reload"
+    }
+  },
+  "auth": {
+    "splash": {
+      "logoAlt": "The Sanctuary logo",
+      "tagline": "Empowering Youth, Strengthening Community"
+    },
+    "noConnection": {
+      "title": "No Internet Connection",
+      "description": "We couldn't reach The Sanctuary's records. Check your connection and try again.",
+      "retry": "Try Again"
+    },
+    "accessDenied": {
+      "title": "Access Denied",
+      "description": "Your Google account doesn't have access to The Sanctuary's records. Ask an admin to share the sheet with this account, then try again.",
+      "switchAccount": "Sign in with a different account"
+    },
+    "login": {
+      "logoAlt": "The Sanctuary logo",
+      "subtitle": "Admin access for managing member attendance and spiritual follow-up.",
+      "signIn": "Sign in with Google",
+      "signingIn": "Signing in…",
+      "errors": {
+        "network": "Network error. Check your connection and try again.",
+        "unauthorizedDomain": "This domain isn't authorized for Google sign-in.",
+        "popupClosed": "Sign-in popup was closed before completing. Please try again.",
+        "popupBlocked": "Your browser blocked the sign-in popup. Please allow popups for this site and try again.",
+        "generic": "Sign in failed. Please try again."
+      }
+    }
+  },
+  "shared": {
+    "assignee": {
+      "unassigned": "Unassigned"
+    },
+    "adminAvatar": {
+      "fallbackName": "Admin"
+    },
+    "memberCaption": {
+      "age": "{{age}}y"
+    }
+  },
+  "profile": {
+    "me": {
+      "title": "My Profile",
+      "closeAria": "Close",
+      "defaultName": "Admin",
+      "fullName": "Full Name",
+      "email": "Email Address",
+      "googleNote": "Name and email come from your Google account and can't be edited here.",
+      "administration": {
+        "title": "Administration",
+        "manageAdmins": "Manage Admins",
+        "yearlyRollup": "Yearly Performance Roll-up",
+        "assignFollowup": "Assign Follow-up"
+      },
+      "comingSoon": {
+        "title": "Coming soon",
+        "description": "{{feature}} isn't available yet."
+      },
+      "signedInAsAdmin": "Signed in as an admin.",
+      "logOut": "Log Out",
+      "footer": "The Sanctuary Admin Portal",
+      "language": {
+        "title": "Language"
+      }
+    }
+  },
+  "dashboard": {
+    "home": {
+      "viewAll": "View All",
+      "comingSoon": {
+        "title": "Coming soon",
+        "followupReports": "Follow-up reports aren't available yet."
+      },
+      "assigned": {
+        "title": "Your Assigned Members"
+      },
+      "needsFollowup": {
+        "title": "Needs Follow-up",
+        "topMissing_one": "Top {{count}} member missing recent sessions.",
+        "topMissing_other": "Top {{count}} members missing recent sessions.",
+        "missedInARow_one": "Missed {{count}} session in a row",
+        "missedInARow_other": "Missed {{count}} sessions in a row"
+      },
+      "empty": {
+        "noAssignedNoMissed": "No assigned members and no one missed recent sessions."
+      },
+      "summary": {
+        "today": "Today's Summary",
+        "last": "Last Session Summary",
+        "sessionFallback": "Session",
+        "empty": "No sessions recorded yet."
+      },
+      "quickActions": {
+        "title": "Quick Actions",
+        "addMember": "Add Member",
+        "takeAttendance": "Take Attendance"
+      },
+      "special": {
+        "title": "Upcoming Special Session",
+        "empty": "No special sessions scheduled."
+      }
+    }
+  },
+  "followup": {
+    "list": {
+      "callNow": "Call now",
+      "whatsappAria": "WhatsApp",
+      "log": "Log",
+      "addAria": "Add follow-up",
+      "empty": {
+        "title": "No members assigned to you yet",
+        "assign": "Assign Follow-up"
+      },
+      "searchPlaceholder_one": "Search my {{count}} member...",
+      "searchPlaceholder_other": "Search my {{count}} members...",
+      "noMatch": "No members match your search.",
+      "groups": {
+        "birthday": "Birthday this week",
+        "not-contacted": "Not contacted yet",
+        "missed-after-coming": "Said coming, didn't come",
+        "no-answer": "No answer / not coming",
+        "coming": "Coming",
+        "other": "Other"
+      },
+      "chips": {
+        "birthday": "Birthday",
+        "notContacted": "Not contacted",
+        "didntCome": "Didn't come",
+        "noAnswer": "No answer",
+        "notComing": "Not coming",
+        "coming": "Coming",
+        "other": "Other"
+      },
+      "reasons": {
+        "birthday": "Birthday {{weekday}}",
+        "assignedNotContacted": "Assigned {{date}} · not contacted yet",
+        "notContacted": "Not contacted yet",
+        "missedAfterComing": "Said coming {{coming}} — missed {{missed}}",
+        "saidComing": "Said coming {{date}}",
+        "noAnswerAgo": "No answer · {{when}}",
+        "notComingAgo": "Not coming · {{when}}",
+        "otherAgo": "Other · {{when}}"
+      }
+    },
+    "memberPicker": {
+      "eyebrow": "Add Follow-up",
+      "title": "Choose a member",
+      "searchPlaceholder": "Search members...",
+      "noMatch": "No members match your search."
+    },
+    "adminPicker": {
+      "empty": "No admins yet — admins appear after they sign in once.",
+      "current": "Current",
+      "assignedCount": "{{count}} assigned"
+    },
+    "assign": {
+      "title": "Assign Follow-up",
+      "closeAria": "Close",
+      "intro": "Select members and assign them to an admin for follow-up.",
+      "searchPlaceholder": "Search members...",
+      "filter": {
+        "unassigned": "Unassigned",
+        "all": "All"
+      },
+      "selected": "Selected members ({{count}})",
+      "deselectAll": "Deselect all",
+      "empty": {
+        "allAssigned": "Every active member has an admin.",
+        "noMatch": "No members match your search."
+      },
+      "ungrouped": "Ungrouped",
+      "selectClass": "Select class",
+      "clearClass": "Clear class",
+      "assignToAdmin": "Assign to admin",
+      "chooseAdmin": "Choose an admin",
+      "assignCountTo": "Assign {{count}} to {{admin}}",
+      "assignTo": "Assign to {{admin}}",
+      "anotherAdmin": "another admin",
+      "confirm": {
+        "title": "Confirm assignment",
+        "cancel": "Cancel",
+        "assign": "Assign"
+      },
+      "summary": {
+        "assign_one": "Assign {{count}} member to {{admin}}.",
+        "assign_other": "Assign {{count}} members to {{admin}}.",
+        "movedFirst": "{{count}} will be moved from {{name}}",
+        "movedNext": "{{count}} from {{name}}",
+        "moved": "{{list}}.",
+        "unchanged_one": "{{count}} is already with {{admin}} and won't change.",
+        "unchanged_other": "{{count}} are already with {{admin}} and won't change."
+      },
+      "toast": {
+        "assigned_one": "{{count}} member assigned to {{admin}}",
+        "assigned_other": "{{count}} members assigned to {{admin}}",
+        "error": "Could not assign members"
+      }
+    },
+    "addSheet": {
+      "title": "Add Follow-up",
+      "interactionType": "Interaction Type",
+      "types": {
+        "call": "Call",
+        "message": "Message",
+        "in person": "In person"
+      },
+      "outcome": "Outcome / Status",
+      "outcomes": {
+        "coming": "Coming",
+        "not coming": "Not coming",
+        "no answer": "No answer",
+        "other": "Other"
+      },
+      "outcomeError": "Choose an outcome.",
+      "date": "Date",
+      "notes": "Follow-up Notes",
+      "notesPlaceholder": "Enter conversation details...",
+      "save": "Save Follow-up",
+      "toast": {
+        "saved": "Follow-up saved",
+        "error": "Could not save follow-up"
+      }
+    }
+  },
+  "members": {
+    "assignAdminSheet": {
+      "eyebrow": "Responsible admin",
+      "titleAssign": "Assign {{member}}",
+      "titleReassign": "Reassign {{member}}",
+      "assignToAdmin": "Assign to admin",
+      "assignTo": "Assign to {{admin}}",
+      "chooseAdmin": "Choose an admin",
+      "toast": {
+        "assigned": "{{member}} assigned to {{admin}}",
+        "error": "Could not assign member"
+      }
+    },
+    "responsibleAdmin": {
+      "title": "Responsible Admin",
+      "unknownAdmin": "Unknown admin",
+      "since": "since {{date}}",
+      "unassigned": "Unassigned",
+      "reassign": "Reassign",
+      "assign": "Assign",
+      "history": "Assignment history ({{count}})"
+    },
+    "history": {
+      "title": "Follow-up History",
+      "empty": "No contact logged yet",
+      "add": "Add Follow-up",
+      "unknownAdmin": "Unknown admin",
+      "verbs": {
+        "call": "Called",
+        "message": "Messaged",
+        "in person": "Spoke in person"
+      },
+      "outcomes": {
+        "coming": "Coming",
+        "not coming": "Not coming",
+        "no answer": "No answer",
+        "other": "Other"
+      }
+    },
+    "overview": {
+      "attendanceRate": "Attendance Rate",
+      "lastSession": "Last Session",
+      "consecutiveMissed": "Consecutive Sessions Missed",
+      "activityStreak": "Activity Streak",
+      "lastSessions_one": "Last {{count}} Session",
+      "lastSessions_other": "Last {{count}} Sessions",
+      "noSessions": "No sessions recorded yet.",
+      "notes": "Notes"
+    },
+    "list": {
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "ungrouped": "Ungrouped",
+      "searchPlaceholder_one": "Search {{count}} member...",
+      "searchPlaceholder_other": "Search {{count}} members...",
+      "filtersAria": "Filters",
+      "showAll": "Show all members",
+      "groupByClass": "Group by class",
+      "grouped": "Grouped",
+      "all": "All",
+      "unassigned": "Unassigned",
+      "noMatch": "No members match your filters.",
+      "addAria": "Add member"
+    },
+    "filterSheet": {
+      "title": "Filter Members",
+      "class": "Class",
+      "status": {
+        "title": "Status",
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "sortBy": "Sort By",
+      "sort": {
+        "nameAz": "Name A-Z"
+      },
+      "apply": "Apply Filters",
+      "reset": "Reset All Filters"
+    },
+    "profile": {
+      "notFound": "Member not found.",
+      "back": "Back to Members",
+      "closeAria": "Close",
+      "edit": "Edit",
+      "birthday": "Birthday: {{date}}",
+      "tabs": {
+        "overview": "Overview",
+        "history": "History",
+        "contact": "Contact"
+      }
+    },
+    "contact": {
+      "title": "Contact Details",
+      "mobile": "Mobile Number",
+      "view": "View",
+      "emergency": "Emergency Contact",
+      "empty": "No contact details on file.",
+      "email": {
+        "label": "Email Address",
+        "copy": "Copy Email",
+        "copied": "Email copied",
+        "copyFailed": "Could not copy email"
+      },
+      "whatsapp": {
+        "label": "WhatsApp",
+        "chat": "Chat"
+      },
+      "tiktok": {
+        "label": "TikTok"
+      },
+      "instagram": {
+        "label": "Instagram"
+      },
+      "address": {
+        "label": "Home Address",
+        "copy": "Copy Address",
+        "copied": "Address copied",
+        "copyFailed": "Could not copy address"
+      }
+    },
+    "addEdit": {
+      "closeAria": "Close",
+      "titleAdd": "Add Member",
+      "titleEdit": "Edit Member",
+      "badgeNew": "New Entry",
+      "badgeEdit": "Editing",
+      "uploadPhoto": "Upload Member Photo",
+      "saving": "Saving...",
+      "saveChanges": "Save Changes",
+      "saveMember": "Save Member",
+      "class": {
+        "select": "Select or add a class",
+        "searchPlaceholder": "Search or add a class...",
+        "add": "Add \"{{name}}\"",
+        "empty": "Type a name to add a class."
+      },
+      "identity": {
+        "title": "Identity Details",
+        "fullName": "Full Name",
+        "fullNamePlaceholder": "e.g. Samuel Markos",
+        "class": "Class",
+        "birthday": "Birthday",
+        "gender": "Gender",
+        "genderPlaceholder": "Select gender",
+        "male": "Male",
+        "female": "Female",
+        "registeredDate": "Registered Date",
+        "lastUpdated": "Last Updated"
+      },
+      "communication": {
+        "title": "Communication",
+        "mobile": "Mobile Number",
+        "email": "Email Address",
+        "address": "Home Address",
+        "addressPlaceholder": "123 Church Way, St. Mary City",
+        "notes": "Notes",
+        "notesPlaceholder": "Optional notes about this member"
+      },
+      "social": {
+        "title": "Social Presence",
+        "whatsapp": "WhatsApp",
+        "instagram": "Instagram",
+        "tiktok": "TikTok"
+      },
+      "emergency": {
+        "title": "Emergency Contact",
+        "number": "Emergency Contact Number"
+      },
+      "errors": {
+        "fullName": "Full name is required.",
+        "phoneRequired": "Mobile number is required.",
+        "phoneInvalid": "Enter a valid mobile number (at least 7 digits).",
+        "whatsappRequired": "WhatsApp number is required.",
+        "whatsappInvalid": "Enter a valid WhatsApp number (at least 7 digits).",
+        "gender": "Gender is required.",
+        "fixFields": "Please fix the highlighted fields."
+      },
+      "toast": {
+        "saved": "Member saved",
+        "memberFallback": "Member",
+        "addedDescription": "{{name}} has been added successfully.",
+        "updatedDescription": "{{name}} has been updated successfully.",
+        "error": "Could not save member",
+        "errorDescription": "Check your connection and try again."
+      }
+    }
+  },
+  "attendance": {
+    "list": {
+      "eyebrow": "Attendance Tracking",
+      "title": "Attendance Sessions",
+      "special": "Special",
+      "attending": "{{count}} Attending",
+      "upcoming": "Upcoming",
+      "active": "Active",
+      "editAria": "Edit session",
+      "takeAria": "Take attendance",
+      "newSpecial": {
+        "title": "New Special Session",
+        "description": "Organizing an outing, retreat, or one-time youth event? Track attendance specifically for this occasion.",
+        "add": "Add Special Session"
+      },
+      "monthly": {
+        "title": "Monthly Stats",
+        "description": "Average attendance across all youth programs this month."
+      },
+      "filters": {
+        "all": "All Sessions",
+        "regular": "Regular",
+        "special": "Special Events"
+      },
+      "empty": "No sessions yet.",
+      "activeSessions": "Active Sessions",
+      "upcomingSessions": "Upcoming Sessions"
+    },
+    "take": {
+      "closeAria": "Close",
+      "special": "Special",
+      "absentAria": "Mark absent",
+      "presentAria": "Mark present",
+      "defaultSessionName": "Lesson",
+      "searchPlaceholder": "Search member name...",
+      "membersCount_one": "{{count}} member",
+      "membersCount_other": "{{count}} members",
+      "header": {
+        "details": "Member details",
+        "status": "Status"
+      },
+      "noMatch": "No members match.",
+      "save": "Save Attendance",
+      "saving": "Saving...",
+      "toast": {
+        "collision": {
+          "title": "Another session is already scheduled on that date",
+          "description": "Pick a different date for this session."
+        },
+        "saved": "Attendance saved",
+        "savedDescription_one": "{{name}} — {{count}} member recorded.",
+        "savedDescription_other": "{{name}} — {{count}} members recorded.",
+        "error": "Could not save attendance",
+        "errorDescription": "Check your connection and try again."
+      }
+    },
+    "addSheet": {
+      "eyebrow": "Management",
+      "title": "Add Special Session",
+      "sessionType": "Session Type",
+      "types": {
+        "outing": "Outing",
+        "retreat": "Retreat",
+        "dayUse": "Day Use",
+        "other": "Other"
+      },
+      "namePlaceholder": "Name this session",
+      "date": "Date",
+      "notes": "Notes",
+      "notesPlaceholder": "Location, time, or any other details",
+      "save": "Create Session",
+      "saving": "Saving...",
+      "errors": {
+        "type": "Choose a session type.",
+        "name": "Enter a name for this session."
+      },
+      "toast": {
+        "collision": {
+          "title": "Another session is already scheduled on that date",
+          "description": "Pick a different date for this session."
+        },
+        "added": "Session added",
+        "addedDescription": "{{name}} has been added.",
+        "error": "Could not save session",
+        "errorDescription": "Check your connection and try again."
+      }
+    },
+    "editSheet": {
+      "eyebrow": "Management",
+      "title": "Edit Special Session",
+      "sessionType": "Session Type",
+      "types": {
+        "outing": "Outing",
+        "retreat": "Retreat",
+        "dayUse": "Day Use",
+        "other": "Other"
+      },
+      "sessionName": "Session Name",
+      "namePlaceholder": "e.g. Mountain Retreat 2024",
+      "customNameNote": "Custom name — pick a type above to overwrite it.",
+      "date": "Date",
+      "notes": "Notes",
+      "notesPlaceholder": "Location, time, or any other details",
+      "save": "Save Changes",
+      "saving": "Saving...",
+      "errors": {
+        "name": "Enter a name for this session."
+      },
+      "toast": {
+        "collision": {
+          "title": "Another session is already scheduled on that date",
+          "description": "Pick a different date for this session."
+        },
+        "updated": "Session updated",
+        "updatedDescription": "{{name}} has been updated.",
+        "error": "Could not update session",
+        "errorDescription": "Check your connection and try again."
+      }
+    }
+  },
+  "legal": {
+    "layout": {
+      "englishOnly": "This document is currently available in English only.",
+      "logoAlt": "The Sanctuary logo"
+    }
+  }
+}

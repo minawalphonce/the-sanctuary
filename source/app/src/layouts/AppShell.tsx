@@ -5,27 +5,24 @@ import {
     Users,
     MessageCircle,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import DataSync from "@/components/DataSync";
 import { UserAvatar } from "@/components/UserAvatar";
 
+// `key` is the translation key under app.shell.tabs.
 const tabs = [
-    { path: "/", icon: LayoutDashboard, label: "Dashboard" },
-    { path: "/attendance", icon: CheckSquare, label: "Attendance" },
-    { path: "/members", icon: Users, label: "Members" },
-    { path: "/followup", icon: MessageCircle, label: "Follow-up" },
+    { path: "/", icon: LayoutDashboard, key: "dashboard" },
+    { path: "/attendance", icon: CheckSquare, key: "attendance" },
+    { path: "/members", icon: Users, key: "members" },
+    { path: "/followup", icon: MessageCircle, key: "followup" },
 ];
-
-const pageTitles: Record<string, string> = {
-    "/": "Dashboard",
-    "/attendance": "Attendance",
-    "/members": "Members",
-    "/followup": "Follow-up",
-};
 
 export function AppShell() {
     const { pathname } = useLocation();
     const navigate = useNavigate();
-    const title = pageTitles[pathname] ?? "The Sanctuary";
+    const { t } = useTranslation(undefined, { keyPrefix: "app.shell" });
+    const activeTab = tabs.find(({ path }) => path === pathname);
+    const title = activeTab ? t(`tabs.${activeTab.key}`) : t("appName");
 
     return (
         <div className="flex flex-col h-screen overflow-hidden bg-ras-background">
@@ -37,6 +34,7 @@ export function AppShell() {
                 <button
                     type="button"
                     onClick={() => navigate("/profile")}
+                    aria-label={t("profileAria")}
                     className="rounded-full transition-opacity active:opacity-80"
                 >
                     <UserAvatar />
@@ -50,7 +48,7 @@ export function AppShell() {
 
             {/* Bottom Navigation */}
             <nav className="shrink-0 flex min-h-ras-bottom-nav bg-ras-surface border-t border-ras-outline-variant shadow-[0_-4px_20px_rgba(27,43,72,0.08)] pb-[env(safe-area-inset-bottom)]">
-                {tabs.map(({ path, icon: Icon, label }) => {
+                {tabs.map(({ path, icon: Icon, key }) => {
                     const isActive = path === "/" ? pathname === "/" : pathname.startsWith(path);
 
                     return (
@@ -65,7 +63,7 @@ export function AppShell() {
                             ].join(" ")}
                         >
                             <Icon size={22} strokeWidth={isActive ? 2.5 : 1.8} />
-                            <span className="text-ras-label-caps text-[10px]">{label}</span>
+                            <span className="text-ras-label-caps text-[10px]">{t(`tabs.${key}`)}</span>
                         </NavLink>
                     );
                 })}

@@ -1,17 +1,14 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
+import './i18n'
 import App from './App.tsx'
-import { DirectionProvider } from '@/components/ui/direction'
-import { applyDirection, getDirection } from '@/lib/direction'
-
-const direction = getDirection()
-applyDirection(direction)
+import { LanguageDirection } from '@/i18n/DirectionSync'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <DirectionProvider dir={direction}>
+    <LanguageDirection>
       <App />
-    </DirectionProvider>
+    </LanguageDirection>
   </StrictMode>,
 )
