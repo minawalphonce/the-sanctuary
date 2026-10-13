@@ -48,7 +48,7 @@ function FollowupEntry({ record, admin }: { record: FollowupRecord; admin: Admin
                         onClick={() => setExpanded((v) => !v)}
                         aria-expanded={expanded}
                         className={cn(
-                            "mt-1 whitespace-pre-wrap text-left text-ras-body-md text-ras-on-surface",
+                            "mt-1 whitespace-pre-wrap text-start text-ras-body-md text-ras-on-surface",
                             !expanded && "line-clamp-2"
                         )}
                     >

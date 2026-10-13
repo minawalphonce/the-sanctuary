@@ -142,13 +142,13 @@ export default function Members() {
             <div className="sticky top-0 z-40 border-b border-ras-outline-variant bg-ras-background px-ras-edge py-4">
                 <div className="flex flex-col gap-ras-stack">
                     <div className="relative">
-                        <Search className="pointer-events-none absolute left-3 top-1/2 size-5 -translate-y-1/2 text-ras-on-surface-variant" />
+                        <Search className="pointer-events-none absolute start-3 top-1/2 size-5 -translate-y-1/2 text-ras-on-surface-variant" />
                         <input
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             type="text"
                             placeholder={`Search ${members.length} members...`}
-                            className="h-12 w-full rounded-ras-xl border border-ras-outline-variant bg-ras-surface-container-low pl-11 pr-4 text-ras-body-md outline-none transition-all focus:border-transparent focus:ring-2 focus:ring-ras-primary"
+                            className="h-12 w-full rounded-ras-xl border border-ras-outline-variant bg-ras-surface-container-low ps-11 pe-4 text-ras-body-md outline-none transition-all focus:border-transparent focus:ring-2 focus:ring-ras-primary"
                         />
                     </div>
                     <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
@@ -159,7 +159,7 @@ export default function Members() {
                         >
                             <SlidersHorizontal className="size-5" />
                             {activeFilterCount > 0 && (
-                                <span className="absolute -right-1 -top-1 flex size-4 items-center justify-center rounded-full bg-ras-secondary text-[10px] font-bold text-ras-on-secondary">
+                                <span className="absolute -end-1 -top-1 flex size-4 items-center justify-center rounded-full bg-ras-secondary text-[10px] font-bold text-ras-on-secondary">
                                     {activeFilterCount}
                                 </span>
                             )}
@@ -237,7 +237,7 @@ export default function Members() {
             <button
                 type="button"
                 onClick={() => navigate("/members/add")}
-                className="fixed bottom-24 right-6 z-50 flex size-14 items-center justify-center rounded-full bg-ras-primary text-ras-on-primary shadow-[0px_4px_20px_rgba(27,43,72,0.2)] transition-transform active:scale-95"
+                className="fixed bottom-24 end-6 z-50 flex size-14 items-center justify-center rounded-full bg-ras-primary text-ras-on-primary shadow-[0px_4px_20px_rgba(27,43,72,0.2)] transition-transform active:scale-95"
             >
                 <Plus className="size-6" />
             </button>

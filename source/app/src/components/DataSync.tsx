@@ -84,7 +84,7 @@ function DataSyncDebugPanel() {
           {error && (
             <div className="flex justify-between gap-2 text-ras-error">
               <dt>Error</dt>
-              <dd className="text-right">{error}</dd>
+              <dd className="text-end">{error}</dd>
             </div>
           )}
         </dl>

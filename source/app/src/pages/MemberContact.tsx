@@ -115,7 +115,7 @@ export default function MemberContact() {
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="mb-1 text-ras-label-caps opacity-70">Mobile Number</p>
-                                <p className="text-ras-headline-md">{member.phone}</p>
+                                <p className="text-ras-headline-md"><bdi dir="ltr">{member.phone}</bdi></p>
                             </div>
                             <div className="flex gap-2">
                                 <a
@@ -141,7 +141,7 @@ export default function MemberContact() {
                             <div key={row.label} className="flex items-center justify-between p-4">
                                 <div>
                                     <p className="mb-1 text-ras-label-caps text-ras-on-surface-variant">{row.label}</p>
-                                    <p className="text-ras-body-md">{row.value}</p>
+                                    <p className="text-ras-body-md"><bdi dir="auto">{row.value}</bdi></p>
                                 </div>
                                 {row.action}
                             </div>
@@ -153,7 +153,7 @@ export default function MemberContact() {
                     <div className="space-y-3 rounded-ras-xl border border-ras-outline-variant/30 bg-ras-surface-container-low p-4">
                         <h4 className="text-ras-label-caps text-ras-on-surface-variant">Emergency Contact</h4>
                         <div className="flex items-center justify-between">
-                            <p className="text-ras-body-md text-ras-on-surface-variant">{member.parent_phone}</p>
+                            <p className="text-ras-body-md text-ras-on-surface-variant"><bdi dir="ltr">{member.parent_phone}</bdi></p>
                             <a
                                 href={`tel:${member.parent_phone}`}
                                 className="flex size-10 items-center justify-center rounded-full border border-ras-outline-variant text-ras-on-surface-variant transition-colors hover:bg-ras-surface-container-highest"

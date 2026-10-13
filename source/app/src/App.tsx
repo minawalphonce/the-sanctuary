@@ -6,6 +6,7 @@ import { checkAccess } from "@/lib/sheets";
 import { useDataStore } from "@/store/data";
 import AppShell from "@/layouts/AppShell";
 import { Toaster } from "@/components/ui/sonner";
+import { useDirection } from "@/components/ui/direction";
 import { usePwaUpdate } from "@/hooks/usePwaUpdate";
 
 import Splash from "@/pages/Splash";
@@ -30,6 +31,7 @@ import TermsAndConditions from "@/pages/legal/TermsAndConditions";
 type AccessState = "checking" | "ok" | "denied" | "offline";
 
 export default function App() {
+  const direction = useDirection();
   const [user, setUser] = useState<User | null>(null);
   const [authReady, setAuthReady] = useState(false);
   const [accessState, setAccessState] = useState<AccessState>("checking");
@@ -97,7 +99,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <Toaster position="top-right" />
+      <Toaster position={direction === "rtl" ? "top-left" : "top-right"} />
       <Routes>
         {/* Login — no shell, no bottom nav */}
         <Route path="/login" element={user ? <Navigate to="/" replace /> : <Login />} />

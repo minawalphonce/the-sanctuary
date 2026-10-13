@@ -102,7 +102,7 @@ export default function MyProfile() {
                                 </div>
                                 <span className="text-ras-title-sm text-ras-primary">Manage Admins</span>
                             </div>
-                            <ChevronRight className="size-5 text-ras-outline" />
+                            <ChevronRight className="size-5 text-ras-outline rtl:rotate-180" />
                         </button>
                         <button
                             type="button"
@@ -115,7 +115,7 @@ export default function MyProfile() {
                                 </div>
                                 <span className="text-ras-title-sm text-ras-primary">Yearly Performance Roll-up</span>
                             </div>
-                            <ChevronRight className="size-5 text-ras-outline" />
+                            <ChevronRight className="size-5 text-ras-outline rtl:rotate-180" />
                         </button>
                         <button
                             type="button"
@@ -128,7 +128,7 @@ export default function MyProfile() {
                                 </div>
                                 <span className="text-ras-title-sm text-ras-primary">Assign Follow-up</span>
                             </div>
-                            <ChevronRight className="size-5 text-ras-outline" />
+                            <ChevronRight className="size-5 text-ras-outline rtl:rotate-180" />
                         </button>
                     </div>
                     {isAdmin && (

@@ -95,7 +95,7 @@ function FollowupCard({
             </div>
 
             {note && (
-                <p className="line-clamp-3 rounded-ras-lg border-l-4 border-ras-secondary bg-ras-surface-container-low px-4 py-3 text-ras-body-md italic text-ras-on-surface-variant">
+                <p className="line-clamp-3 rounded-ras-lg border-s-4 border-ras-secondary bg-ras-surface-container-low px-4 py-3 text-ras-body-md italic text-ras-on-surface-variant">
                     “{note}”
                 </p>
             )}
@@ -170,13 +170,13 @@ export default function Followup() {
             ) : (
                 <div className="flex-1 space-y-ras-section overflow-y-auto px-ras-edge pt-4 pb-24">
                     <div className="relative">
-                        <Search className="pointer-events-none absolute left-3 top-1/2 size-5 -translate-y-1/2 text-ras-on-surface-variant" />
+                        <Search className="pointer-events-none absolute start-3 top-1/2 size-5 -translate-y-1/2 text-ras-on-surface-variant" />
                         <input
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             type="text"
                             placeholder={`Search my ${mine.length} members...`}
-                            className="h-12 w-full rounded-ras-xl border border-ras-outline-variant bg-ras-surface-container-low pl-11 pr-4 text-ras-body-md outline-none transition-all focus:border-transparent focus:ring-2 focus:ring-ras-primary"
+                            className="h-12 w-full rounded-ras-xl border border-ras-outline-variant bg-ras-surface-container-low ps-11 pe-4 text-ras-body-md outline-none transition-all focus:border-transparent focus:ring-2 focus:ring-ras-primary"
                         />
                     </div>
 
@@ -210,7 +210,7 @@ export default function Followup() {
                 type="button"
                 onClick={() => setPickerOpen(true)}
                 aria-label="Add follow-up"
-                className="fixed bottom-24 right-6 z-50 flex size-14 items-center justify-center rounded-ras-xl bg-ras-primary text-ras-on-primary shadow-[0px_4px_20px_rgba(27,43,72,0.2)] transition-transform active:scale-95"
+                className="fixed bottom-24 end-6 z-50 flex size-14 items-center justify-center rounded-ras-xl bg-ras-primary text-ras-on-primary shadow-[0px_4px_20px_rgba(27,43,72,0.2)] transition-transform active:scale-95"
             >
                 <Plus className="size-6" />
             </button>

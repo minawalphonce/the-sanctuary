@@ -48,13 +48,13 @@ export function MemberPickerSheet({ open, onOpenChange, onPick, title = "Choose 
 
                 <div className="border-b border-ras-outline-variant px-6 py-4">
                     <div className="relative">
-                        <Search className="pointer-events-none absolute left-3 top-1/2 size-5 -translate-y-1/2 text-ras-on-surface-variant" />
+                        <Search className="pointer-events-none absolute start-3 top-1/2 size-5 -translate-y-1/2 text-ras-on-surface-variant" />
                         <input
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             type="text"
                             placeholder="Search members..."
-                            className="h-12 w-full rounded-ras-xl border border-ras-outline-variant bg-ras-surface-container-low pl-11 pr-4 text-ras-body-md outline-none transition-all focus:border-transparent focus:ring-2 focus:ring-ras-primary"
+                            className="h-12 w-full rounded-ras-xl border border-ras-outline-variant bg-ras-surface-container-low ps-11 pe-4 text-ras-body-md outline-none transition-all focus:border-transparent focus:ring-2 focus:ring-ras-primary"
                         />
                     </div>
                 </div>
@@ -73,7 +73,7 @@ export function MemberPickerSheet({ open, onOpenChange, onPick, title = "Choose 
                                 close(false);
                                 onPick(m);
                             }}
-                            className="flex w-full items-center gap-4 border-b border-ras-outline-variant px-6 py-3 text-left transition-colors hover:bg-ras-surface-container-low active:opacity-80"
+                            className="flex w-full items-center gap-4 border-b border-ras-outline-variant px-6 py-3 text-start transition-colors hover:bg-ras-surface-container-low active:opacity-80"
                         >
                             <MemberAvatar name={m.full_name} photoUrl={m.photo_url} className="size-10 text-ras-title-sm" />
                             <div className="flex min-w-0 flex-col">

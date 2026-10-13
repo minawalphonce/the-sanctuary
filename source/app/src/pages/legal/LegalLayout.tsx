@@ -28,7 +28,7 @@ export default function LegalLayout({
                 <p className="text-ras-caption text-ras-on-surface-variant mb-ras-section">
                     Last updated: {lastUpdated}
                 </p>
-                <div className="space-y-ras-section text-ras-body-md text-ras-on-surface [&_h2]:text-ras-title-sm [&_h2]:text-ras-on-surface [&_h2]:mb-ras-stack [&_p]:mb-ras-stack [&_li]:mb-1 [&_ul]:list-disc [&_ul]:pl-5 [&_a]:text-ras-secondary [&_a]:underline">
+                <div className="space-y-ras-section text-ras-body-md text-ras-on-surface [&_h2]:text-ras-title-sm [&_h2]:text-ras-on-surface [&_h2]:mb-ras-stack [&_p]:mb-ras-stack [&_li]:mb-1 [&_ul]:list-disc [&_ul]:ps-5 [&_a]:text-ras-secondary [&_a]:underline">
                     {children}
                 </div>
             </main>

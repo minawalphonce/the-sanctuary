@@ -6,6 +6,7 @@ import {
     SheetTitle,
     SheetFooter,
 } from "@/components/ui/sheet";
+import { useDirection } from "@/components/ui/direction";
 import { cn } from "@/lib/utils";
 
 export type StatusFilter = "active" | "inactive";
@@ -40,6 +41,7 @@ export function MemberFilterSheet({
     filters,
     onApply,
 }: MemberFilterSheetProps) {
+    const direction = useDirection();
     const toggleGroup = (group: string) => {
         const groups = filters.groups.includes(group)
             ? filters.groups.filter((g) => g !== group)
@@ -55,9 +57,9 @@ export function MemberFilterSheet({
     return (
         <Sheet open={open} onOpenChange={onOpenChange}>
             <SheetContent
-                side="right"
+                side={direction === "rtl" ? "left" : "right"}
                 showCloseButton={false}
-                className="w-[85%] max-w-[400px] gap-0 border-l border-ras-outline-variant bg-ras-surface p-0"
+                className="w-[85%] max-w-[400px] gap-0 border-s border-ras-outline-variant bg-ras-surface p-0"
             >
                 <SheetHeader className="h-16 flex-row items-center justify-between border-b border-ras-outline-variant px-ras-edge py-0">
                     <SheetTitle className="text-ras-headline-md font-extrabold text-ras-primary">

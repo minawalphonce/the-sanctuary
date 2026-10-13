@@ -43,7 +43,7 @@ export default function MemberProfile() {
                 <button
                     type="button"
                     onClick={() => navigate("/members")}
-                    className="absolute left-4 flex size-10 items-center justify-center rounded-full transition-colors hover:bg-white/10 active:opacity-80"
+                    className="absolute start-4 flex size-10 items-center justify-center rounded-full transition-colors hover:bg-white/10 active:opacity-80"
                     style={{ top: "calc(env(safe-area-inset-top) + 1rem)" }}
                 >
                     <X className="size-6" />
@@ -51,7 +51,7 @@ export default function MemberProfile() {
                 <button
                     type="button"
                     onClick={() => navigate(`/members/${member.id}/edit`)}
-                    className="absolute right-4 flex items-center gap-2 rounded-ras-full bg-ras-secondary px-4 py-1.5 text-ras-label-caps text-ras-on-secondary transition-transform hover:scale-105 active:scale-95"
+                    className="absolute end-4 flex items-center gap-2 rounded-ras-full bg-ras-secondary px-4 py-1.5 text-ras-label-caps text-ras-on-secondary transition-transform hover:scale-105 active:scale-95"
                     style={{ top: "calc(env(safe-area-inset-top) + 1rem)" }}
                 >
                     <Pencil className="size-4" />

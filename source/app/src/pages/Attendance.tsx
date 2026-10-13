@@ -70,7 +70,7 @@ function SessionRow({
             className={cn(
                 "group flex cursor-pointer items-center justify-between gap-3 rounded-ras-xl border border-ras-outline-variant p-4 transition-colors hover:border-ras-secondary",
                 isSpecial
-                    ? "border-l-4 border-l-ras-secondary-container bg-ras-surface-container-low p-5"
+                    ? "border-s-4 border-s-ras-secondary-container bg-ras-surface-container-low p-5"
                     : "bg-ras-surface-container-lowest/80 backdrop-blur"
             )}
         >
@@ -105,7 +105,7 @@ function SessionRow({
                 </div>
             </div>
             <div className="flex shrink-0 items-center gap-3">
-                <div className="text-right">
+                <div className="text-end">
                     <div className="whitespace-nowrap text-ras-title-sm text-ras-primary">
                         {attendingCount} Attending
                     </div>
@@ -205,7 +205,7 @@ export default function Attendance() {
                         <PlusCircle className="size-5" />
                         <span>Add Special Session</span>
                     </button>
-                    <div className="absolute -bottom-4 -right-4 size-32 rounded-full bg-ras-secondary opacity-20 blur-3xl" />
+                    <div className="absolute -bottom-4 -end-4 size-32 rounded-full bg-ras-secondary opacity-20 blur-3xl" />
                 </div>
 
                 {/* Monthly stats */}
@@ -300,7 +300,7 @@ export default function Attendance() {
             <button
                 type="button"
                 onClick={() => navigate("/attendance/take")}
-                className="fixed bottom-24 right-6 z-50 flex size-14 items-center justify-center rounded-full bg-ras-primary text-ras-on-primary shadow-[0px_4px_20px_rgba(27,43,72,0.2)] transition-transform active:scale-95"
+                className="fixed bottom-24 end-6 z-50 flex size-14 items-center justify-center rounded-full bg-ras-primary text-ras-on-primary shadow-[0px_4px_20px_rgba(27,43,72,0.2)] transition-transform active:scale-95"
             >
                 <ClipboardCheck className="size-6" />
             </button>

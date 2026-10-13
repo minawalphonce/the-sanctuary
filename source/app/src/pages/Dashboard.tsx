@@ -300,7 +300,7 @@ export default function Dashboard() {
                 {nextSpecialSession ? (
                     <div
                         onClick={() => navigate(`/attendance/take/${nextSpecialSession.id}`)}
-                        className="flex cursor-pointer items-center gap-4 rounded-ras-xl border-l-4 border-l-ras-secondary-container bg-ras-surface-container-low p-5 transition-colors hover:border-ras-secondary"
+                        className="flex cursor-pointer items-center gap-4 rounded-ras-xl border-s-4 border-s-ras-secondary-container bg-ras-surface-container-low p-5 transition-colors hover:border-ras-secondary"
                     >
                         <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-ras-secondary-container text-ras-on-secondary-container">
                             <Sparkles className="size-5" />

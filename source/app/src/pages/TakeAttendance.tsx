@@ -269,7 +269,7 @@ export default function TakeAttendance() {
                 </div>
             </main>
 
-            <div className="fixed bottom-0 left-0 z-50 flex w-full justify-center border-t border-ras-outline-variant bg-ras-surface-container-lowest p-4 shadow-[0px_-4px_20px_rgba(27,43,72,0.08)]">
+            <div className="fixed bottom-0 start-0 z-50 flex w-full justify-center border-t border-ras-outline-variant bg-ras-surface-container-lowest p-4 shadow-[0px_-4px_20px_rgba(27,43,72,0.08)]">
                 <button
                     type="button"
                     disabled={saving}

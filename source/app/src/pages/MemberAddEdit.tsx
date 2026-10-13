@@ -78,7 +78,7 @@ function ClassCombobox({
             <PopoverTrigger asChild>
                 <button
                     type="button"
-                    className={cn(inputClass, "flex items-center justify-between text-left")}
+                    className={cn(inputClass, "flex items-center justify-between text-start")}
                 >
                     <span className={value ? "" : "text-ras-on-surface-variant"}>
                         {value || "Select or add a class"}
@@ -288,7 +288,7 @@ export default function MemberAddEdit() {
                                 <User className="size-12 text-ras-outline" />
                             )}
                         </div>
-                        <label className="absolute bottom-0 right-0 flex size-10 cursor-pointer items-center justify-center rounded-full border-2 border-ras-surface bg-ras-primary text-ras-on-primary shadow-lg transition-transform active:scale-95">
+                        <label className="absolute bottom-0 end-0 flex size-10 cursor-pointer items-center justify-center rounded-full border-2 border-ras-surface bg-ras-primary text-ras-on-primary shadow-lg transition-transform active:scale-95">
                             <Camera className="size-5" />
                             <input
                                 type="file"
@@ -315,6 +315,7 @@ export default function MemberAddEdit() {
                                     value={fullName}
                                     onChange={(e) => setFullName(e.target.value)}
                                     placeholder="e.g. Samuel Markos"
+                                    dir="auto"
                                     className={cn(inputClass, fieldErrors.fullName && errorInputClass)}
                                     type="text"
                                 />
@@ -390,6 +391,7 @@ export default function MemberAddEdit() {
                                     placeholder="+1 (555) 000-0000"
                                     className={cn(inputClass, fieldErrors.phone && errorInputClass)}
                                     type="tel"
+                                    dir="ltr"
                                 />
                                 {fieldErrors.phone && (
                                     <p className="px-1 text-ras-label-caps text-ras-error">{fieldErrors.phone}</p>
@@ -403,6 +405,7 @@ export default function MemberAddEdit() {
                                     placeholder="name@example.com"
                                     className={inputClass}
                                     type="email"
+                                    dir="ltr"
                                 />
                             </div>
                         </div>
@@ -422,6 +425,7 @@ export default function MemberAddEdit() {
                                 value={notes}
                                 onChange={(e) => setNotes(e.target.value)}
                                 placeholder="Optional notes about this member"
+                                dir="auto"
                                 rows={2}
                                 className={inputClass}
                             />
@@ -494,7 +498,7 @@ export default function MemberAddEdit() {
             </main>
 
             {/* Fixed Footer */}
-            <div className="fixed bottom-0 left-0 z-50 flex w-full justify-center border-t border-ras-outline-variant bg-ras-surface-container-lowest p-4 shadow-[0px_-4px_20px_rgba(27,43,72,0.08)]">
+            <div className="fixed bottom-0 start-0 z-50 flex w-full justify-center border-t border-ras-outline-variant bg-ras-surface-container-lowest p-4 shadow-[0px_-4px_20px_rgba(27,43,72,0.08)]">
                 <button
                     type="button"
                     disabled={saving}
